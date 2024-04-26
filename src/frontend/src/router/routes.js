@@ -67,6 +67,21 @@ const routes = [
     component: 'pages/guest/PrivacyPolicy',
     auth: false,
   },
+  {
+    path: '/quotation-list',
+    component: 'pages/guest/quotation/QuotationList',
+    auth: false,
+  },
+  {
+    path: '/quotation-create',
+    component: 'pages/guest/quotation/QuotationCreate',
+    auth: false,
+  },
+  {
+    path: '/quotation-preview',
+    component: 'pages/guest/quotation/QuotationPreview',
+    auth: false,
+  },
   ...admin,
 ];
 

@@ -14,7 +14,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   } = props;
   let { variant } = props;
   // force variant to use 'standard'
-  variant = 'standard';
+  variant = variant ? variant : 'standard';
 
   const labelProps = {
     color,
@@ -22,7 +22,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     variant,
     error,
     sx: (theme) => ({
-      textTransform: 'uppercase',
+      // textTransform: 'uppercase',
       fontWeight: 700,
       letterSpacing: 1,
       fontSize: theme.typography.body2.fontSize,

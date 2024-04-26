@@ -161,6 +161,12 @@ const ja = {
         main_heading: '許可されていません。',
         sub_heading: '申し訳ありませんが、このリソースにアクセスする権限がありません。',
       },
+      quotation_list: {
+        heading: 'Quotation List',
+        sub_heading: 'quotation-If you would like to contact us, please fill out the form below.',
+        success_message: 'Your inquiry has been sent.',
+        failed_message: 'An error occurred while sending.',
+      },
     },
     menu: {
       home: '家',

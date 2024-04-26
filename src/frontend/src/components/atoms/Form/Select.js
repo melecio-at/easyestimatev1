@@ -7,14 +7,13 @@ import Textfield from '@mui/material/TextField';
 const Select = React.forwardRef(function Select(props, ref) {
   const { label, options, error, helperText, color, ...rest } = props;
   const variant = 'standard';
-
   const labelProps = {
     color,
     shrink: true,
     variant,
     error,
     sx: (theme) => ({
-      textTransform: 'uppercase',
+      // textTransform: 'uppercase',
       fontWeight: 700,
       letterSpacing: 1,
       fontSize: theme.typography.body2.fontSize,
@@ -24,7 +23,7 @@ const Select = React.forwardRef(function Select(props, ref) {
 
   const inputProps = {
     sx: (theme) => ({
-      mt: theme.spacing(3),
+      mt: props.label === '' ? 0 : theme.spacing(3),
       '& legend': { display: 'none' },
       '& fieldset': { top: 0 },
       minHeight: '43px',
@@ -48,7 +47,7 @@ const Select = React.forwardRef(function Select(props, ref) {
       fullWidth
       label={label}
       InputProps={{ ...inputProps }}
-      inputProps={{ ...rest }}
+      inputProps={{ ...rest, mt: '1px' }}
       InputLabelProps={labelProps}
       SelectProps={selectProps}
       error={error}

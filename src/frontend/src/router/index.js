@@ -5,7 +5,7 @@ import routes from './routes';
 
 function Router() {
   const AdminLayout = lazy(() => import('templates/Authenticated'));
-  const UserLayout = lazy(() => import('templates/User'));
+  const UserLayout = lazy(() => import('templates/Quotation'));
   const Logout = lazy(() => import('pages/guest/Logout'));
 
   return (

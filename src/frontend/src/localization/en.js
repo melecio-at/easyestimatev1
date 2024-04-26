@@ -162,6 +162,12 @@ const en = {
         main_heading: 'Unauthorized',
         sub_heading: 'Sorry, you do not have permission to access this resource.',
       },
+      quotation_list: {
+        heading: 'Quotation List',
+        sub_heading: 'quotation-If you would like to contact us, please fill out the form below.',
+        success_message: 'Your inquiry has been sent.',
+        failed_message: 'An error occurred while sending.',
+      },
     },
     menu: {
       home: 'Home',
