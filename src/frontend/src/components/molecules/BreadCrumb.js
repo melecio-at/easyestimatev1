@@ -1,13 +1,15 @@
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import theme from 'theme';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Typography } from '@mui/material';
 
 function handleClick(event) {
   event.preventDefault();
   console.info('You clicked a breadcrumb.');
 }
 
-function BreadCrumb() {
+function BreadCrumb(props) {
   return (
     <Box
       onClick={handleClick}
@@ -15,26 +17,36 @@ function BreadCrumb() {
     >
       <Breadcrumbs
         aria-label="breadcrumb"
-        separator={<KeyboardDoubleArrowRightIcon fontSize="small" />}
+        separator={<KeyboardDoubleArrowRightIcon fontSize="small" sx={{ height: '10px' }} />}
       >
-        <Link underline="hover" color="inherit" href="/">
-          MUI
-        </Link>
-        <Link underline="hover" color="inherit" href="/material-ui/getting-started/installation/">
-          Core
-        </Link>
-        <Typography color="text.primary">Breadcrumbs1</Typography>
+        {props?.breadCrumbs.map(function (breadCrumb, index) {
+          return (
+            <div key={index}>
+              {breadCrumb.isLink ? (
+                <Link
+                  to={{
+                    pathname: breadCrumb.link,
+                  }}
+                >
+                  <Typography color="#c65213">{breadCrumb.label}</Typography>
+                </Link>
+              ) : (
+                <Typography color="text.primary">{breadCrumb.label}</Typography>
+              )}
+            </div>
+          );
+        })}
       </Breadcrumbs>
     </Box>
   );
 }
 
-// BreadCrumb.defaultProps = {
-//   // items: [],
-// };
+BreadCrumb.defaultProps = {
+  breadCrumbs: [],
+};
 
-// BreadCrumb.propTypes = {
-//   // items: PropTypes.array,
-// };
+BreadCrumb.propTypes = {
+  breadCrumbs: PropTypes.array,
+};
 
 export default BreadCrumb;

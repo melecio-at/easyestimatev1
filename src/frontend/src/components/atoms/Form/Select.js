@@ -5,7 +5,7 @@ import Textfield from '@mui/material/TextField';
 
 // eslint-disable-next-line no-unused-vars
 const Select = React.forwardRef(function Select(props, ref) {
-  const { label, options, error, helperText, color, ...rest } = props;
+  const { label, options, error, helperText, color, isFullWidth, ...rest } = props;
   const variant = 'standard';
   const labelProps = {
     color,
@@ -44,7 +44,7 @@ const Select = React.forwardRef(function Select(props, ref) {
   return (
     <Textfield
       select
-      fullWidth
+      fullWidth={isFullWidth}
       label={label}
       InputProps={{ ...inputProps }}
       inputProps={{ ...rest, mt: '1px' }}
@@ -70,6 +70,7 @@ Select.defaultProps = {
   options: [],
   error: false,
   color: 'primary',
+  isFullWidth: true,
 };
 
 Select.propTypes = {
@@ -83,6 +84,7 @@ Select.propTypes = {
   error: PropTypes.bool,
   helperText: PropTypes.string,
   color: PropTypes.string,
+  isFullWidth: PropTypes.bool,
 };
 
 export default Select;

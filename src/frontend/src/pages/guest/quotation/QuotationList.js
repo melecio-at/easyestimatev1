@@ -1,12 +1,17 @@
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import { useForm } from 'react-hook-form';
 // import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+// import { searchProjects } from 'services/quotation/quotation.service';
 import theme from 'theme';
 // import * as yup from 'yup';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SearchIcon from '@mui/icons-material/Search';
+import SortIcon from '@mui/icons-material/Sort';
+import StraightIcon from '@mui/icons-material/Straight';
 import {
   Box,
   Container,
@@ -22,18 +27,40 @@ import {
 } from '@mui/material';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
+import Select from 'components/atoms/Form/Select';
+import { meta as defaultMeta } from 'config/search';
 
-// import TextField from 'components/atoms/Form/TextField';
+//criteria,
 
 function QuotationList() {
   // const { t } = useTranslation();
-  // const developmentLanguages = [
-  //   { label: 'Please Select', value: '' },
-  //   { label: 'Javascript', value: 'js' },
-  //   { label: 'PHP', value: 'php' },
-  //   { label: 'Java', value: 'java' },
-  // ];
+  const [data, setData] = useState([
+    { label: 'Web Application', value: 'web_app' },
+    { label: 'Mobile Application', value: 'mobile_app' },
+    { label: 'Desktop', value: 'desktop' },
+    { label: 'Browser Plug-in', value: 'browser_plug_in' },
+    { label: 'SDK', value: 'SDK' },
+    { label: 'API', value: 'API' },
+    { label: 'Middleware', value: 'middleware' },
+    { label: 'Others', value: 'others' },
+  ]);
+  const defaultQuery = {
+    keyword: '',
+    frameworks: [],
+  };
+  const [meta, setMeta] = useState(defaultMeta);
+  // const [data, setData] = useState([]);
+  const [query, setQuery] = useState(defaultQuery);
+  // const [meta, setMeta] = useState(defaultMeta);
+
+  const fetchProjects = async () => {
+    // const { meta, data } = await searchProjects(query);
+    setMeta({ ...meta, meta });
+    setData(data);
+  };
+
   const navigate = useNavigate();
+
   const frameworks = [
     { label: 'Web Application', value: 'web_app' },
     { label: 'Mobile Application', value: 'mobile_app' },
@@ -45,36 +72,76 @@ function QuotationList() {
     { label: 'Others', value: 'others' },
   ];
 
-  // const options = [
-  //   { label: 'Zero-Base(From Scratch_', value: 'zero_based' },
-  //   { label: 'Refurbishment', value: 'refurbishment' },
-  //   { label: 'Maintenance', value: 'maintenance' },
-  //   { label: 'Others', value: 'others' },
+  // const projects = [
+  //   { name: 'Project 1', technology: 'PHP', description: 'This is php' },
+  //   { name: 'Project 2', technology: 'JS', description: 'This is JS' },
+  //   { name: 'Project 3', technology: 'React', description: 'This is React' },
+  //   { name: 'Project 4', technology: 'Java', description: 'This is Java' },
+  //   { name: 'Project 5', technology: 'Python', description: 'This is Python' },
   // ];
 
-  // const schema = yup.object({
-  //   gender: yup.string().required(t('form.required')).nullable(),
-  // });
-
-  // const { register } = useForm({
-  //   resolver: yupResolver(schema),
-  //   defaultValues: { accept_terms: false, birthday: null },
-  // });
-
-  const projects = [
-    { name: 'Project 1', technology: 'PHP', description: 'This is php' },
-    { name: 'Project 2', technology: 'JS', description: 'This is JS' },
-    { name: 'Project 3', technology: 'React', description: 'This is React' },
-    { name: 'Project 4', technology: 'Java', description: 'This is Java' },
-    { name: 'Project 5', technology: 'Python', description: 'This is Python' },
+  const sortings = [
+    { label: 'System Name', value: 'system_name' },
+    { label: 'Technology', value: 'technology' },
   ];
 
   const handleUseTemplate = () => {
     navigate('/quotation-create', { state: { id: 1, name: 'sabaoon' } });
   };
 
+  const handleSearch = () => {
+    console.log('Searching...');
+  };
+
+  const handleSearchOnBtnPress = () => {
+    handleSearch();
+  };
+
+  const handleSearchOnKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleFrameworkFilterChange = (event) => {
+    const index = query.frameworks.indexOf(event.target.value);
+    const value = event.target.value;
+    if (index === -1) {
+      setQuery({ ...query, frameworks: [...query.frameworks, value] });
+    } else {
+      setQuery({
+        ...query,
+        frameworks: query.frameworks.filter((framework) => framework !== value),
+      });
+    }
+  };
+
+  const handleClearAllFilters = () => {
+    setQuery(defaultQuery);
+  };
+
+  const handleClickToSprobeWebsite = () => {
+    window.location.replace('https://www.sprobe.com/');
+  };
+
+  useEffect(() => {
+    console.log('meta', meta);
+    console.log('query', query);
+    fetchProjects();
+  }, [query]);
+
   return (
     <Container maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }} disableGutters>
+      <Box display="flex" justifyContent="flex-start" sx={{ alignItems: 'center' }}>
+        <ChevronLeftIcon
+          fontSize="large"
+          sx={{ cursor: 'pointer' }}
+          onClick={handleClickToSprobeWebsite}
+        />
+        <Typography variant="h6" sx={{ cursor: 'pointer' }} onClick={handleClickToSprobeWebsite}>
+          Return to SPROBE site
+        </Typography>
+      </Box>
       <Paper sx={{ boxShadow: 'none' }}>
         <Grid container pacing={2} columnSpacing={2}>
           <Grid item xs={4}>
@@ -87,25 +154,22 @@ function QuotationList() {
               <Paper sx={{ mt: 2, p: 2, backgroundColor: theme.background.innerContainer }}>
                 <Grid container>
                   <Grid item xs={12}>
-                    {/* <TextField
-                      label="Search"
-                      noLabel={true}
-                      sx={{ width: '100%' }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <SearchIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    ></TextField> */}
                     <MuiTextField
+                      value={query.keyword}
                       sx={{ width: '100%' }}
                       label="Search"
+                      onChange={(e) => setQuery({ ...query, keyword: e.target.value })}
+                      onKeyPress={handleSearchOnKeyPress}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <SearchIcon />
+                            <SearchIcon
+                              onClick={handleSearchOnBtnPress}
+                              sx={{
+                                cursor: 'pointer',
+                                '&:hover': { color: theme.palette.primary.main },
+                              }}
+                            />
                           </InputAdornment>
                         ),
                       }}
@@ -125,7 +189,14 @@ function QuotationList() {
                               <FormControlLabel
                                 sx={{ marginRight: 0 }}
                                 key={index}
-                                control={<Checkbox sx={{ marginRight: 0 }} />}
+                                control={
+                                  <Checkbox
+                                    checked={query.frameworks.includes(framework.value)}
+                                    value={framework.value}
+                                    sx={{ marginRight: 0 }}
+                                    onChange={handleFrameworkFilterChange}
+                                  />
+                                }
                                 label={framework.label}
                               />
                             );
@@ -141,7 +212,12 @@ function QuotationList() {
                   alignItems="center"
                   // sx={{ mt: '300px' }}
                 >
-                  <Button sx={{ mr: 2, backgroundColor: '#6F64F8' }}>CLEAR ALL FILTERS</Button>
+                  <Button
+                    sx={{ mr: 2, backgroundColor: '#000000' }}
+                    onClick={handleClearAllFilters}
+                  >
+                    CLEAR ALL FILTERS
+                  </Button>
                 </Box>
               </Paper>
             </Container>
@@ -167,8 +243,24 @@ function QuotationList() {
                 </Grid>
               </Grid>
               <Container disableGutters sx={{ mt: 2 }}>
+                <Box display="flex" justifyContent="flex-end" sx={{ mb: 2 }}>
+                  <Typography sx={{ alignContent: 'center', mr: 2 }}>Sorting:</Typography>
+                  <Select
+                    defaultValue="system_name"
+                    label=""
+                    options={sortings}
+                    isFullWidth={false}
+                    sx={{ width: '200px' }}
+                  />
+                  <Box display="flex" sx={{ alignItems: 'center', cursor: 'pointer' }}>
+                    <StraightIcon
+                      sx={{ position: 'relative', left: '7px', transform: 'rotate(180deg)' }}
+                    />
+                    <SortIcon />
+                  </Box>
+                </Box>
                 {/*height: '848px'*/}
-                {projects.map(function (project, index) {
+                {data.map(function (project, index) {
                   return (
                     <div key={index}>
                       <Paper sx={{ backgroundColor: theme.background.innerContainer, mb: 4 }}>

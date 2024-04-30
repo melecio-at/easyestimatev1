@@ -1,31 +1,13 @@
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import { useForm } from 'react-hook-form';
-// import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import theme from 'theme';
-// import * as yup from 'yup';
-// import { faker } from '@faker-js/faker';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
-import Checkbox from 'components/atoms/Form/Checkbox';
-import RadioGroup from 'components/atoms/Form/RadioGroup';
-import TextField from 'components/atoms/Form/TextField';
-import Modal from 'components/organisms/Modal';
-
-// import Accordion from 'components/molecules/Accordion';
+import QuotationPreviewModal from './QuotationPreviewModal';
 
 function QuotationPreview() {
-  // const questions = [...Array(5)].map(() => ({
-  //   header: `${faker.lorem.words(5)}?`,
-  //   content: faker.lorem.paragraphs(2, '\n'),
-  // }));
-  // set the options
-  const businessTypes = [
-    { label: 'Private Individual', value: 'private' },
-    { label: 'Company', value: 'company' },
-  ];
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState({ businessType: 'company' });
   const systemRequirementsLeft = [
     // { label: 'System Name', value: 'XXXXX System', xsGrids: [5, 7] },
     { label: 'Business Model', value: 'Business To Business (B2B)', xsGrids: [5, 7] },
@@ -39,9 +21,9 @@ function QuotationPreview() {
       label: 'Supported Device/Browsers',
       isArrayValues: true,
       value: [
-        'Google Chrome (1080x1920, v107.0.5304.122)',
-        'Android Phone (1334x750, v12.0)',
-        'Test',
+        '➧ Google Chrome (1080x1920, v107.0.5304.122)',
+        '➧ Android Phone (1334x750, v12.0)',
+        '➧ Test',
       ],
       xsGrids: [5, 7],
     },
@@ -83,10 +65,6 @@ function QuotationPreview() {
     },
   ];
 
-  const handleSend = () => {
-    setOpen(false);
-  };
-
   const typeBox = (label) => {
     return (
       <Typography>
@@ -96,6 +74,16 @@ function QuotationPreview() {
       </Typography>
     );
   };
+
+  const handleOnChangeBusinessType = (event) => {
+    event.persist();
+    console.log('event target ', event.target.value);
+    setData({ ...data, businessType: event.target.value });
+  };
+
+  useEffect(() => {
+    console.log('data', data.businessType);
+  }, [data]);
 
   return (
     <Container maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }} disableGutters>
@@ -212,7 +200,7 @@ function QuotationPreview() {
                                 {func.types.map(function (type, index) {
                                   return (
                                     <div key={index}>
-                                      *{type}
+                                      ➧{type}
                                       <br />
                                     </div>
                                   );
@@ -273,71 +261,18 @@ function QuotationPreview() {
             data: { id: 1, name: 'sabaoon', shirt: 'green' },
           }}
         >
-          <Button sx={{ mr: 2, backgroundColor: '#6F64F8' }}>Back</Button>
+          <Button sx={{ mr: 2, backgroundColor: '#b8b8b8' }}>Back</Button>
         </Link>
-        <Button sx={{ mr: 2, backgroundColor: '#6F64F8' }} onClick={() => setOpen(true)}>
+        <Button sx={{ mr: 2, backgroundColor: '#000000' }} onClick={() => setOpen(true)}>
           Generate Quotation Details
         </Button>
       </Box>
-      <Modal
+      <QuotationPreviewModal
+        setOpen={setOpen}
+        data={data}
+        handleOnChangeBusinessType={handleOnChangeBusinessType}
         open={open}
-        title="Sample Modal"
-        hideTitle={true}
-        hideClose={true}
-        hideTitleSection={true}
-        overrideStyle={{
-          width: '620px',
-          height: '538px',
-          borderRadius: '13px',
-        }}
-      >
-        <Box
-          sx={{
-            px: 7,
-            py: 3,
-            height: 'inherit',
-            alignContent: 'space-between',
-            display: 'flex',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography align="center" sx={{ mx: 'auto' }}>
-                Generate Project Quotation
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sx={{ mt: '21px' }}>
-              <TextField label="Name (Required)" />
-            </Grid>
-            <Grid item xs={12} sx={{ mt: 2 }}>
-              <TextField label="Email Address (Required)" />
-            </Grid>
-            <Grid item xs={12} sx={{ mt: 2 }}>
-              <RadioGroup label="Business Type (Required)" options={businessTypes} inline={true} />
-            </Grid>
-            <Grid item xs={12} sx={{ mt: 3 }}>
-              <TextField label="Company URL" />
-            </Grid>
-            <Grid item xs={12}>
-              <Checkbox label="Do you wish to get in touch with our reporesentative?" />
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={12} sx={{ textAlign: 'center' }}>
-              <Button
-                align="center"
-                sx={{ backgroundColor: '#000000' }}
-                onClick={() => {
-                  handleSend();
-                }}
-              >
-                Send
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
+      />
     </Container>
   );
 }

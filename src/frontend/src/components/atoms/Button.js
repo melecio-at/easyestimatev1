@@ -5,6 +5,9 @@ import { styled } from '@mui/material/styles';
 
 const StyledButton = styled(MuiButton)(({ theme }) => ({
   padding: `${theme.spacing(0.9)} ${theme.spacing(2)}`,
+  // '&:active, &:focus, &:hover': {
+  //   background: `red`,
+  // },
 }));
 
 const Button = React.forwardRef(function Button(props, ref) {

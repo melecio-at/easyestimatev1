@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -9,7 +10,7 @@ import { Box } from '@mui/material';
 import Breadcrumbs from 'components/molecules/BreadCrumb';
 import api from 'utils/api';
 
-export default function Quotation() {
+function Quotation(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const user = useSelector((state) => state.profile.user);
@@ -41,7 +42,7 @@ export default function Quotation() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       {/* <Navbar open={open} /> */}
-      <Breadcrumbs />
+      {props?.hasBreadCrumbs && <Breadcrumbs breadCrumbs={props?.breadCrumbs} />}
 
       <Box
         component="main"
@@ -59,3 +60,10 @@ export default function Quotation() {
     </Box>
   );
 }
+
+Quotation.propTypes = {
+  hasBreadCrumbs: PropTypes.bool,
+  breadCrumbs: PropTypes.array,
+};
+
+export default Quotation;

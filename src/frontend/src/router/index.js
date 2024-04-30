@@ -13,7 +13,15 @@ function Router() {
       <Routes>
         {routes.map((route, i) => {
           const Page = lazy(() => import(`../${route.component}`));
-          const layout = route.auth ? <AdminLayout /> : <UserLayout navbar={route.navbar} />;
+          const layout = route.auth ? (
+            <AdminLayout />
+          ) : (
+            <UserLayout
+              navbar={route.navbar}
+              hasBreadCrumbs={route?.hasBreadCrumbs}
+              breadCrumbs={route?.breadCrumbs}
+            />
+          );
 
           return (
             <Route key={i} element={layout}>

@@ -71,16 +71,28 @@ const routes = [
     path: '/quotation-list',
     component: 'pages/guest/quotation/QuotationList',
     auth: false,
+    hasBreadCrumbs: false,
   },
   {
     path: '/quotation-create',
     component: 'pages/guest/quotation/QuotationCreate',
     auth: false,
+    hasBreadCrumbs: true,
+    breadCrumbs: [
+      { label: 'Quotaion List', isLink: true, link: '/quotation-list' },
+      { label: 'Create New Quotation', isLink: false },
+    ],
   },
   {
     path: '/quotation-preview',
     component: 'pages/guest/quotation/QuotationPreview',
     auth: false,
+    hasBreadCrumbs: true,
+    breadCrumbs: [
+      { label: 'Quotaion List', isLink: true, link: '/quotation-list' },
+      { label: 'Quotation Details', isLink: true, link: '/quotation-create' },
+      { label: 'Quotation Preview', isLink: false },
+    ],
   },
   ...admin,
 ];
