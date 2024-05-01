@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DevelopmentLanguage extends Model
+class MasterListFunctionType extends Model
 {
-    protected $table = 'development_languages';
+    protected $table = 'masterlist_function_types';
 
     /** @var array */
     protected $fillable = [
-        'name', 'is_advanced'
+        'name',
     ];
 }

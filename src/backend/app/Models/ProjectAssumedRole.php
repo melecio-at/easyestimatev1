@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DevelopmentLanguage extends Model
+class ProjectAssumedRole extends Model
 {
-    protected $table = 'development_languages';
+    protected $table = 'project_assumed_roles';
 
     /** @var array */
     protected $fillable = [
-        'name', 'is_advanced'
+        'user_role',
+        'project_id'
     ];
 }

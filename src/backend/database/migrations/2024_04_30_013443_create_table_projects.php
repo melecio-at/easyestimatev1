@@ -82,39 +82,33 @@ return new class extends Migration
             $table->string('name');
         });
 
-        Schema::create('project_assumed_role_frameworks', function (Blueprint $table) {
+        Schema::create('development_languages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('project_id');
+            $table->string('name');
+            $table->boolean('is_advanced')->unsigned()->default(0)->nullable();
+        });
+
+        Schema::create('framework_languages', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('framework_id');
-            $table->unsignedBigInteger('assumed_role_id');
-            $table->timestamps();
-
-            $table->foreign('project_id')
-                ->references('id')
-                ->on('projects')
-                ->onDelete('cascade');
-
-            $table->foreign('assumed_role_id')
-                ->references('id')
-                ->on('project_assumed_roles')
-                ->onDelete('cascade');
+            $table->unsignedBigInteger('development_language_id');
 
             $table->foreign('framework_id')
                 ->references('id')
                 ->on('frameworks')
                 ->onDelete('cascade');
+
+            $table->foreign('development_language_id')
+                ->references('id')
+                ->on('development_languages')
+                ->onDelete('cascade');
         });
 
-        Schema::create('development_languages', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-        });
-
-        Schema::create('project_assumed_roles_dev_languages', function (Blueprint $table) {
+        Schema::create('project_role_frameworks_languages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('framework_language_id');
             $table->unsignedBigInteger('assumed_role_id');
-            $table->unsignedBigInteger('dev_language_id');
             $table->timestamps();
 
             $table->foreign('project_id')
@@ -127,9 +121,9 @@ return new class extends Migration
                 ->on('project_assumed_roles')
                 ->onDelete('cascade');
 
-            $table->foreign('dev_language_id')
+            $table->foreign('framework_language_id')
                 ->references('id')
-                ->on('development_languages')
+                ->on('framework_languages')
                 ->onDelete('cascade');
         });
 
@@ -226,7 +220,9 @@ return new class extends Migration
         Schema::dropIfExists('business_models');
         Schema::dropIfExists('project_project_types');
         Schema::dropIfExists('project_types');
+        Schema::dropIfExists('project_role_frameworks_languages');
         Schema::dropIfExists('project_frameworks');
+        Schema::dropIfExists('framework_languages');
         Schema::dropIfExists('frameworks');
         Schema::dropIfExists('project_dev_languages');
         Schema::dropIfExists('development_languages');
@@ -234,6 +230,11 @@ return new class extends Migration
         Schema::dropIfExists('supported_test_envs');
         Schema::dropIfExists('project_main_functions');
         Schema::dropIfExists('main_functions');
+        Schema::dropIfExists('project_assume_role_functions');
+        Schema::dropIfExists('project_assumed_roles');
         Schema::dropIfExists('projects');
+        Schema::dropIfExists('masterlist_functions');
+        Schema::dropIfExists('masterlist_function_types');
+        Schema::dropIfExists('masterlist_module_types');
     }
 };
