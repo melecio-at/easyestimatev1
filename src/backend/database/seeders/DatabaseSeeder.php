@@ -22,5 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(FrameworkDevLanguagesTableSeeder::class);
         $this->call(MasterListModuleTypesSeeder::class);
         $this->call(MasterListFunctionTypesSeeder::class);
+        $this->call(MasterListFunctionsSeeder::class);
+        $this->call(DepartmentsSeeders::class);
+        $this->call(PositionsSeeder::class);
+        $this->call(AssumedNumberOfFieldsSeeder::class);
+        $this->call(ProjectsSeeder::class);
     }
 }

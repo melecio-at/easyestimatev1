@@ -20,6 +20,7 @@ class MasterListFunction extends Model
         'design_creation_md',
         'development_md',
         'qa_testing_md',
+        'qa_testing_responsive_md',
         'translation_md',
     ];
 }

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import BodyText from 'components/atoms/BodyText';
 
-function Yen({ amount, isKanji }) {
+function Yen({ amount, isKanji, sx }) {
   return (
-    <BodyText>
+    <BodyText sx={sx}>
       {!isKanji && '¥'}
       {Number(amount).toLocaleString('ja-JP', {
         minimumFractionDigits: 0,
@@ -17,11 +17,13 @@ function Yen({ amount, isKanji }) {
 Yen.defaultProps = {
   amount: 0,
   isKanji: false,
+  sx: {},
 };
 
 Yen.propTypes = {
   amount: PropTypes.number.isRequired,
   isKanji: PropTypes.bool,
+  sx: PropTypes.object,
 };
 
 export default Yen;

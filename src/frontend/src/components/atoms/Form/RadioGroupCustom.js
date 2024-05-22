@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 
-const RadioGroup = forwardRef(function RadioGroup(props, ref) {
+const RadioGroupCustom = forwardRef(function RadioGroup(props, ref) {
   const { label, options, error, helperText, defaultValue, inline, ...rest } = props;
 
   const labelStyles = {
@@ -22,10 +22,10 @@ const RadioGroup = forwardRef(function RadioGroup(props, ref) {
       <FormLabel sx={labelStyles} error={error}>
         {label}
       </FormLabel>
-      <MuiRadioGroup defaultValue={defaultValue} row={inline}>
+      <MuiRadioGroup defaultValue={defaultValue} row={inline} {...rest}>
         {options.map((option, key) => (
           <FormControlLabel
-            control={<Radio ref={ref} value={option.value} {...rest} sx={{ ml: 6 }} />}
+            control={<Radio ref={ref} value={option.value} sx={{ ml: 6 }} />}
             label={option.label}
             key={key}
           />
@@ -40,7 +40,7 @@ const RadioGroup = forwardRef(function RadioGroup(props, ref) {
   );
 });
 
-RadioGroup.defaultProps = {
+RadioGroupCustom.defaultProps = {
   label: '',
   items: [],
   inline: false, //  Horizonal or Vertical List type
@@ -48,8 +48,8 @@ RadioGroup.defaultProps = {
   defaultValue: '',
 };
 
-RadioGroup.propTypes = {
-  label: PropTypes.any.isRequired,
+RadioGroupCustom.propTypes = {
+  label: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -62,4 +62,4 @@ RadioGroup.propTypes = {
   defaultValue: PropTypes.any,
 };
 
-export default RadioGroup;
+export default RadioGroupCustom;

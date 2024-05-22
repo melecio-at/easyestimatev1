@@ -33,6 +33,9 @@ class DevLanguagesSeeder extends Seeder
             ['name' => 'HTML / JavaScript / CSS', 'is_advanced' => 0],
             ['name' => 'NodeJS', 'is_advanced' => 0],
             ['name' => 'ExpressJS', 'is_advanced' => 0],
+            ['name' => 'typescript / Next JS', 'is_advanced' => 0],
+            ['name' => 'Swift', 'is_advanced' => 0],
+            ['name' => 'ReactJS', 'is_advanced' => 0],
         ];
 
         DevelopmentLanguage::insert($data);

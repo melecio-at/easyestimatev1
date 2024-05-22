@@ -13,4 +13,9 @@ class FrameworkDevLanguage extends Model
         'framework_id',
         'development_language_id',
     ];
+
+    public function developmentLanguage()
+    {
+        return $this->belongsTo(DevelopmentLanguage::class, 'development_language_id');
+    }
 }

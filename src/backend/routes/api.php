@@ -2,6 +2,7 @@
 
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ProjectController;
 use App\Http\Controllers\API\HomeController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
@@ -23,6 +24,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])->middleware('throttle')->name('passport.auth');
 
 // Default API Homepage
@@ -53,6 +55,19 @@ Route::prefix('users')
         Route::put('{id}', [UserController::class, 'update']);
         Route::delete('bulk-delete', [UserController::class, 'bulkDelete']);
         Route::delete('{id}', [UserController::class, 'delete']);
+    });
+
+// users route
+Route::prefix('projects')
+    ->group(function () {
+        Route::get('/', [ProjectController::class, 'index']);
+        Route::get('/filters', [ProjectController::class, 'getFilters']);
+        Route::post('/', [ProjectController::class, 'saveProject']);
+        Route::post('/calculate-project-mds', [ProjectController::class, 'calculateMD']);
+        Route::get('{id}', [ProjectController::class, 'read']);
+        // Route::put('{id}', [UserController::class, 'update']);
+        // Route::delete('bulk-delete', [UserController::class, 'bulkDelete']);
+        // Route::delete('{id}', [UserController::class, 'delete']);
     });
 
 Route::post('/inquiries', [InquiryController::class, 'create']);

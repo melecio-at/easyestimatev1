@@ -12,4 +12,5 @@ return [
     'user_pending' => 'Email has not been verified.',
     'user_status_not_found' => 'Unable to retrieve status.',
     'role_not_found' => 'Unable to retrieve role.',
+    'project_not_found' => 'Unable to retrieve project.',
 ];

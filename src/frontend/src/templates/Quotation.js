@@ -7,10 +7,10 @@ import { setProfile } from 'store/slices/profileSlice';
 import { Box } from '@mui/material';
 // import Footer from 'components/organisms/Guest/Footer';
 // import Navbar from 'components/organisms/Guest/Navbar';
-import Breadcrumbs from 'components/molecules/BreadCrumb';
+// import Breadcrumbs from 'components/molecules/BreadCrumb';
 import api from 'utils/api';
 
-function Quotation(props) {
+function Quotation() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const user = useSelector((state) => state.profile.user);
@@ -42,7 +42,7 @@ function Quotation(props) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       {/* <Navbar open={open} /> */}
-      {props?.hasBreadCrumbs && <Breadcrumbs breadCrumbs={props?.breadCrumbs} />}
+      {/* {props?.hasBreadCrumbs && <Breadcrumbs breadCrumbs={props?.breadCrumbs} />} */}
 
       <Box
         component="main"

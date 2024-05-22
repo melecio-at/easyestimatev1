@@ -1,114 +1,61 @@
-import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+// import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import theme from 'theme';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
+import JapanYen from 'components/atoms/Formatter/JapanYen';
 import QuotationPreviewModal from './QuotationPreviewModal';
 
-function QuotationPreview() {
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({ businessType: 'company' });
-  const systemRequirementsLeft = [
-    // { label: 'System Name', value: 'XXXXX System', xsGrids: [5, 7] },
-    { label: 'Business Model', value: 'Business To Business (B2B)', xsGrids: [5, 7] },
-    { label: 'Development Type', value: 'Zero-base (From Scratch)', xsGrids: [5, 7] },
-    { label: 'Project Design and Planning', value: 'To Create Design', xsGrids: [5, 7] },
-  ];
-  const systemRequirementsRight = [
-    { label: '', value: '', xsGrids: [5, 7] },
-    { label: 'Expected Number of User Types/Roles', value: '3', xsGrids: [5, 7] },
-    {
-      label: 'Supported Device/Browsers',
-      isArrayValues: true,
-      value: [
-        '➧ Google Chrome (1080x1920, v107.0.5304.122)',
-        '➧ Android Phone (1334x750, v12.0)',
-        '➧ Test',
-      ],
-      xsGrids: [5, 7],
-    },
-  ];
-  const userFeatures = [
-    {
-      user: 'Admin User',
-      technology: 'Web Application - JS/ReactJS and PHP/Laravel',
-      functions: [
-        {
-          name: 'Login',
-          types: ['Login/Logout Function', 'Forgot Password Modal', 'Logout Confirmation Modal'],
-        },
-        {
-          name: 'Account Management',
-          types: ['List Page', 'Create Page', 'View/Edit Page'],
-        },
-      ],
-    },
-    {
-      user: 'Company Admin Users',
-      technology: 'Web Application - PHP/Laravel and JavaScript/ReactJS',
-      functions: [
-        {
-          name: 'Dashboard',
-          types: ['View Page'],
-        },
-      ],
-    },
-    {
-      user: 'Company Standard Users',
-      technology: 'Mobile Application - Android and iOS',
-      functions: [
-        {
-          name: 'Function A',
-          types: ['View Page'],
-        },
-      ],
-    },
-  ];
+function QuotationPreview(props) {
+  const { previewDetail, projectFilters, setIsDetail, open, setOpen } = props;
+  // const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+  const pageText = 'pages.quotation_preview';
 
   const typeBox = (label) => {
     return (
-      <Typography>
-        <Box fontWeight="bold" display="inline">
-          {label}:
-        </Box>
-      </Typography>
+      <Box display="inline">
+        <Typography sx={{ fontWeight: 'bold' }}>{label}</Typography>
+      </Box>
     );
   };
 
   const handleOnChangeBusinessType = (event) => {
     event.persist();
     console.log('event target ', event.target.value);
-    setData({ ...data, businessType: event.target.value });
+    // setData({ ...data, businessType: event.target.value });
   };
 
-  useEffect(() => {
-    console.log('data', data.businessType);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data', data.businessType);
+  // }, [data]);
+
+  // useEffect(() => {
+  //   console.log('previewDetail Quotation Preview', previewDetail);
+  // }, [previewDetail]);
 
   return (
-    <Container maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }} disableGutters>
+    <Container maxWidth="false" sx={{ px: 2, maxWidth: '1643px' }}>
       <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
         <Box>
-          <Typography variant="h6">Quotation Preview</Typography>
+          <Typography variant="h6">{typeBox(t(`${pageText}.heading`))}</Typography>
           <Grid container>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              {typeBox('System Requirement')}
+              {typeBox(t(`${pageText}.label.specification`))}
             </Grid>
             <Grid item xs={12} sx={{ mx: 2, my: 2 }}>
-              <Grid container pacing={4} columnSpacing={6}>
+              <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
                 <Grid item xs={12}>
                   <Grid container pacing={4} columnSpacing={6}>
                     <Grid item xs={6}>
                       <Grid container pacing={4} columnSpacing={6}>
                         <Grid item xs={5}>
-                          <Typography>
-                            <Box fontWeight="bold" display="inline">
-                              {typeBox('System Name')}
-                            </Box>
-                          </Typography>
+                          {typeBox(t(`${pageText}.label.system_name`))}
                         </Grid>
                         <Grid item xs={7}>
-                          XXXXX System
+                          {previewDetail?.systemName}
                         </Grid>
                       </Grid>
                     </Grid>
@@ -117,43 +64,60 @@ function QuotationPreview() {
               </Grid>
               <Grid container pacing={4} columnSpacing={6}>
                 <Grid item xs={6}>
-                  {systemRequirementsLeft.map(function (systemRequirement, index) {
-                    return (
-                      <Grid key={index} container pacing={4} columnSpacing={6}>
-                        <Grid item xs={systemRequirement.xsGrids[0]}>
-                          {typeBox(systemRequirement.label)}
-                        </Grid>
-                        <Grid item xs={systemRequirement.xsGrids[1]}>
-                          {systemRequirement.value}
-                        </Grid>
-                      </Grid>
-                    );
-                  })}
+                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}>
+                      {typeBox(t(`${pageText}.label.business_model`))}
+                    </Grid>
+                    <Grid item xs={7}>
+                      {previewDetail?.businessModel}
+                    </Grid>
+                  </Grid>
+                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}>
+                      {typeBox(t(`${pageText}.label.development_type`))}
+                    </Grid>
+                    <Grid item xs={7}>
+                      {previewDetail?.developmentType}
+                    </Grid>
+                  </Grid>
+                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}>
+                      {typeBox(t(`${pageText}.label.project_design_and_planning`))}
+                    </Grid>
+                    <Grid item xs={7}>
+                      {previewDetail?.uiSpec}
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={6}>
-                  {systemRequirementsRight.map(function (systemRequirement, index) {
-                    return (
-                      <Grid key={index} container pacing={4} columnSpacing={6}>
-                        <Grid item xs={systemRequirement.xsGrids[0]}>
-                          {systemRequirement.label !== ''
-                            ? typeBox(systemRequirement.label)
-                            : systemRequirement.label}
-                        </Grid>
-                        <Grid item xs={systemRequirement.xsGrids[1]}>
-                          {systemRequirement.isArrayValues
-                            ? systemRequirement.value.map(function (value, index1) {
-                                return (
-                                  <div key={index1}>
-                                    {value}
-                                    <br />
-                                  </div>
-                                );
-                              })
-                            : systemRequirement.value}
-                        </Grid>
-                      </Grid>
-                    );
-                  })}
+                  <Grid container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}></Grid>
+                    <Grid item xs={7}></Grid>
+                  </Grid>
+                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}>
+                      {typeBox(t(`${pageText}.label.num_roles`))}
+                    </Grid>
+                    <Grid item xs={7}>
+                      {previewDetail?.expectedNumUsers}
+                    </Grid>
+                  </Grid>
+                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                    <Grid item xs={5}>
+                      {typeBox(t(`${pageText}.label.devices_and_browsers`))}
+                    </Grid>
+                    <Grid item xs={7}>
+                      {typeof previewDetail !== 'undefined' &&
+                        previewDetail?.devicesAndBrowsers?.map(function (value, index1) {
+                          return (
+                            <div key={index1}>
+                              {`➧ ` + value}
+                              <br />
+                            </div>
+                          );
+                        })}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -167,24 +131,24 @@ function QuotationPreview() {
         <Box>
           <Grid container>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              {typeBox('Ballpark Estimation')}
+              {typeBox(t(`${pageText}.label.ballpark_estimation`))}
             </Grid>
-            <Grid item xs={12} sx={{ mt: 2 }}>
-              {typeBox('Features and Functions')}
+            <Grid item xs={12} sx={{ mt: 2, mx: 3 }}>
+              {typeBox(t(`${pageText}.label.features_and_functions`))}
             </Grid>
-            <Grid item xs={12} sx={{ mx: 2, my: 2 }}>
-              {userFeatures.map(function (userFeature, index) {
+            <Grid item xs={12} sx={{ mx: 3, my: 2 }}>
+              {previewDetail?.users?.map(function (userFeature, index) {
                 return (
                   <div key={index}>
                     <Grid container pacing={4} columnSpacing={6}>
                       <Grid item xs={12}>
-                        <b>{userFeature.user}</b>
+                        <b>{userFeature.username}</b>
                       </Grid>
                       <Grid item xs={12}>
-                        {userFeature.technology}
+                        {userFeature.framework + ' - ' + userFeature.language}
                       </Grid>
                       <Grid item xs={12}>
-                        {userFeature.functions.map(function (func, index) {
+                        {userFeature?.functions?.map(function (func, index) {
                           return (
                             <Grid
                               key={index}
@@ -194,13 +158,17 @@ function QuotationPreview() {
                               sx={{ mt: 2, mx: 0 }}
                             >
                               <Grid item xs={2}>
-                                {func.name}
+                                {func.functionType}
                               </Grid>
                               <Grid item xs={10}>
-                                {func.types.map(function (type, index) {
+                                {func?.subFunctions.map(function (subFunction, index) {
                                   return (
                                     <div key={index}>
-                                      ➧{type}
+                                      ➧
+                                      {subFunction?.subFunctionName !== null &&
+                                      subFunction?.subFunctionName !== ''
+                                        ? subFunction?.subFunctionName
+                                        : func.functionType}
                                       <br />
                                     </div>
                                   );
@@ -211,7 +179,7 @@ function QuotationPreview() {
                         })}
                       </Grid>
                     </Grid>
-                    {index < userFeatures.length - 1 && (
+                    {index < previewDetail?.users?.length - 1 && (
                       <Container
                         disableGutters
                         maxWidth={false}
@@ -230,24 +198,41 @@ function QuotationPreview() {
           sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
         ></Container>
         <Grid container display="flex" justifyContent="flex-end" sx={{ pt: 3, pb: 4 }}>
-          <Box container>
-            <Box container display="flex">
+          <Box>
+            <Box display="flex">
               <Grid container>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontWeight: 'bold' }}>TOTAL(MM)</Typography>
+                  {/* {typeBox(t(`${pageText}.label.total_mm`))} */}
+                  <Typography sx={{ fontWeight: 'bold', width: '150px', fontSize: '22px' }}>
+                    {t(`${pageText}.label.total_mm`)}
+                  </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontWeight: 'bold' }}>XX MM</Typography>
+                  <Typography
+                    color={theme.palette.orange.main}
+                    sx={{ fontWeight: 'bold', fontSize: '25px' }}
+                  >
+                    {previewDetail?.totalMM} MM
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>
-            <Box container display="flex" sx={{ mt: 1 }}>
+            <Box display="flex" sx={{ mt: 1 }}>
               <Grid container>
                 <Grid item xs={6}>
-                  <Typography sx={{ fontWeight: 'bold', width: '200px' }}>TOTAL(円)</Typography>
+                  {/* {typeBox(t(`${pageText}.label.total_yen`))} */}
+                  <Typography sx={{ mr: 8, fontWeight: 'bold', width: '150px', fontSize: '22px' }}>
+                    {t(`${pageText}.label.total_yen`)}
+                  </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography sx={{ color: '#058122', fontWeight: 'bold' }}>600 000円</Typography>
+                <Grid item xs={6} sx={{ color: '#058122', fontWeight: 'bold' }}>
+                  {/* <Typography sx={{ color: '#058122', fontWeight: 'bold' }}> */}
+                  <JapanYen
+                    amount={previewDetail?.totalAmount}
+                    isKanji={true}
+                    sx={{ fontSize: '25px', fontWeight: 700 }}
+                  />
+                  {/* </Typography> */}
                 </Grid>
               </Grid>
             </Box>
@@ -257,24 +242,40 @@ function QuotationPreview() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, mx: 1, my: 6 }}>
         <Link
           to={{
-            pathname: '/quotation-create',
+            pathname: '/quotation',
             data: { id: 1, name: 'sabaoon', shirt: 'green' },
           }}
         >
-          <Button sx={{ mr: 2, backgroundColor: '#b8b8b8' }}>Back</Button>
+          <Button
+            onClick={() => {
+              setIsDetail(false);
+            }}
+            sx={{ mr: 2, backgroundColor: '#b8b8b8' }}
+          >
+            {typeBox(t(`${pageText}.label.back_btn`))}
+          </Button>
         </Link>
         <Button sx={{ mr: 2, backgroundColor: '#000000' }} onClick={() => setOpen(true)}>
-          Generate Quotation Details
+          {typeBox(t(`${pageText}.label.generate_quotation_btn`))}
         </Button>
       </Box>
       <QuotationPreviewModal
         setOpen={setOpen}
-        data={data}
         handleOnChangeBusinessType={handleOnChangeBusinessType}
         open={open}
+        projectFilters={projectFilters}
+        previewDetail={previewDetail}
       />
     </Container>
   );
 }
+
+QuotationPreview.propTypes = {
+  previewDetail: PropTypes.object,
+  projectFilters: PropTypes.object,
+  setIsDetail: PropTypes.any,
+  open: PropTypes.bool,
+  setOpen: PropTypes.any,
+};
 
 export default QuotationPreview;

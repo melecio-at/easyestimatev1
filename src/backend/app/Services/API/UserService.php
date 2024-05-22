@@ -64,14 +64,14 @@ class UserService
         // if keyword is provided
         if (array_key_exists('keyword', $conditions)) {
             $query = $query->where('first_name', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
-                        ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
+                ->orWhere('last_name', 'LIKE', "%{$conditions['keyword']}%")
+                ->orWhere('email', 'LIKE', "%{$conditions['keyword']}%");
         }
 
         // perform user search
         $results = $query->skip($skip)
-                        ->orderBy($conditions['sort'], $conditions['order'])
-                        ->paginate($limit);
+            ->orderBy($conditions['sort'], $conditions['order'])
+            ->paginate($limit);
 
         $urlParams = ['keyword' => $conditions['keyword'], 'limit' => $limit];
 
@@ -139,15 +139,15 @@ class UserService
         if (array_key_exists('password', $params)) {
             // update user password if provided in request or retain the current password
             $params['password'] = strlen($params['password']) > 0 ?
-                                    Hash::make($params['password']) :
-                                    $user->password;
+                Hash::make($params['password']) :
+                $user->password;
         }
 
         // upload avatar if present
         if (array_key_exists('avatar', $params)) {
             $params['avatar'] = ($params['avatar'] instanceof UploadedFile) ?
-                                config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
-                                $user->avatar;
+                config('app.storage_disk_url') . '/' . $this->uploadOne($params['avatar'], 'avatars') :
+                $user->avatar;
         }
 
         // get role
@@ -190,8 +190,8 @@ class UserService
     public function activate(array $data): User
     {
         $activationToken = ActivationToken::with('user.status')
-                                        ->where('token', $data['token'])
-                                        ->first();
+            ->where('token', $data['token'])
+            ->first();
 
         if (!($activationToken instanceof ActivationToken)) {
             throw new ActivationTokenNotFoundException();
@@ -227,8 +227,8 @@ class UserService
     {
         // retrieve the user
         $user = $this->user
-                    ->where('email', $email)
-                    ->first();
+            ->where('email', $email)
+            ->first();
 
         if (!($user instanceof User)) {
             throw new UserNotFoundException();

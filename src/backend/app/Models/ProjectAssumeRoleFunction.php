@@ -16,5 +16,6 @@ class ProjectAssumeRoleFunction extends Model
         'function_name',
         'other_func_type',
         'other_func_type_desc',
+        'group_number',
     ];
 }

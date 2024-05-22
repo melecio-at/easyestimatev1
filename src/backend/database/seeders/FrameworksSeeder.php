@@ -13,13 +13,14 @@ class FrameworksSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['name' => 'Web App'],
-            ['name' => 'Mobile App'],
-            ['name' => 'Desktop'],
-            ['name' => 'Browser Plug-in'],
+            ['name' => 'Webアプリ'],
+            ['name' => 'モバイルアプリ'],
+            ['name' => 'デスクトップ'],
+            ['name' => 'ブラウザプラグイン'],
             ['name' => 'SDK'],
             ['name' => 'API'],
-            ['name' => 'Middleware'],
+            ['name' => 'ミドルウェア'],
+            ['name' => 'その他'],
         ];
 
         Framework::insert($data);

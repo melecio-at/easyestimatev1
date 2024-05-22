@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('is_template')->unsigned()->nullable();
-            $table->string('system_type')->nullable();
-            $table->string('description')->nullable();
+            $table->text('system_name')->nullable();
+            $table->longText('description')->nullable();
             $table->tinyInteger('number_of_users')->nullable();
             $table->tinyInteger('create_design')->default(0)->nullable();
             $table->tinyInteger('create_specs_doc')->default(0)->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('user_role');
             $table->unsignedBigInteger('project_id');
+            $table->timestamps();
 
             $table->foreign('project_id')
                 ->references('id')
@@ -130,6 +131,7 @@ return new class extends Migration
         Schema::create('supported_test_envs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::create('project_supported_test_envs', function (Blueprint $table) {
@@ -165,12 +167,13 @@ return new class extends Migration
             $table->unsignedBigInteger('masterlist_function_type_id')->nullable();
             $table->string('function_name')->nullable();
             $table->tinyInteger('ox')->nullable();
-            $table->decimal('screen_count', 2, 2)->nullable();
+            $table->decimal('screen_count', 5, 2)->nullable();
             $table->string('acceptance_criteria')->nullable();
             $table->decimal('uiux_md', 5, 2)->nullable();
             $table->decimal('design_creation_md', 5, 2)->nullable();
             $table->decimal('development_md', 5, 2)->nullable();
             $table->decimal('qa_testing_md', 5, 2)->nullable();
+            $table->decimal('qa_testing_responsive_md', 5, 2)->nullable();
             $table->decimal('translation_md', 5, 2)->nullable();
 
             $table->foreign('masterlist_module_type_id')

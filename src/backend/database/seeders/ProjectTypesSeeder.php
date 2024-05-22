@@ -13,9 +13,7 @@ class ProjectTypesSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['name' => 'Zero-Base(Design and Documentation only)'],
-            ['name' => 'Zero-Base(Design + Development)'],
-            ['name' => 'Zero-Base(Development only)'],
+            ['name' => 'Zero-Base(From Scratch)'],
             ['name' => 'Refurbishment'],
             ['name' => 'Maintenance'],
             ['name' => 'Data Entry'],

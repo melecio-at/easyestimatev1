@@ -7,10 +7,16 @@ const routes = [
     component: 'pages/guest/NotFound',
     auth: false,
   },
+  // {
+  //   path: '/',
+  //   component: 'pages/guest/Landing',
+  //   auth: false,
+  // },
   {
     path: '/',
-    component: 'pages/guest/Landing',
+    component: 'pages/guest/quotation/QuotationList',
     auth: false,
+    hasBreadCrumbs: false,
   },
   {
     path: '/about',
@@ -74,7 +80,7 @@ const routes = [
     hasBreadCrumbs: false,
   },
   {
-    path: '/quotation-create',
+    path: '/quotation',
     component: 'pages/guest/quotation/QuotationCreate',
     auth: false,
     hasBreadCrumbs: true,

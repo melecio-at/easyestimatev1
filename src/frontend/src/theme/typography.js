@@ -31,6 +31,17 @@ const typography = {
     fontSize: pxToRem(18),
     fontWeight: 700,
   },
+  h7: {
+    fontSize: pxToRem(16),
+    fontWeight: 700,
+  },
+  h8: {
+    fontSize: pxToRem(14),
+    fontWeight: 700,
+  },
+  font14px: {
+    fontSize: pxToRem(14),
+  },
   subtitle1: {
     fontSize: pxToRem(14),
     fontWeight: 300,
