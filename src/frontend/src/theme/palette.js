@@ -4,8 +4,9 @@
  */
 const palette = {
   primary: {
-    main: '#058ED9',
+    main: '#27c288',
     contrastText: '#fff',
+    blue: '#058ED9',
   },
   secondary: {
     main: '#D14081',
@@ -31,7 +32,26 @@ const palette = {
     main: '#fff',
     dark: '#888',
   },
+  grey: {
+    main: '#f5f5f5',
+    dark: '#f5f5f5',
+  },
+  background: {
+    paper: '#f9f9f9',
+    default: '#f9f9f9',
+  },
+  checkboxChecked: {
+    main: '#27c288',
+  },
+  orange: {
+    main: '#c65213',
+  },
+  hex2C2C2C: '#2C2C2C',
+  hexf5f4ef: '#f5f4ef',
   divider: 'rgba(0,0,0,0.05)',
+  text: {
+    primary: '#2C2C2C',
+  },
 };
 
 export default palette;

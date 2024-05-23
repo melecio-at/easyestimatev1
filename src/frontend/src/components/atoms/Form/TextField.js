@@ -10,11 +10,12 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     fullWidth = true,
     noLabel = false,
     disabled = false,
+    disableLabelLayout = false,
     ...rest
   } = props;
   let { variant } = props;
   // force variant to use 'standard'
-  variant = 'standard';
+  variant = variant ? variant : 'standard';
 
   const labelProps = {
     color,
@@ -22,7 +23,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     variant,
     error,
     sx: (theme) => ({
-      textTransform: 'uppercase',
+      // textTransform: 'uppercase',
       fontWeight: 700,
       letterSpacing: 1,
       fontSize: theme.typography.body2.fontSize,
@@ -40,10 +41,10 @@ const TextField = React.forwardRef(function TextField(props, ref) {
       '&:active, &:focus, &:hover': {
         border: `1px solid ${theme.palette[color].main}`,
       },
-      py: 0.75,
-      px: 1,
-      minHeight: '42px',
-      mt: noLabel ? '0px' : `${theme.spacing(3)} !important`,
+      py: '2px',
+      px: '2px',
+      minHeight: '32px',
+      mt: noLabel || disableLabelLayout ? '0px' : `${theme.spacing(3)} !important`,
     }),
   };
 
@@ -79,6 +80,7 @@ TextField.propTypes = {
   fullWidth: PropTypes.bool,
   noLabel: PropTypes.bool,
   disabled: PropTypes.bool,
+  disableLabelLayout: PropTypes.bool,
 };
 
 export default TextField;

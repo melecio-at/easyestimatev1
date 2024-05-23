@@ -25,7 +25,7 @@ const RadioGroup = forwardRef(function RadioGroup(props, ref) {
       <MuiRadioGroup defaultValue={defaultValue} row={inline}>
         {options.map((option, key) => (
           <FormControlLabel
-            control={<Radio ref={ref} value={option.value} {...rest} />}
+            control={<Radio ref={ref} value={option.value} {...rest} sx={{ ml: 6 }} />}
             label={option.label}
             key={key}
           />
@@ -49,7 +49,7 @@ RadioGroup.defaultProps = {
 };
 
 RadioGroup.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.any.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

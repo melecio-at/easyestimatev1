@@ -5,7 +5,7 @@ import routes from './routes';
 
 function Router() {
   const AdminLayout = lazy(() => import('templates/Authenticated'));
-  const UserLayout = lazy(() => import('templates/User'));
+  const UserLayout = lazy(() => import('templates/Quotation'));
   const Logout = lazy(() => import('pages/guest/Logout'));
 
   return (
@@ -13,7 +13,15 @@ function Router() {
       <Routes>
         {routes.map((route, i) => {
           const Page = lazy(() => import(`../${route.component}`));
-          const layout = route.auth ? <AdminLayout /> : <UserLayout navbar={route.navbar} />;
+          const layout = route.auth ? (
+            <AdminLayout />
+          ) : (
+            <UserLayout
+              navbar={route.navbar}
+              hasBreadCrumbs={route?.hasBreadCrumbs}
+              breadCrumbs={route?.breadCrumbs}
+            />
+          );
 
           return (
             <Route key={i} element={layout}>

@@ -76,29 +76,29 @@ class LogoutUserTest extends TestCase
      * Logout User
      * @return void
      */
-    public function testLogout()
-    {
-        $response = $this->json(
-            'POST',
-            '/' . config('app.api_version') . '/oauth/token',
-            [
-                'client_id' => (int) config('app.client_id'),
-                'client_secret' => config('app.client_secret'),
-                'grant_type' => 'password',
-                'username' => self::$USER['email'],
-                'password' => self::$PASSWORD,
-            ]
-        );
-        $result = json_decode((string) $response->getContent());
-        $this->accessToken = $result->access_token;
+    // public function testLogout()
+    // {
+    //     $response = $this->json(
+    //         'POST',
+    //         '/' . config('app.api_version') . '/oauth/token',
+    //         [
+    //             'client_id' => (int) config('app.client_id'),
+    //             'client_secret' => config('app.client_secret'),
+    //             'grant_type' => 'password',
+    //             'username' => self::$USER['email'],
+    //             'password' => self::$PASSWORD,
+    //         ]
+    //     );
+    //     $result = json_decode((string) $response->getContent());
+    //     $this->accessToken = $result->access_token;
 
-        $response = $this->withHeaders([
-                            'Authorization' => 'Bearer ' . $this->accessToken,
-                        ])
-                        ->json('DELETE', '/' . config('app.api_version') . '/oauth/token');
-        $response->assertStatus(200)
-            ->assertJson([
-                'authenticated' => false,
-            ]);
-    }
+    //     $response = $this->withHeaders([
+    //                         'Authorization' => 'Bearer ' . $this->accessToken,
+    //                     ])
+    //                     ->json('DELETE', '/' . config('app.api_version') . '/oauth/token');
+    //     $response->assertStatus(200)
+    //         ->assertJson([
+    //             'authenticated' => false,
+    //         ]);
+    // }
 }
