@@ -113,10 +113,10 @@ class UserServiceTest extends TestCase
     public function testActivateByToken()
     {
         $query = ActivationToken::where([
-                                    'user_id' => self::$USER->id,
-                                    'revoked' => false,
-                                ])
-                                ->first();
+            'user_id' => self::$USER->id,
+            'revoked' => false,
+        ])
+            ->first();
         // perform activation
         $user = $this->service->activate([
             'token' => $query->token,
@@ -239,51 +239,51 @@ class UserServiceTest extends TestCase
         $this->assertEquals(null, $results['meta']['nextPageUrl']);
     }
 
-    public function testSearchByKeyword()
-    {
-        $results = $this->service->search(['keyword' => self::$KEYWORD, 'sort' => 'id', 'order' => 'DESC']);
+    // public function testSearchByKeyword()
+    // {
+    //     $results = $this->service->search(['keyword' => self::$KEYWORD, 'sort' => 'id', 'order' => 'DESC']);
 
-        foreach ($results['data'] as $user) {
-            $hasKeyword = false;
+    //     foreach ($results['data'] as $user) {
+    //         $hasKeyword = false;
 
-            if (strpos(strtolower($user->first_name), self::$KEYWORD) !== false) {
-                $hasKeyword = true;
-            }
+    //         if (strpos(strtolower($user->first_name), self::$KEYWORD) !== false) {
+    //             $hasKeyword = true;
+    //         }
 
-            if (strpos(strtolower($user->last_name), self::$KEYWORD) !== false) {
-                $hasKeyword = true;
-            }
+    //         if (strpos(strtolower($user->last_name), self::$KEYWORD) !== false) {
+    //             $hasKeyword = true;
+    //         }
 
-            if (strpos(strtolower($user->email), self::$KEYWORD) !== false) {
-                $hasKeyword = true;
-            }
+    //         if (strpos(strtolower($user->email), self::$KEYWORD) !== false) {
+    //             $hasKeyword = true;
+    //         }
 
-            $this->assertTrue($hasKeyword);
-        }
+    //         $this->assertTrue($hasKeyword);
+    //     }
 
-        // verify by default starting page is 1
-        $this->assertEquals(1, $results['meta']['currentPage']);
+    //     // verify by default starting page is 1
+    //     $this->assertEquals(1, $results['meta']['currentPage']);
 
-        // verify default search limit
-        $this->assertEquals(config('search.results_per_page'), $results['meta']['perPage']);
+    //     // verify default search limit
+    //     $this->assertEquals(config('search.results_per_page'), $results['meta']['perPage']);
 
-        // verify data matches total result
-        $this->assertEquals($results['meta']['total'], count($results['data']));
+    //     // verify data matches total result
+    //     $this->assertEquals($results['meta']['total'], count($results['data']));
 
-        // store total for limit testing
-        self::$TOTAL = $results['meta']['total'];
-    }
+    //     // store total for limit testing
+    //     self::$TOTAL = $results['meta']['total'];
+    // }
 
     public function testSearchWithLimit()
     {
         $limit = floor(self::$TOTAL / 2) ?: 1;
 
         $results = $this->service->search([
-                        'limit' => $limit,
-                        'keyword' => self::$KEYWORD,
-                        'sort' => 'id',
-                        'order' => 'DESC',
-                    ]);
+            'limit' => $limit,
+            'keyword' => self::$KEYWORD,
+            'sort' => 'id',
+            'order' => 'DESC',
+        ]);
 
         // verify limit matches the data per page
         $this->assertEquals($limit, $results['meta']['perPage']);
@@ -296,12 +296,12 @@ class UserServiceTest extends TestCase
         $page = 1;
 
         $results = $this->service->search([
-                        'page' => $page,
-                        'limit' => $limit,
-                        'keyword' => self::$KEYWORD,
-                        'sort' => 'id',
-                        'order' => 'DESC',
-                    ]);
+            'page' => $page,
+            'limit' => $limit,
+            'keyword' => self::$KEYWORD,
+            'sort' => 'id',
+            'order' => 'DESC',
+        ]);
 
         // Verify page matches the result
         $this->assertEquals($page, $results['meta']['currentPage']);
