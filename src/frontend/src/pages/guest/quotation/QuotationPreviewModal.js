@@ -20,7 +20,6 @@ function QuotationPreviewModal(props) {
   const { t } = useTranslation();
   const pageText = 'pages.quotation_preview_modal';
   const requiredText = t('pages.quotation_preview_modal.common.required');
-
   const formatLabel = (label) => {
     return (
       <>
@@ -29,6 +28,34 @@ function QuotationPreviewModal(props) {
           {requiredText}
         </Typography>
       </>
+    );
+  };
+
+  const handleRedirectToTermsPage = () => {
+    // window.open('https://sprobe.com/about-us', '_blank');
+    window.open(previewDetail?.termsLink, '_blank');
+    // process.env.MIX_SALESFORCE_HOST
+  };
+
+  const checkboxGetInTouchLabel = () => {
+    return (
+      <Box sx={{ mt: 2 }}>
+        <Typography> {t(`${pageText}.company.label.get_in_touch`)} </Typography>
+        <Typography> {t(`${pageText}.company.label.get_in_touch_2`)} </Typography>
+      </Box>
+    );
+  };
+
+  const checkboxAcceptTermsLabel = () => {
+    return (
+      <Box>
+        {/* <a target="_blank" href="https://sprobe.com/about-us"> */}
+        <Typography onClick={handleRedirectToTermsPage} display="inline" sx={{ color: '#0091FF' }}>
+          {t(`${pageText}.company.label.accept_terms`)}
+        </Typography>
+        {/* </a> */}
+        <Typography display="inline">{t(`${pageText}.company.label.accept_terms_2`)}</Typography>
+      </Box>
     );
   };
 
@@ -205,6 +232,9 @@ function QuotationPreviewModal(props) {
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 1 }}>
                   <Grid container={true} pacing={2} columnSpacing={3}>
+                    <Grid item xs={12} sx={{ mb: 1 }}>
+                      <Typography>{t(`${pageText}.company.label.department_position`)}</Typography>
+                    </Grid>
                     <Grid item xs={6}>
                       <Controller
                         control={control}
@@ -213,7 +243,7 @@ function QuotationPreviewModal(props) {
                           <Select
                             {...field}
                             defaultValue=""
-                            label={t(`${pageText}.company.label.department`)}
+                            // label={t(`${pageText}.company.label.department`)}
                             placeholder={t(`${pageText}.company.label.department_placeholder`)}
                             options={projectFilters?.departments}
                             size="small"
@@ -245,7 +275,7 @@ function QuotationPreviewModal(props) {
                           <Select
                             {...field}
                             defaultValue=""
-                            label={t(`${pageText}.company.label.position`)}
+                            // label={t(`${pageText}.company.label.position`)}
                             placeholder={t(`${pageText}.company.label.position_placeholder`)}
                             options={projectFilters?.positions}
                             size="small"
@@ -324,7 +354,8 @@ function QuotationPreviewModal(props) {
                       // name="get_intouched"
                       defaultChecked={true}
                       {...field}
-                      label={formatLabel(t(`${pageText}.company.label.get_in_touch`))}
+                      // label={formatLabel(t(`${pageText}.company.label.get_in_touch`))}
+                      label={checkboxGetInTouchLabel()}
                       // {...register('get_intouched')}
                       // disabled={true}
                       error={errors && errors.get_intouched ? true : false}
@@ -344,7 +375,9 @@ function QuotationPreviewModal(props) {
                       // name="get_intouched"
                       defaultChecked={true}
                       {...field}
-                      label={formatLabel(t(`${pageText}.company.label.accept_terms`))}
+                      // label={formatLabel(t(`${pageText}.company.label.accept_terms`))}
+                      label={checkboxAcceptTermsLabel()}
+                      // label={checkboxLabel(t(`${pageText}.company.label.accept_terms`))}
                       // {...register('get_intouched')}
                       // disabled={true}
                       error={errors && errors.accept_terms ? true : false}

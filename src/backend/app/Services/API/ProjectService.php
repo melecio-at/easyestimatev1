@@ -272,6 +272,7 @@ class ProjectService
         $projectDetails['criteria'] = $criteria;
         $projectDetails['totalMM'] = $criteria['totalMM'];
         $projectDetails['totalAmount'] = config('calculation.total_yen_conversion_per_mm') * $criteria['totalMM'];
+        $projectDetails['termsLink'] = env('REACT_APP_TERMS_LINK', 'https://sprobe.com');
 
         return $projectDetails;
     }
