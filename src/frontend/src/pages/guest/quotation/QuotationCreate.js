@@ -593,7 +593,6 @@ function QuotationCreate() {
                               {...field}
                               label={t(`${pageText}.label.num_roles`)}
                               options={expectedNumOfUsers}
-                              // {...register('num_roles')}
                               error={errors && errors.num_roles ? true : false}
                               helperText={errors ? errors?.num_roles?.message : null}
                             />
