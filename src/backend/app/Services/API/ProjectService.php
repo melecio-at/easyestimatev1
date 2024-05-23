@@ -7,38 +7,38 @@ use DB;
 use Mail;
 use Exception;
 // use Carbon\Carbon;
-use App\Models\LeadUser;
 use App\Models\Project;
-use App\Models\ProjectType;
-use App\Models\MasterListFunctionType;
-use App\Models\FrameworkDevLanguage;
-use App\Models\Department;
+use App\Models\LeadUser;
 use App\Models\Position;
-use App\Models\AssumedNumberOfField;
-use App\Models\ProjectRoleFrameworkLanguage;
-use App\Models\ProjectSupportedTestEnv;
-use App\Models\SupportedTestEnvironment;
+use App\Models\Framework;
+use App\Models\Department;
+use App\Mail\QuotationMail;
+use App\Models\ProjectType;
 use App\Models\MasterListFunction;
-use App\Models\ProjectProjectType;
 use App\Models\ProjectAssumedRole;
-use App\Models\ProjectAssumeRoleFunction;
+use App\Models\ProjectProjectType;
+use App\Models\DevelopmentLanguage;
+use App\Models\AssumedNumberOfField;
+use App\Models\FrameworkDevLanguage;
+use App\Models\MasterListFunctionType;
+use App\Http\Resources\ProjectResource;
 // use App\Mail\InviteUser;
 // use App\Mail\UserSignUp;
-use App\Mail\QuotationMail;
+use App\Models\ProjectSupportedTestEnv;
 // use App\Models\UserStatus;
 // use App\Models\ActivationToken;
 // use Illuminate\Http\UploadedFile;
-use App\Http\Resources\ProjectResource;
-use App\Models\DevelopmentLanguage;
-use App\Models\Framework;
+use App\Models\SupportedTestEnvironment;
+use App\Models\ProjectAssumeRoleFunction;
 use App\Exceptions\ProjectNotFoundException;
+use App\Models\ProjectRoleFrameworkLanguage;
+
 // use App\Exceptions\UserNotCreatedException;
 // use App\Exceptions\UserStatusNotFoundException;
 // use App\Exceptions\ActivationTokenNotFoundException;
 
 class ProjectService
 {
-
     /**
      * @var App\Models\Project
      */
@@ -78,7 +78,7 @@ class ProjectService
         $query = $this->project->where('is_template', 1);
 
         // if keyword is provided
-        if (array_key_exists('keyword', $conditions) && $conditions['keyword'] !== null) {
+        if (array_key_exists('keyword', $conditions) && null !== $conditions['keyword']) {
             $languageIds = DevelopmentLanguage::where('name', 'LIKE', "%{$conditions['keyword']}%")->pluck('id')->toArray();
             $frameworkDevLangIds = FrameworkDevLanguage::whereIn('development_language_id', $languageIds)->pluck('id')->toArray();
             $projectsFrameworkDevLangIds = ProjectRoleFrameworkLanguage::select('project_id')
@@ -180,9 +180,9 @@ class ProjectService
 
             $userFunctions[$index]['username'] = $user['userName'];
             $userFunctions[$index]['frameworkId'] = $user['framework'];
-            $userFunctions[$index]['framework'] = $framework !== null ? $framework->name : '';
+            $userFunctions[$index]['framework'] = null !== $framework ? $framework->name : '';
             $userFunctions[$index]['languageId'] = $user['language'];
-            $userFunctions[$index]['language'] = $devLang !== null ? $devLang->name : '';
+            $userFunctions[$index]['language'] = null !== $devLang ? $devLang->name : '';
 
             $advanceTechnologies = DevelopmentLanguage::where('is_advanced', 1)->pluck('id')->toArray();
             if (!in_array($user['language'], $advanceTechnologies)) {
@@ -200,20 +200,20 @@ class ProjectService
                 // dd($subFunctions);
                 $functions[$key]['functionName'] = $function['functionName'];
                 $functions[$key]['functionTypeId'] = $function['functionType'];
-                $functions[$key]['functionType'] = $functionType !== null ? $functionType->name : '';
+                $functions[$key]['functionType'] = null !== $functionType ? $functionType->name : '';
                 $functions[$key]['numFieldsId'] = $function['numFields'];
-                $functions[$key]['numFields'] = $numField !== null ? $numField->name : '';
+                $functions[$key]['numFields'] = null !== $numField ? $numField->name : '';
                 $functions[$key]['subFunctions'] = $subFunctions;
 
                 foreach ($subFunctions as $subFunction) {
                     $ui = 0;
                     $specDoc = 0;
 
-                    if ($details['ui_layout'] === 'create_design') {
+                    if ('create_design' === $details['ui_layout']) {
                         $ui = $subFunction['uiux_md'];
                     }
 
-                    if ($details['spec_doc'] === 'create_spec_doc') {
+                    if ('create_spec_doc' === $details['spec_doc']) {
                         $specDoc = $subFunction['design_creation_md'];
                     }
                     $ui_spec = ($ui + $specDoc) * $subFunction['screen_count'];
@@ -231,10 +231,10 @@ class ProjectService
         $projectDetails = [
             'systemName' => $details['system_name'],
             'businessModel' => $details['business_model'],
-            'developmentType' => $projectType !== null ? $projectType->name : '',
+            'developmentType' => null !== $projectType ? $projectType->name : '',
             'developmentTypeId' => $details['development_type'],
-            'uiLayout' => isset($details['ui_layout']) ? ($details['ui_layout'] === 'create_design' ? 'To Create Design' : 'UI Layout/Mock-up will be provided') : '',
-            'specRequiement' => isset($details['spec_doc']) ? ($details['spec_doc'] === 'create_spec_doc' ? 'To Create Specification Doc' : 'Design Documents will be provided') : '',
+            'uiLayout' => isset($details['ui_layout']) ? ('create_design' === $details['ui_layout'] ? 'To Create Design' : 'UI Layout/Mock-up will be provided') : '',
+            'specRequiement' => isset($details['spec_doc']) ? ('create_spec_doc' === $details['spec_doc'] ? 'To Create Specification Doc' : 'Design Documents will be provided') : '',
             'expectedNumUsers' => $details['num_roles'],
             'devicesAndBrowsers' => array_filter($details['devices_and_browsers'], function ($item) {
                 return trim($item) !== '';
@@ -243,16 +243,16 @@ class ProjectService
         ];
 
         $uiSpec = [];
-        if ($projectDetails['uiLayout'] !== '') {
+        if ('' !== $projectDetails['uiLayout']) {
             $uiSpec[] = $projectDetails['uiLayout'];
         }
 
-        if ($projectDetails['specRequiement'] !== '') {
+        if ('' !== $projectDetails['specRequiement']) {
             $uiSpec[] = $projectDetails['specRequiement'];
         }
 
         $projectDetails['uiSpec'] = count($uiSpec) > 0 ? implode(', ', $uiSpec) : '';
-        $criteria['learningMDFamiliarization'] = ($projectType !== null && ($projectType->id === 2 || $projectType->id === 3)) ? 1 : 0;
+        $criteria['learningMDFamiliarization'] = (null !== $projectType && (2 === $projectType->id || 3 === $projectType->id)) ? 1 : 0;
         $criteria['designDocTotal'] = $designDocTotal;
         $criteria['developmentBeforeLearningMdNoResource'] = $development;
         $criteria['learningMD'] = $learningMD;
@@ -294,8 +294,8 @@ class ProjectService
                 'email_address' => $details['email_address'],
                 'business_type' => $details['business_type'],
                 'company_name' => $details['company_name'],
-                'department_id' => (isset($details['department']) && $details['department'] !== 0) ? $details['department'] : null,
-                'position_id' => (isset($details['position']) && $details['position'] !== 0) ? $details['position'] : null,
+                'department_id' => (isset($details['department']) && 0 !== $details['department']) ? $details['department'] : null,
+                'position_id' => (isset($details['position']) && 0 !== $details['position']) ? $details['position'] : null,
                 'company_url' => $details['company_url'],
                 'business_license' => $details['business_license'],
                 'get_intouched' => $details['get_intouched'] ? 1 : 0,
@@ -308,8 +308,8 @@ class ProjectService
                 'system_name' => $projectDetails['systemName'],
                 'is_template' => 0,
                 'number_of_users' => $projectDetails['expectedNumUsers'],
-                'create_design' => ($projectDetails['uiLayout'] === null || $projectDetails['uiLayout'] === '') ? null : (($projectDetails['uiLayout'] === 'create_design') ? 1 : 0),
-                'create_specs_doc' => ($projectDetails['specRequiement'] === null || $projectDetails['specRequiement'] === '') ? null : (($projectDetails['specRequiement'] === 'create_spec_doc') ? 1 : 0),
+                'create_design' => (null === $projectDetails['uiLayout'] || '' === $projectDetails['uiLayout']) ? null : (('create_design' === $projectDetails['uiLayout']) ? 1 : 0),
+                'create_specs_doc' => (null === $projectDetails['specRequiement'] || '' === $projectDetails['specRequiement']) ? null : (('create_spec_doc' === $projectDetails['specRequiement']) ? 1 : 0),
                 'lead_user_id' => $leadUser->id,
                 'business_model_text' => $projectDetails['businessModel'],
             ]);

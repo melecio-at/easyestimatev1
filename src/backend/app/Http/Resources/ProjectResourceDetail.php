@@ -5,8 +5,8 @@ namespace App\Http\Resources;
 use App\Models\BusinessModel;
 use App\Models\FrameworkDevLanguage;
 use App\Models\SupportedTestEnvironment;
-use App\Models\ProjectRoleFrameworkLanguage;
 use App\Models\ProjectAssumeRoleFunction;
+use App\Models\ProjectRoleFrameworkLanguage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectResourceDetail extends JsonResource
@@ -35,7 +35,7 @@ class ProjectResourceDetail extends JsonResource
                 ->where('assumed_role_id', $user->id)
                 ->first();
 
-            if ($frameWorkDevLanguage !== null) {
+            if (null !== $frameWorkDevLanguage) {
                 $devLanguage = FrameworkDevLanguage::find($frameWorkDevLanguage->framework_language_id);
                 $users[$user->id]['framework'] = $devLanguage->framework_id;
                 $users[$user->id]['devLanguage'] = $devLanguage->development_language_id;
@@ -70,8 +70,8 @@ class ProjectResourceDetail extends JsonResource
             'system_name' => $this->system_name,
             'business_model' => $businessModels,
             'numRoles' => $this->number_of_users > 3 ? 3 : $this->number_of_users,
-            'create_design' => ($developmentTypeId === 1) ? ($this->create_design === 1 ? 'create_design' : 'ui_layout_provided') : '',
-            'create_specs_docs' => ($developmentTypeId === 1) ? ($this->create_specs_doc === 1 ? 'create_spec_doc' : 'design_doc_provided') : '',
+            'create_design' => (1 === $developmentTypeId) ? (1 === $this->create_design ? 'create_design' : 'ui_layout_provided') : '',
+            'create_specs_docs' => (1 === $developmentTypeId) ? (1 === $this->create_specs_doc ? 'create_spec_doc' : 'design_doc_provided') : '',
             'technologies' => is_array($languages) ? implode(", ", $languages) : '',
             'test_environments' => $testEnvironments,
             'development_type_id' => $developmentTypeId,

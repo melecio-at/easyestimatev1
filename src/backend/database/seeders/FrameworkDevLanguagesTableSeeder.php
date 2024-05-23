@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\FrameworkDevLanguage;
 use Illuminate\Database\Seeder;
+use App\Models\FrameworkDevLanguage;
 
 class FrameworkDevLanguagesTableSeeder extends Seeder
 {

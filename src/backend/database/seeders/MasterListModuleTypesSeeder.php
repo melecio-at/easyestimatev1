@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\MasterListModuleType;
 use Illuminate\Database\Seeder;
+use App\Models\MasterListModuleType;
 
 class MasterListModuleTypesSeeder extends Seeder
 {

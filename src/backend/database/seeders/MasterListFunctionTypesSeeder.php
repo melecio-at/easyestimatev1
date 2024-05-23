@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\MasterListFunctionType;
 use Illuminate\Database\Seeder;
+use App\Models\MasterListFunctionType;
 
 class MasterListFunctionTypesSeeder extends Seeder
 {

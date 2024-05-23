@@ -4,13 +4,14 @@ namespace App\Http\Controllers\API;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Services\API\ProjectService;
 use App\Http\Controllers\Controller;
+use App\Services\API\ProjectService;
 use App\Http\Resources\ProjectResourceDetail;
 // use App\Http\Resources\NewUserResource;
 // use App\Http\Requests\API\Users\BulkDeleteRequest;
 // use App\Http\Requests\API\Users\CreateUserRequest;
 use App\Http\Requests\API\Projects\SearchProjectRequest;
+
 // use App\Http\Requests\API\Users\UpdateUserRequest;
 // use App\Http\Requests\API\Users\RegisterUserRequest;
 // use App\Http\Requests\API\Users\ActivateAccountRequest;
@@ -40,7 +41,7 @@ class ProjectController extends Controller
      *
      * Retrieves the List of Projects from Database
      *
-     * 
+     *
      * @param App\Http\Requests\SearchProjectRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -75,7 +76,7 @@ class ProjectController extends Controller
      *
      * Retrieves the List of Projects Filters from Database
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function getFilters(Request $request)

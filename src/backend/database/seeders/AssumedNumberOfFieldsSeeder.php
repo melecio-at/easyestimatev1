@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\AssumedNumberOfField;
 use Illuminate\Database\Seeder;
+use App\Models\AssumedNumberOfField;
 
 class AssumedNumberOfFieldsSeeder extends Seeder
 {
