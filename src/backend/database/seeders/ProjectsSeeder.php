@@ -3,14 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use App\Models\ProjectAssumedRole;
-use App\Models\ProjectAssumeRoleFunction;
-use App\Models\ProjectBusinessModel;
-use App\Models\ProjectProjectType;
-use App\Models\ProjectRoleFrameworkLanguage;
-use App\Models\ProjectSupportedTestEnv;
 use Illuminate\Database\Seeder;
+use App\Models\ProjectAssumedRole;
+use App\Models\ProjectProjectType;
+use App\Models\ProjectBusinessModel;
+use App\Models\ProjectSupportedTestEnv;
 use App\Models\SupportedTestEnvironment;
+use App\Models\ProjectAssumeRoleFunction;
+use App\Models\ProjectRoleFrameworkLanguage;
 
 class ProjectsSeeder extends Seeder
 {
