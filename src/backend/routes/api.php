@@ -8,6 +8,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\InquiryController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\API\SecretsController;
 use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\NotificationController;
@@ -62,6 +63,7 @@ Route::prefix('projects')
     ->group(function () {
         Route::get('/', [ProjectController::class, 'index']);
         Route::get('/filters', [ProjectController::class, 'getFilters']);
+        Route::get('/secrets', [SecretsController::class, 'getDabaseCredentials']);
         Route::post('/', [ProjectController::class, 'saveProject']);
         Route::post('/calculate-project-mds', [ProjectController::class, 'calculateMD']);
         Route::get('{id}', [ProjectController::class, 'read']);

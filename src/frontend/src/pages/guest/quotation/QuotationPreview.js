@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
-// import { useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import theme from 'theme';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
 import JapanYen from 'components/atoms/Formatter/JapanYen';
+import DescriptionAlerts from 'components/molecules/DescriptionAlerts';
 import QuotationPreviewModal from './QuotationPreviewModal';
 
 function QuotationPreview(props) {
   const { previewDetail, projectFilters, setIsDetail, open, setOpen } = props;
-  // const [open, setOpen] = useState(false);
+  const [isEmailSuccess, setIsEmailSuccess] = useState(false);
   const { t } = useTranslation();
   const pageText = 'pages.quotation_preview';
 
@@ -24,20 +25,25 @@ function QuotationPreview(props) {
 
   const handleOnChangeBusinessType = (event) => {
     event.persist();
-    console.log('event target ', event.target.value);
-    // setData({ ...data, businessType: event.target.value });
+    // console.log('event target ', event.target.value);
   };
 
   // useEffect(() => {
-  //   console.log('data', data.businessType);
-  // }, [data]);
-
-  // useEffect(() => {
-  //   console.log('previewDetail Quotation Preview', previewDetail);
-  // }, [previewDetail]);
+  //   console.log('isEmailSuccess' + isEmailSuccess ? 'true1' : 'false2');
+  // }, [isEmailSuccess]);
 
   return (
     <Container maxWidth="false" sx={{ px: 2, maxWidth: '1643px' }}>
+      {isEmailSuccess && (
+        <DescriptionAlerts
+          severity="success"
+          title="Success"
+          setAlertOpen={setIsEmailSuccess}
+          alertOpen={isEmailSuccess}
+        >
+          {t(`${pageText}.emailSentSuccessful`)}
+        </DescriptionAlerts>
+      )}
       <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
         <Box>
           <Typography variant="h6">{typeBox(t(`${pageText}.heading`))}</Typography>
@@ -265,6 +271,7 @@ function QuotationPreview(props) {
         open={open}
         projectFilters={projectFilters}
         previewDetail={previewDetail}
+        setIsEmailSuccess={setIsEmailSuccess}
       />
     </Container>
   );

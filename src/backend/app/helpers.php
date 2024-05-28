@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * paginated urls based on the params provided
  * during search.
  */
+
 if (!function_exists('paginated')) {
     /**
      * @param LengthAwarePaginator $results
@@ -61,5 +62,27 @@ if (!function_exists('get_initials')) {
         }
 
         return strtoupper($initials);
+    }
+}
+
+/**
+ * Build Custom To Email
+ *
+ * @param nullable|string $name
+ * @return string
+ */
+if (!function_exists('customMailTo')) {
+    function customMailTo($name): string
+    {
+        $mailToCharLimit = (int) env('MAIL_TO_CHAR_LIMIT', 29);
+        $ellipsisLength = 3;
+
+        $rawToString = sprintf('%s', $name);
+
+        if (mb_strlen($rawToString) >= $mailToCharLimit) {
+            $rawToString = mb_substr($rawToString, 0, $mailToCharLimit - $ellipsisLength) . '...';
+        }
+
+        return $rawToString;
     }
 }
