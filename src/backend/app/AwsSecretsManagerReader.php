@@ -21,8 +21,8 @@
 
 namespace App;
 
-use Aws\Credentials\CredentialProvider;
 use Aws\Exception\AwsException;
+use Aws\Credentials\CredentialProvider;
 use Aws\SecretsManager\SecretsManagerClient;
 
 /**
@@ -32,7 +32,6 @@ use Aws\SecretsManager\SecretsManagerClient;
  */
 class AwsSecretsManagerReader
 {
-
     public static $aws_client = null;
 
     public static $version = '2017-10-17';
@@ -135,27 +134,27 @@ class AwsSecretsManagerReader
         } catch (AwsException $e) {
             $error = $e->getAwsErrorCode();
 
-            if ($error === 'DecryptionFailureException') {
+            if ('DecryptionFailureException' === $error) {
                 // Secrets Manager can't decrypt the protected secret text using the provided AWS KMS key.
                 // Handle the exception here, and/or rethrow as needed.
                 throw $e;
             }
-            if ($error === 'InternalServiceErrorException') {
+            if ('InternalServiceErrorException' === $error) {
                 // An error occurred on the server side.
                 // Handle the exception here, and/or rethrow as needed.
                 throw $e;
             }
-            if ($error === 'InvalidParameterException') {
+            if ('InvalidParameterException' === $error) {
                 // You provided an invalid value for a parameter.
                 // Handle the exception here, and/or rethrow as needed.
                 throw $e;
             }
-            if ($error === 'InvalidRequestException') {
+            if ('InvalidRequestException' === $error) {
                 // You provided a parameter value that is not valid for the current state of the resource.
                 // Handle the exception here, and/or rethrow as needed.
                 throw $e;
             }
-            if ($error === 'ResourceNotFoundException') {
+            if ('ResourceNotFoundException' === $error) {
                 // We can't find the resource that you asked for.
                 // Handle the exception here, and/or rethrow as needed.
                 throw $e;

@@ -25,7 +25,7 @@ return [
 
     'tag-name' => env('AWS_SECRETS_TAG_NAME', 'stage'),
     'tag-value' => env('AWS_SECRETS_TAG_VALUE', 'dev'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Environments where this service provider is enabled

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use Aws\SecretsManager\SecretsManagerClient;
 use Aws\Exception\AwsException;
+use App\AwsSecretsManagerReader;
 use Illuminate\Support\Facades\DB;
 use Tapp\AwsSecretsManager\Secret;
-use App\AwsSecretsManagerReader;
+use App\Http\Controllers\Controller;
+use Aws\SecretsManager\SecretsManagerClient;
 
 class SecretsController extends Controller
 {

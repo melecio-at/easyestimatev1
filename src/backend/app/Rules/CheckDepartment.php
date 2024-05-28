@@ -2,8 +2,8 @@
 
 namespace App\Rules;
 
-use App\Models\Department;
 use Closure;
+use App\Models\Department;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class CheckDepartment implements ValidationRule
@@ -28,7 +28,7 @@ class CheckDepartment implements ValidationRule
     public function passes($attribute, $value)
     {
         $optionExist = Department::where('id', $value)->exists();
-        if ($optionExist || $value === 0) {
+        if ($optionExist || 0 === $value) {
             return true;
         }
 

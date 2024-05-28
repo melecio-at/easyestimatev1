@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\API\Projects;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
+
 // use App\Rules\AuthEmail;
 // use App\Rules\CheckDepartment;
 // use App\Rules\CheckPosition;

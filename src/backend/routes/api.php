@@ -8,10 +8,10 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\InquiryController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\API\SecretsController;
 use App\Http\Controllers\API\Auth\TokenController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\NotificationController;
-use App\Http\Controllers\API\SecretsController;
 use App\Http\Controllers\API\Auth\PasswordController;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 

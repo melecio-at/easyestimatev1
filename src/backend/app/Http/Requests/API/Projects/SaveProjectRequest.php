@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\API\Projects;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use App\Rules\AuthEmail;
-use App\Rules\CheckDepartment;
 use App\Rules\CheckPosition;
 use App\Rules\ValidURLFormat;
+use App\Rules\CheckDepartment;
+use Illuminate\Validation\Rule;
 use App\Rules\ValidCellPhoneFormat;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SaveProjectRequest extends FormRequest
 {
@@ -25,8 +25,8 @@ class SaveProjectRequest extends FormRequest
             'business_license' => 'required_if:business_type,==,company',
             'company_name' => 'nullable|string|min:3|max:100',
             'business_type' => ['required', 'string', Rule::in(['company', 'individual'])],
-            'department' => ['nullable', new CheckDepartment],
-            'position' => ['nullable', new CheckPosition],
+            'department' => ['nullable', new CheckDepartment()],
+            'position' => ['nullable', new CheckPosition()],
             'company_url' => ['nullable', 'string', 'min:3', 'max:200'],
             'phone_number' => ['nullable', 'string', 'min:3', 'max:20'],
             // 'company_url' => ['nullable', 'string', new ValidURLFormat],
