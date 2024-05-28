@@ -6,7 +6,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import BodyTextCustom from 'components/atoms/BodyTextCustom';
 
 function Accordion(props) {
-  const { items, summarySx } = props;
+  const { items, summarySx, isWithTemplate } = props;
 
   return (
     <>
@@ -26,9 +26,17 @@ function Accordion(props) {
               {item.header}
             </BodyTextCustom>
           </AccordionSummary>
-          <AccordionDetails sx={(theme) => ({ px: 2, backgroundColor: theme.palette.hexf5f4ef })}>
-            <BodyTextCustom>{item.content}</BodyTextCustom>
-          </AccordionDetails>
+          {isWithTemplate && (
+            <AccordionDetails sx={(theme) => ({ px: 2, backgroundColor: theme.palette.hexf5f4ef })}>
+              <BodyTextCustom>{item.content}</BodyTextCustom>
+            </AccordionDetails>
+          )}
+
+          {!isWithTemplate && (
+            <AccordionDetails>
+              <BodyTextCustom>{item.content}</BodyTextCustom>
+            </AccordionDetails>
+          )}
         </MuiAccordion>
       ))}
     </>
@@ -38,11 +46,13 @@ function Accordion(props) {
 Accordion.defaultProps = {
   items: [],
   summarySx: {},
+  isWithTemplate: true,
 };
 
 Accordion.propTypes = {
   items: PropTypes.array,
   summarySx: PropTypes.object,
+  isWithTemplate: PropTypes.false,
 };
 
 export default Accordion;

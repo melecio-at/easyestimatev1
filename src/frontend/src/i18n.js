@@ -12,7 +12,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en', // Set the default Language. Options from resources defined above.
+  lng: 'ja', // Set the default Language. Options from resources defined above.
   interpolation: {
     escapeValue: false, // react already safes from xss
   },

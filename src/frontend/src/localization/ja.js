@@ -2,7 +2,9 @@ const ja = {
   translation: {
     // define translations below
     form: {
-      required: 'この項目は必須です。',
+      required: '必須項目に入力してください。',
+      min: '入力文字数が不足しています。',
+      max: '入力文字数の制限を超えています。',
       email: 'メール形式が無効です。',
       password: {
         minLength: 'パスワードは8文字以上である必要があります。',
@@ -166,8 +168,46 @@ const ja = {
         sub_heading: 'quotation-If you would like to contact us, please fill out the form below.',
         success_message: 'Your inquiry has been sent.',
         failed_message: 'An error occurred while sending.',
-        return_to_sprobe: 'SPROBEサイトへ帰る',
+        return_to_sprobe: 'Sprobeサイトへ戻る',
         project_list_heading: '事前定義された見積もりテンプレートのリスト',
+        noData: 'No data found.',
+        sub_header_section: {
+          title: 'かんたん見積ツールをご利用の方へ',
+          first_paragraph: {
+            1: 'システム、アプリの開発をご検討中の方向けのかんたん見積ツールは必要な機能を選択してかんたんに概算見積をご確認いただけます。',
+            2: 'シミュレーション結果はメールアドレスをご登録いただくと、検索いただいた見積を登録したメールアドレスへお届けします。',
+            3: 'メールアドレス登録なしでもシミュレーションはご利用いただけます。（保存機能なし）',
+            4: '概算見積のシミュレート方法は２つ',
+          },
+          a: {
+            head: 'A.弊社実績に基づいたデータを用いたテンプレートを使って見積を作成する',
+            head2: '推奨される機能要件と非機能要件を選択するだけで概算見積を算出',
+            head3: '（非エンジニアの方でもかんたんに概算見積の算出を可能にしました）',
+            steps: {
+              1: 'Step1　検索フィルタ―からシステムのキーワード検索またはフレームワークを選択',
+              2: 'Step2　検索結果をフィルタリングすると、目的のシステム/アプリに一致する見積テンプレートが表示される',
+              3: 'Step3　目的のシステム/アプリを見つけたら「テンプレートを使う」をクリック',
+              4: 'Step4　テンプレートに追加機能等を追加する',
+              5: 'Step5　「見積生成」ボタンをクリック',
+              6: 'Step6　見積結果の送信　',
+            },
+          },
+          b: {
+            head: 'B.スクラッチ（ゼロ）から見積を作成する',
+            head2: '（主にシステム開発技術関係者用）',
+            steps: {
+              1: 'Step1　「見積新規作成」ボタンをクリック',
+              2: 'Step2　 必須フィールドに情報を入力',
+              3: 'Step3　「見積生成」ボタンををクリック',
+              4: 'Step4　見積結果の送信',
+            },
+          },
+          last_paragraph: {
+            1: '算出された予算が合わない場合は機能等を調整し、予算の増減をその場でご確認いただけます。',
+            2: 'ぜひ貴社のシステム、アプリ開発にご活用ください。',
+            3: '※最新のブラウザの利用を推奨しております。',
+          },
+        },
         label: {
           search: '検索フィルターを入力',
           filter: 'フィルター',
@@ -190,7 +230,7 @@ const ja = {
           num_roles: '想定ユーザータイプ/ロール数',
           devices_and_browsers: '対応ディバイス/ブラウザ',
           devices_and_browsers_placeholder: 'ディバイス／ブラウザ名',
-          specify_at_least_one: '（最低1つを指定）',
+          specify_at_least_one: ' 最低1つを指定してください。',
           design_doc_requirement: '【設計書の要件】',
           ui_layout: 'UIレイアウト/モックアップ',
           spec_requirement: '仕様要件',
@@ -217,6 +257,7 @@ const ja = {
       },
       quotation_preview: {
         heading: '見積もりプレビュー',
+        emailSentSuccessful: 'Email successfully sent.',
         label: {
           specification: '【システム要件】',
           system_name: 'システム名：',
@@ -229,7 +270,7 @@ const ja = {
           features_and_functions: '機能一覧',
           total_mm: '合計（人月）',
           total_yen: '合計',
-          back_btn: '〈　戻る　',
+          back_btn: '戻る',
           generate_quotation_btn: '見積もりを生成する',
         },
       },

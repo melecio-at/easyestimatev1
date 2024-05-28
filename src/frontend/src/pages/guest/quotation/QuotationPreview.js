@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import theme from 'theme';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
 import JapanYen from 'components/atoms/Formatter/JapanYen';
@@ -253,11 +254,13 @@ function QuotationPreview(props) {
           }}
         >
           <Button
+            // startIcon={<ArrowBackIosNewIcon fontSize="small" style={{ fontSize: '15px' }} />}
             onClick={() => {
               setIsDetail(false);
             }}
-            sx={{ mr: 2, backgroundColor: '#b8b8b8' }}
+            sx={{ mr: 2, backgroundColor: '#b8b8b8', color: 'black' }}
           >
+            <ArrowBackIosNewIcon style={{ fontSize: '15px', marginRight: '10px' }} />
             {typeBox(t(`${pageText}.label.back_btn`))}
           </Button>
         </Link>

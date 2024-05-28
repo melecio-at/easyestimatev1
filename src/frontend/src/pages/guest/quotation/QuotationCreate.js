@@ -840,7 +840,7 @@ function QuotationCreate() {
                       pathname: '/',
                     }}
                   >
-                    <Button sx={{ mr: 2, backgroundColor: '#b8b8b8' }}>
+                    <Button sx={{ mr: 2, backgroundColor: '#b8b8b8', color: 'black' }}>
                       {t(`${pageText}.label.cancel_btn`)}
                     </Button>
                   </Link>

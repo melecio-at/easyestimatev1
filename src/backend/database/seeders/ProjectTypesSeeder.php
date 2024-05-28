@@ -16,9 +16,9 @@ class ProjectTypesSeeder extends Seeder
             ['name' => 'Zero-Base(From Scratch)'],
             ['name' => 'Refurbishment'],
             ['name' => 'Maintenance'],
-            ['name' => 'Data Entry'],
-            ['name' => 'QA Testing'],
-            ['name' => 'Others (please specify)'],
+            // ['name' => 'Data Entry'],
+            // ['name' => 'QA Testing'],
+            // ['name' => 'Others (please specify)'],
         ];
 
         ProjectType::insert($data);
