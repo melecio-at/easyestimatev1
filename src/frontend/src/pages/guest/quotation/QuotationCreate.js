@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+// import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -52,6 +53,7 @@ function QuotationCreate() {
   const [previewDetail, setPreviewDetail] = useState([]);
   const [projectFilters, setProjectFilters] = useState(defaultProjectFilers);
   const [loading, setLoading] = useState(false);
+  const [projectLoading, setProjectLoading] = useState(false);
 
   const defaultUILayoutOptions = [
     { label: t(`pages.quotation_create.label.create_design`), value: 'create_design' },
@@ -175,27 +177,31 @@ function QuotationCreate() {
   const specDoc = watch('spec_doc');
   const devicesAndBrowsers = watch('devices_and_browsers');
 
-  const { fields: userFields } = useFieldArray({
-    name: 'users',
-    control,
-  });
+  // const { fields: userFields } = useFieldArray({
+  // const {fields } = useFieldArray({
+  //   name: 'users',
+  //   control,
+  // });
 
   // console.log('users', users);
 
   const fetchProject = async () => {
+    setProjectLoading(true);
     const templateProject = await getProjectTemplate(projectID);
     await setProject(templateProject);
+    setProjectLoading(false);
   };
 
   const autoFillTemplateValues = async (project) => {
     // console.log('project', project);
+    // await setFeatures([]);
     setValue('system_name', project?.system_name);
     setValue('business_model', project?.business_model);
     setValue('devices_and_browsers', project?.devices_and_browsers);
     setValue('development_type', project?.development_type);
     setValue('ui_layout', project?.ui_layout);
     setValue('spec_doc', project?.spec_doc);
-    setValue('num_roles', project?.num_roles);
+    // setValue('num_roles', project?.num_roles);
     let newUsers = await project?.users.map((user, index) => {
       return {
         userName: user?.userName,
@@ -219,9 +225,9 @@ function QuotationCreate() {
       };
       // return newUsers
     });
-
+    await setValue('num_roles', project?.num_roles);
     await setValue('users', newUsers);
-    await setFeatures([]);
+    //await setFeatures([]);
     // handeFeatureChange(newUsers);
     // updateUser(0, {
     //   ...newUsers[0],
@@ -451,12 +457,39 @@ function QuotationCreate() {
     );
   };
 
+  // useEffect(() => {
+  //   handeFeatureChange(userFields);
+  // }, [userFields, errors, users, projectFilters]);
   useEffect(() => {
-    handeFeatureChange(userFields);
-  }, [userFields, errors, users, projectFilters]);
+    handeFeatureChange(users);
+  }, [errors, users, projectFilters]);
 
   return (
     <>
+      <Modal
+        open={projectLoading}
+        title="Loading Modal"
+        hideTitle={true}
+        hideClose={true}
+        hideTitleSection={true}
+        overrideStyle={{
+          width: 'auto',
+          borderRadius: '13px',
+          height: 'auto',
+          bgcolor: 'transparent',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Modal>
       <Modal
         open={loading}
         title="Loading Modal"
@@ -563,261 +596,263 @@ function QuotationCreate() {
           setOpen={setOpen}
         />
       ) : (
-        <Container maxWidth="false" sx={{ p: 2, maxWidth: '1643px' }}>
-          <Box component="form" noValidate onSubmit={handleSubmit(handleCalculateProjectMD)}>
-            <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
-              <Box>
-                <Typography variant="h6" color={theme.palette.orange.main}>
-                  {t(`${pageText}.heading`)}
-                </Typography>
-                <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, px: 2 }}>
-                  <Grid item xs={4}>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label={t(`${pageText}.label.system_name`)}
-                          placeholder={t(`${pageText}.label.system_name_placeholder`)}
-                          {...register('system_name')}
-                          error={errors && errors.system_name ? true : false}
-                          helperText={errors ? errors?.system_name?.message : null}
-                        />
+        !projectLoading && (
+          <Container maxWidth="false" sx={{ p: 2, maxWidth: '1643px' }}>
+            <Box component="form" noValidate onSubmit={handleSubmit(handleCalculateProjectMD)}>
+              <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
+                <Box>
+                  <Typography variant="h6" color={theme.palette.orange.main}>
+                    {t(`${pageText}.heading`)}
+                  </Typography>
+                  <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, px: 2 }}>
+                    <Grid item xs={4}>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label={t(`${pageText}.label.system_name`)}
+                            placeholder={t(`${pageText}.label.system_name_placeholder`)}
+                            {...register('system_name')}
+                            error={errors && errors.system_name ? true : false}
+                            helperText={errors ? errors?.system_name?.message : null}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label={t(`${pageText}.label.business_model`)}
+                            placeholder={t(`${pageText}.label.business_model_placeholder`)}
+                            {...register('business_model')}
+                            error={errors && errors.business_model ? true : false}
+                            helperText={errors ? errors?.business_model?.message : null}
+                          />
+                        </Grid>
                       </Grid>
                     </Grid>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label={t(`${pageText}.label.business_model`)}
-                          placeholder={t(`${pageText}.label.business_model_placeholder`)}
-                          {...register('business_model')}
-                          error={errors && errors.business_model ? true : false}
-                          helperText={errors ? errors?.business_model?.message : null}
-                        />
+                    <Grid item xs={4}>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <Controller
+                            name="development_type"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                label={t(`${pageText}.label.development_type`)}
+                                options={projectFilters.developmentTypes}
+                                error={errors && errors.development_type ? true : false}
+                                helperText={errors ? errors?.development_type?.message : null}
+                                onChange={(value) => {
+                                  handleChangeDevelopmentType(value.target.value);
+                                  field.onChange(value);
+                                }}
+                              />
+                            )}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <Controller
+                            name="num_roles"
+                            control={control}
+                            defaultValue="" // Provide an initial/default value
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                label={t(`${pageText}.label.num_roles`)}
+                                options={expectedNumOfUsers}
+                                error={errors && errors.num_roles ? true : false}
+                                helperText={errors ? errors?.num_roles?.message : null}
+                              />
+                            )}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label={
+                              <>
+                                {t(`${pageText}.label.devices_and_browsers`)}
+                                <Typography display="inline" sx={{ color: 'red' }}>
+                                  {t(`${pageText}.label.specify_at_least_one`)}
+                                </Typography>
+                              </>
+                            }
+                            // customLabel={true}
+                            placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
+                            {...register('devices_and_browsers.0')}
+                            error={errors && errors.devices_and_browsers?.[0] ? true : false}
+                            helperText={errors ? errors?.devices_and_browsers?.[0]?.message : null}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <TextField
+                            noLabel={true}
+                            placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
+                            disabled={devicesAndBrowsers?.[0] === ''}
+                            {...register('devices_and_browsers.1')}
+                            error={errors && errors.devices_and_browsers?.[1] ? true : false}
+                            helperText={errors ? errors?.devices_and_browsers?.[1]?.message : null}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
+                        <Grid item xs={12}>
+                          <TextField
+                            noLabel={true}
+                            placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
+                            disabled={devicesAndBrowsers?.[1] === ''}
+                            {...register('devices_and_browsers.2')}
+                            error={errors && errors.devices_and_browsers?.[2] ? true : false}
+                            helperText={errors ? errors?.devices_and_browsers?.[2]?.message : null}
+                          />
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={4}>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <Controller
-                          name="development_type"
-                          control={control}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              label={t(`${pageText}.label.development_type`)}
-                              options={projectFilters.developmentTypes}
-                              error={errors && errors.development_type ? true : false}
-                              helperText={errors ? errors?.development_type?.message : null}
-                              onChange={(value) => {
-                                handleChangeDevelopmentType(value.target.value);
-                                field.onChange(value);
-                              }}
-                            />
-                          )}
-                        />
+                </Box>
+                {developmentType === 1 && (
+                  <>
+                    <Container
+                      disableGutters
+                      maxWidth={false}
+                      sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
+                    ></Container>
+                    <Box>
+                      <Typography variant="h6" color={theme.palette.orange.main}>
+                        {t(`${pageText}.label.design_doc_requirement`)}
+                      </Typography>
+                      <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, pl: 2 }}>
+                        <Grid item xs={4}>
+                          <Controller
+                            name="ui_layout"
+                            control={control}
+                            defaultValue={uiLayout}
+                            render={({ field }) => (
+                              <RadioGroupCustom
+                                label={t(`${pageText}.label.ui_layout`)}
+                                options={defaultUILayoutOptions}
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                error={errors && errors.ui_layout ? true : false}
+                                helperText={errors ? errors?.ui_layout?.message : null}
+                              />
+                            )}
+                          />
+                          {/* <RadioGroup
+                            name="ui_layout"
+                            control={control}
+                            defaultValue={uiLayout}
+                            label="UI Layout/Mock-up"
+                            options={defaultUILayoutOptions}
+                            inline={false}
+                            error={errors && errors.ui_layout ? true : false}
+                            helperText={errors ? errors?.ui_layout?.message : null}
+                            onClick={(e) => {
+                              setValue('ui_layout', e.target.value);
+                            }}
+                          /> */}
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Controller
+                            name="spec_doc"
+                            control={control}
+                            defaultValue={specDoc}
+                            render={({ field }) => (
+                              <RadioGroupCustom
+                                label={t(`${pageText}.label.spec_requirement`)}
+                                options={defaultSpecDocOptions}
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                                error={errors && errors.spec_doc ? true : false}
+                                helperText={errors ? errors?.spec_doc?.message : null}
+                              />
+                            )}
+                          />
+                          {/* <RadioGroup
+                            control={control}
+                            defaultValue={specDoc}
+                            label="To Create Specification Doc"
+                            options={defaultSpecDocOptions}
+                            inline={true}
+                            {...register('spec_doc')}
+                            error={errors && errors.spec_doc ? true : false}
+                            helperText={errors ? errors?.spec_doc?.message : null}
+                          /> */}
+                          {/* <RadioGroup
+                            name="spec_doc"
+                            control={control}
+                            defaultValue={specDoc}
+                            label="To Create Specification Doc"
+                            options={defaultSpecDocOptions}
+                            inline={false}
+                            error={errors && errors.spec_doc ? true : false}
+                            helperText={errors ? errors?.spec_doc?.message : null}
+                            // onClick={(e) => {
+                            //   setValue('spec_doc', e.target.value);
+                            // }}
+                            // onClick={(e) => {
+                            //   setValue('spec_doc', e.target.value);
+                            // }}
+                          /> */}
+                        </Grid>
+                        <Grid item xs={4}></Grid>
                       </Grid>
-                    </Grid>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <Controller
-                          name="num_roles"
-                          control={control}
-                          defaultValue="" // Provide an initial/default value
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              label={t(`${pageText}.label.num_roles`)}
-                              options={expectedNumOfUsers}
-                              error={errors && errors.num_roles ? true : false}
-                              helperText={errors ? errors?.num_roles?.message : null}
-                            />
-                          )}
-                        />
+                    </Box>
+                  </>
+                )}
+                {numRoles !== '' && (
+                  <>
+                    <Container
+                      disableGutters
+                      maxWidth={false}
+                      sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
+                    ></Container>
+                    <Box>
+                      <Typography variant="h6" color={theme.palette.orange.main}>
+                        {t(`${pageText}.label.features_and_functions`)}
+                      </Typography>
+                      <Grid container sx={{ px: '10px' }}>
+                        <Grid item xs={12}>
+                          <Accordion
+                            items={features}
+                            summarySx={{
+                              flexDirection: 'row-reverse',
+                              background: theme.palette.hexf5f4ef,
+                            }}
+                          >
+                            {/* <h1>This is a test</h1> */}
+                          </Accordion>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <TextField
-                          label={
-                            <>
-                              {t(`${pageText}.label.devices_and_browsers`)}
-                              <Typography display="inline" sx={{ color: 'red' }}>
-                                {t(`${pageText}.label.specify_at_least_one`)}
-                              </Typography>
-                            </>
-                          }
-                          // customLabel={true}
-                          placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
-                          {...register('devices_and_browsers.0')}
-                          error={errors && errors.devices_and_browsers?.[0] ? true : false}
-                          helperText={errors ? errors?.devices_and_browsers?.[0]?.message : null}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <TextField
-                          noLabel={true}
-                          placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
-                          disabled={devicesAndBrowsers?.[0] === ''}
-                          {...register('devices_and_browsers.1')}
-                          error={errors && errors.devices_and_browsers?.[1] ? true : false}
-                          helperText={errors ? errors?.devices_and_browsers?.[1]?.message : null}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mb: 2 }}>
-                      <Grid item xs={12}>
-                        <TextField
-                          noLabel={true}
-                          placeholder={t(`${pageText}.label.devices_and_browsers_placeholder`)}
-                          disabled={devicesAndBrowsers?.[1] === ''}
-                          {...register('devices_and_browsers.2')}
-                          error={errors && errors.devices_and_browsers?.[2] ? true : false}
-                          helperText={errors ? errors?.devices_and_browsers?.[2]?.message : null}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-              {developmentType === 1 && (
-                <>
-                  <Container
-                    disableGutters
-                    maxWidth={false}
-                    sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
-                  ></Container>
-                  <Box>
-                    <Typography variant="h6" color={theme.palette.orange.main}>
-                      {t(`${pageText}.label.design_doc_requirement`)}
-                    </Typography>
-                    <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, pl: 2 }}>
-                      <Grid item xs={4}>
-                        <Controller
-                          name="ui_layout"
-                          control={control}
-                          defaultValue={uiLayout}
-                          render={({ field }) => (
-                            <RadioGroupCustom
-                              label={t(`${pageText}.label.ui_layout`)}
-                              options={defaultUILayoutOptions}
-                              value={field.value}
-                              onChange={(e) => field.onChange(e.target.value)}
-                              error={errors && errors.ui_layout ? true : false}
-                              helperText={errors ? errors?.ui_layout?.message : null}
-                            />
-                          )}
-                        />
-                        {/* <RadioGroup
-                          name="ui_layout"
-                          control={control}
-                          defaultValue={uiLayout}
-                          label="UI Layout/Mock-up"
-                          options={defaultUILayoutOptions}
-                          inline={false}
-                          error={errors && errors.ui_layout ? true : false}
-                          helperText={errors ? errors?.ui_layout?.message : null}
-                          onClick={(e) => {
-                            setValue('ui_layout', e.target.value);
-                          }}
-                        /> */}
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Controller
-                          name="spec_doc"
-                          control={control}
-                          defaultValue={specDoc}
-                          render={({ field }) => (
-                            <RadioGroupCustom
-                              label={t(`${pageText}.label.spec_requirement`)}
-                              options={defaultSpecDocOptions}
-                              value={field.value}
-                              onChange={(e) => field.onChange(e.target.value)}
-                              error={errors && errors.spec_doc ? true : false}
-                              helperText={errors ? errors?.spec_doc?.message : null}
-                            />
-                          )}
-                        />
-                        {/* <RadioGroup
-                          control={control}
-                          defaultValue={specDoc}
-                          label="To Create Specification Doc"
-                          options={defaultSpecDocOptions}
-                          inline={true}
-                          {...register('spec_doc')}
-                          error={errors && errors.spec_doc ? true : false}
-                          helperText={errors ? errors?.spec_doc?.message : null}
-                        /> */}
-                        {/* <RadioGroup
-                          name="spec_doc"
-                          control={control}
-                          defaultValue={specDoc}
-                          label="To Create Specification Doc"
-                          options={defaultSpecDocOptions}
-                          inline={false}
-                          error={errors && errors.spec_doc ? true : false}
-                          helperText={errors ? errors?.spec_doc?.message : null}
-                          // onClick={(e) => {
-                          //   setValue('spec_doc', e.target.value);
-                          // }}
-                          // onClick={(e) => {
-                          //   setValue('spec_doc', e.target.value);
-                          // }}
-                        /> */}
-                      </Grid>
-                      <Grid item xs={4}></Grid>
-                    </Grid>
-                  </Box>
-                </>
-              )}
-              {numRoles !== '' && (
-                <>
-                  <Container
-                    disableGutters
-                    maxWidth={false}
-                    sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
-                  ></Container>
-                  <Box>
-                    <Typography variant="h6" color={theme.palette.orange.main}>
-                      {t(`${pageText}.label.features_and_functions`)}
-                    </Typography>
-                    <Grid container sx={{ px: '10px' }}>
-                      <Grid item xs={12}>
-                        <Accordion
-                          items={features}
-                          summarySx={{
-                            flexDirection: 'row-reverse',
-                            background: theme.palette.hexf5f4ef,
-                          }}
-                        >
-                          {/* <h1>This is a test</h1> */}
-                        </Accordion>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </>
-              )}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, mx: 1, my: 6 }}>
-                <Link
-                  to={{
-                    pathname: '/',
-                  }}
-                >
-                  <Button sx={{ mr: 2, backgroundColor: '#b8b8b8' }}>
-                    {t(`${pageText}.label.cancel_btn`)}
+                    </Box>
+                  </>
+                )}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 1, mx: 1, my: 6 }}>
+                  <Link
+                    to={{
+                      pathname: '/',
+                    }}
+                  >
+                    <Button sx={{ mr: 2, backgroundColor: '#b8b8b8' }}>
+                      {t(`${pageText}.label.cancel_btn`)}
+                    </Button>
+                  </Link>
+                  <Button sx={{ mr: 2, backgroundColor: '#000000' }} type="submit">
+                    {t(`${pageText}.label.preview_quotation_btn`)}
                   </Button>
-                </Link>
-                <Button sx={{ mr: 2, backgroundColor: '#000000' }} type="submit">
-                  {t(`${pageText}.label.preview_quotation_btn`)}
-                </Button>
-                {/* </Link> */}
-              </Box>
-            </Paper>
-          </Box>
-        </Container>
+                  {/* </Link> */}
+                </Box>
+              </Paper>
+            </Box>
+          </Container>
+        )
       )}
     </>
   );
