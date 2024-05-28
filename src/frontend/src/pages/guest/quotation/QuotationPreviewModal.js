@@ -1,12 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-// import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-// import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { saveProject } from 'services/quotation/quotation.service';
 import * as yup from 'yup';
 import { Box, Container, Grid, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
 import RadioGroup from 'components/atoms/Form/RadioGroup';
@@ -14,12 +15,14 @@ import Select from 'components/atoms/Form/Select';
 import TextField from 'components/atoms/Form/TextField';
 import Modal from 'components/organisms/Modal';
 import { defaultUserDetails } from 'config/quotationCreate';
+import errorHandler from 'utils/errorHandler';
 
 function QuotationPreviewModal(props) {
-  const { open, setOpen, previewDetail, projectFilters } = props;
+  const { open, setOpen, previewDetail, projectFilters, setIsEmailSuccess } = props;
   const { t } = useTranslation();
   const pageText = 'pages.quotation_preview_modal';
   const requiredText = t('pages.quotation_preview_modal.common.required');
+  const [loading, setLoading] = useState(false);
   const formatLabel = (label) => {
     return (
       <>
@@ -32,9 +35,7 @@ function QuotationPreviewModal(props) {
   };
 
   const handleRedirectToTermsPage = () => {
-    // window.open('https://sprobe.com/about-us', '_blank');
     window.open(previewDetail?.termsLink, '_blank');
-    // process.env.MIX_SALESFORCE_HOST
   };
 
   const checkboxGetInTouchLabel = () => {
@@ -49,11 +50,9 @@ function QuotationPreviewModal(props) {
   const checkboxAcceptTermsLabel = () => {
     return (
       <Box>
-        {/* <a target="_blank" href="https://sprobe.com/about-us"> */}
         <Typography onClick={handleRedirectToTermsPage} display="inline" sx={{ color: '#0091FF' }}>
           {t(`${pageText}.company.label.accept_terms`)}
         </Typography>
-        {/* </a> */}
         <Typography display="inline">{t(`${pageText}.company.label.accept_terms_2`)}</Typography>
       </Box>
     );
@@ -61,23 +60,69 @@ function QuotationPreviewModal(props) {
 
   // Define your Validation Rules
   const schema = yup.object({
-    name: yup.string().required(t('form.required')),
-    // email_address: yup.string().required(t('form.required')),
+    name: yup.string().required(t('form.required')).min(3, t('form.min')).max(100, t('form.max')),
     email_address: yup.string().required(t('form.required')).email(t('form.email')),
-    // business_type: yup.string().required(t('form.required')),
-    // business_license: yup.string().required(t('form.required')),
     business_type: yup.string().oneOf(['company', 'individual']).typeError(t('form.required')),
     business_license: yup.string().when('business_type', {
       is: 'company',
-      then: yup.string().required(t('form.required')),
+      then: yup.string().required(t('form.required')).min(3, t('form.min')).max(100, t('form.max')),
     }),
-    // ui_layout: yup.string().when('development_type', {
-    //   is: 1,
-    //   then: yup.string().required(t('form.required')),
-    // }),
-    // spec_doc: yup.string().when('development_type', {
-    //   is: 1,
-    //   then: yup.string().required(t('form.required')),
+    company_name: yup
+      .string()
+      .test('isLessThanMinChars', t('form.min'), function (value) {
+        if (value && value.trim() !== '' && value.length < 3) {
+          return false;
+        }
+        return true;
+      })
+      .test('isMoreThanMaxChars', t('form.max'), function (value) {
+        if (value && value.trim() !== '' && value.length > 100) {
+          return false;
+        }
+        return true;
+      }),
+    phone_number: yup
+      .string()
+      .test('isLessThanMinChars', t('form.min'), function (value) {
+        if (value && value.trim() !== '' && value.length < 3) {
+          return false;
+        }
+        return true;
+      })
+      .test('isMoreThanMaxChars', t('form.max'), function (value) {
+        if (value && value.trim() !== '' && value.length > 20) {
+          return false;
+        }
+        return true;
+      }),
+    company_url: yup
+      .string()
+      .test('isLessThanMinChars', t('form.min'), function (value) {
+        if (value && value.trim() !== '' && value.length < 3) {
+          return false;
+        }
+        return true;
+      })
+      .test('isMoreThanMaxChars', t('form.max'), function (value) {
+        if (value && value.trim() !== '' && value.length > 200) {
+          return false;
+        }
+        return true;
+      }),
+    // .test('isValidUrl', 'invalid url format', function (value) {
+    //   if (value && value.trim().length >= 1) {
+    //     try {
+    //       // Try parsing the URL. If successful, return true (validation passes)
+    //       new URL(value);
+    //       return true;
+    //     } catch (error) {
+    //       // If parsing fails, return false (validation fails)
+    //       return false;
+    //     }
+    //   } else {
+    //     // If value is empty or less than or equal to 1 character, return true (validation passes)
+    //     return true;
+    //   }
     // }),
     get_intouched: yup.bool().oneOf([true], t('form.required')),
     accept_terms: yup.bool().oneOf([true], t('form.required')),
@@ -87,24 +132,30 @@ function QuotationPreviewModal(props) {
     control,
     register,
     handleSubmit,
+    setError,
     formState: { errors },
     reset,
     watch,
-    // getValues,
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: defaultUserDetails,
   });
 
-  // const departments = [
-  //   { label: 'Finance', value: 'finance' },
-  //   { label: 'IT', value: 'it' },
-  // ];
-  // const positions = [
-  //   { label: 'Manager', value: 'mngr' },
-  //   { label: 'Advisor', value: 'advisor' },
-  // ];
+  const formatAmount = (amount, isKanji = true) => {
+    let newAmount = '';
+    if (typeof amount !== 'undefined' && amount >= 0) {
+      newAmount = (!isKanji ? '¥' : '') + newAmount;
+      newAmount += Number(amount).toLocaleString('ja-JP', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
+      newAmount += isKanji ? '円' : '';
+    }
+
+    return newAmount;
+  };
+
   const businessTypes = [
     { label: t(`${pageText}.common.options.individual`), value: 'individual' },
     { label: t(`${pageText}.common.options.company`), value: 'company' },
@@ -112,31 +163,68 @@ function QuotationPreviewModal(props) {
 
   const businessType = watch('business_type');
 
-  const onError = (errors) => {
-    console.log('errors', errors);
-  };
+  // const onError = (errors) => {
+  //   console.log('errors', errors);
+  // };
 
   const handleCreateProspect = async (data) => {
-    console.log('mabuhay', data);
-    await setOpen(false);
-    await reset();
-    setValue('business_type', 'company');
+    setLoading(true);
+    // console.log('mabuhay', data);
+    // setValue('business_type', 'company');
+    const totalAmount = await formatAmount(previewDetail?.totalAmount);
 
     try {
-      const response = await saveProject({ ...data, projectDetail: previewDetail });
-      // await setPreviewDetail(response);
-      // setIsDetail(true);
-      console.log('API Response 123', response);
-      // reset();
-      // setLoading(false);
-      // handleSaveEvent(response);
+      await saveProject({
+        ...data,
+        projectDetail: { ...previewDetail, formattedTotalAmount: totalAmount },
+      });
+      // console.log('API Response 123', response);
+      setIsEmailSuccess(true);
+      await setLoading(false);
+      await setOpen(false);
+      await reset();
     } catch (err) {
-      // errorHandler(err, setError, toast);
+      errorHandler(err, setError, toast);
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (businessType === 'individual') {
+      setValue('company_name', '');
+      setValue('department', 0);
+      setValue('position', 0);
+      setValue('company_url', '');
+      setValue('business_license', '');
+    }
+  }, [businessType]);
+
   return (
     <Container maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }} disableGutters>
+      <Modal
+        open={loading}
+        title="Loading Modal"
+        hideTitle={true}
+        hideClose={true}
+        hideTitleSection={true}
+        overrideStyle={{
+          width: 'auto',
+          borderRadius: '13px',
+          height: 'auto',
+          bgcolor: 'transparent',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            height: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Modal>
       <Modal
         open={open}
         title="Sample Modal"
@@ -153,7 +241,7 @@ function QuotationPreviewModal(props) {
         <Box
           component="form"
           noValidate
-          onSubmit={handleSubmit(handleCreateProspect, onError)}
+          onSubmit={handleSubmit(handleCreateProspect)}
           sx={{
             px: 7,
             pt: 2,
@@ -390,7 +478,12 @@ function QuotationPreviewModal(props) {
           </Grid>
           <Grid container={true}>
             <Grid item xs={12} sx={{ textAlign: 'center', mb: 2 }}>
-              <Button align="center" sx={{ backgroundColor: '#000000' }} type="submit">
+              <Button
+                align="center"
+                sx={{ backgroundColor: '#000000' }}
+                type="submit"
+                disabled={loading}
+              >
                 {t(`${pageText}.common.send`)}
               </Button>
             </Grid>
@@ -406,6 +499,7 @@ QuotationPreviewModal.propTypes = {
   setOpen: PropTypes.any,
   projectFilters: PropTypes.object,
   previewDetail: PropTypes.object,
+  setIsEmailSuccess: PropTypes.any,
 };
 
 export default QuotationPreviewModal;

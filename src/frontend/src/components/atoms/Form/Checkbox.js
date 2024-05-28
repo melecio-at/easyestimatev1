@@ -6,17 +6,22 @@ import FormGroup from '@mui/material/FormGroup';
 import FormHelperText from '@mui/material/FormHelperText';
 
 const Checkbox = forwardRef(function Checkbox(props, ref) {
-  const { label, error, color, helperText, sx, ...rest } = props;
+  const { label, error, color, helperText, sx, errorPosition, ...rest } = props;
 
   return (
     <FormGroup>
+      {error && errorPosition === 'top' && (
+        <FormHelperText error={true}>{helperText}</FormHelperText>
+      )}
       <FormControlLabel
         label={label}
         control={<MuiCheckbox ref={ref} color={color} {...rest} />}
         error={error.toString()}
         sx={sx}
       />
-      {error && <FormHelperText error={true}>{helperText}</FormHelperText>}
+      {error && errorPosition !== 'top' && (
+        <FormHelperText error={true}>{helperText}</FormHelperText>
+      )}
     </FormGroup>
   );
 });
@@ -27,6 +32,7 @@ Checkbox.defaultProps = {
   error: false,
   helperText: '',
   sx: {},
+  errorPosition: 'bottom',
 };
 
 Checkbox.propTypes = {
@@ -36,6 +42,7 @@ Checkbox.propTypes = {
   error: PropTypes.bool,
   helperText: PropTypes.any,
   sx: PropTypes.object,
+  errorPosition: PropTypes.string,
 };
 
 export default Checkbox;

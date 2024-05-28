@@ -3,6 +3,8 @@ const en = {
     // define translations below
     form: {
       required: 'This field is required.',
+      min: 'Required number of characters is invalid.',
+      max: 'Required number of characters is invalid.',
       email: 'The email format is invalid.',
       password: {
         minLength: 'Password must be at least 8 characters.',
@@ -169,6 +171,7 @@ const en = {
         failed_message: 'An error occurred while sending.',
         return_to_sprobe: 'SPROBEサイトへ帰る',
         project_list_heading: '事前定義された見積もりテンプレートのリスト',
+        noData: 'No data found.',
         label: {
           search: '検索フィルターを入力',
           filter: 'フィルター',
@@ -218,6 +221,7 @@ const en = {
       },
       quotation_preview: {
         heading: '見積もりプレビュー',
+        emailSentSuccessful: 'Email successfully sent.',
         label: {
           specification: '【システム要件】',
           system_name: 'システム名：',

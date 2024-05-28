@@ -165,7 +165,7 @@ class ProjectService
     /**
      * Calculate MD
      */
-    public function calculateMD(array $details): array
+    public static function calculateMD(array $details): array
     {
         $projectType = ProjectType::find($details['development_type']);
         $userFunctions = [];
@@ -346,11 +346,12 @@ class ProjectService
                 ]);
 
                 $functions = $user['functions'];
-                foreach ($functions as $function) {
+                foreach ($functions as $functionKey => $function) {
                     foreach ($function['subFunctions'] as $subFunction) {
                         ProjectAssumeRoleFunction::create([
                             'project_id' => $project->id,
                             'assumed_role_id' => $userRole->id,
+                            'group_number' => $functionKey + 1,
                             'masterlist_function_id' => $subFunction['id'],
                             'function_name' => $function['functionName'],
                         ]);
@@ -359,7 +360,7 @@ class ProjectService
             }
 
             // send email
-            Mail::send(new QuotationMail());
+            Mail::send(new QuotationMail($details));
 
             DB::commit();
         } catch (Exception $e) { // @codeCoverageIgnoreStart

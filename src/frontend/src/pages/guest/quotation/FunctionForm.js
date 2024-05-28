@@ -51,6 +51,13 @@ function FunctionForm(props) {
     });
   };
 
+  const handleChangeFunctionDetails = (value, func, funcIndex) => {
+    update(funcIndex, {
+      ...func,
+      details: value,
+    });
+  };
+
   const handleChangeNumFields = (value, func, funcIndex) => {
     update(funcIndex, {
       ...func,
@@ -124,7 +131,7 @@ function FunctionForm(props) {
                       label=""
                       placeholder={t(`${pageText}.label.function_type_placeholder`)}
                       options={projectFilters?.functionTypes}
-                      {...register(`users.${userIndex}.functions.${funcIndex}.functionType`)}
+                      // {...register(`users.${userIndex}.functions.${funcIndex}.functionType`)}
                       error={!!error}
                       helperText={error?.message}
                       onChange={(value) => {
@@ -164,7 +171,7 @@ function FunctionForm(props) {
                     <Select
                       label=""
                       options={projectFilters?.assumedNumOfFields}
-                      {...register(`users.${userIndex}.functions.${funcIndex}.numFields`)}
+                      // {...register(`users.${userIndex}.functions.${funcIndex}.numFields`)}
                       error={!!error}
                       helperText={error?.message}
                       // defaultValue={
@@ -184,14 +191,17 @@ function FunctionForm(props) {
                   <Controller
                     name={`users.${userIndex}.functions.${funcIndex}.details`}
                     control={control}
-                    render={({ field }) =>
-                      func?.options?.map((detail) => {
+                    render={({ field, fieldState: { error } }) =>
+                      func?.options?.map((detail, detailIndex) => {
                         return (
                           <div key={detail?.id}>
                             {detail?.function_name !== null && (
                               <Checkbox
                                 label={detail?.function_name}
                                 value={detail?.id}
+                                error={detailIndex === 0 && !!error}
+                                helperText={detailIndex === 0 && error?.message}
+                                errorPosition="top"
                                 checked={field?.value.some(
                                   (current) => parseInt(current) === parseInt(detail?.id)
                                 )}
@@ -200,12 +210,26 @@ function FunctionForm(props) {
                                   // console.log(event, checked);
                                   if (checked) {
                                     field.onChange([...field.value, event.target.value]);
+                                    handleChangeFunctionDetails(
+                                      [...field.value, event.target.value],
+                                      func,
+                                      funcIndex
+                                    );
                                   } else {
                                     field.onChange(
                                       field.value.filter(
                                         (value) =>
                                           value?.toString() !== event.target.value?.toString()
                                       )
+                                    );
+
+                                    handleChangeFunctionDetails(
+                                      field.value.filter(
+                                        (value) =>
+                                          value?.toString() !== event.target.value?.toString()
+                                      ),
+                                      func,
+                                      funcIndex
                                     );
                                   }
                                 }}

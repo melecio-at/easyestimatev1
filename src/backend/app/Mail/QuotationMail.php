@@ -16,18 +16,20 @@ class QuotationMail extends Mailable
     public $name;
     public $view;
     public $subject;
+    public $details;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct() //Array $user, Array $details
+    public function __construct(array $projectDetails) //Array $user, Array $details
     {
-        $this->email = 'adammelecio@gmail.com';
-        $this->name = 'Adam Melecio';
+        $this->details = $projectDetails;
+        $this->email = $this->details['email_address'];
+        $this->name =  $this->details['name'];
         $this->view = 'mail.quotation.quotationmail';
-        $this->subject = 'Test Quotation Mail';
+        $this->subject = env('EMAIL_SUBJECT');
     }
 
     /**
@@ -38,10 +40,16 @@ class QuotationMail extends Mailable
     public function build()
     {
         $mail = $this->subject($this->subject)
-            ->from(env('INVOICE_MAIL_FROM_ADDRESS', 'smp-stage-noreply@kingoftime.jp'))
-            ->to($this->email, $this->name);
+            ->from(env('EMAIL_FROM_ADDRESS'), env('EMAIL_FROM_NAME'))
+            ->to($this->email, customMailTo($this->name))
+            ->bcc(env('EMAIL_FROM_ADDRESS'));
 
-        $mail->markdown($this->view);
+        $mail->markdown($this->view)
+            ->with([
+                'user' => $this->details,
+                'project' => $this->details['projectDetail'],
+                'fromAddress' => env('EMAIL_FROM_ADDRESS'),
+            ]);
 
         return $mail;
     }

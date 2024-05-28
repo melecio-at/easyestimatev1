@@ -26,6 +26,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Pagination from '@mui/material/Pagination';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
@@ -54,11 +55,19 @@ function QuotationList() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [projectFilters, setProjectFilters] = useState(defaultProjectFilers);
   const [sort, setSort] = useState(defaultQuery.sort);
+  const [loading, setLoading] = useState(false);
 
   const fetchProjects = async () => {
-    const { meta, data } = await searchProjects(query);
-    setMeta({ ...meta, meta });
-    setData(data);
+    setLoading(true);
+    try {
+      const { meta, data } = await searchProjects(query);
+      setMeta({ ...meta, meta });
+      setData(data);
+      setLoading(false);
+    } catch (err) {
+      // errorHandler(err, setError, toast);
+      setLoading(false);
+    }
   };
 
   const fetchProjectFilters = async () => {
@@ -289,24 +298,6 @@ function QuotationList() {
           </Grid>
           <Grid item xs={8}>
             <Container disableGutters>
-              {/* <Grid container sx={{ alignItems: 'end', height: '39px' }}>
-                <Grid item xs={6}>
-                  <Typography variant="h7">{t(`${pageText}.project_list_heading`)}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box display="flex" justifyContent="flex-end">
-                    <Link
-                      to={{
-                        pathname: '/quotation',
-                      }}
-                    >
-                      <Button sx={{ mr: 2, backgroundColor: '#000000' }} startIcon={<AddIcon />}>
-                        {t(`${pageText}.label.create_quotation_btn`)}
-                      </Button>
-                    </Link>
-                  </Box>
-                </Grid>
-              </Grid> */}
               <Container disableGutters sx={{ mt: 2 }}>
                 <Grid container>
                   <Grid item xs={6} alignContent="flex-end" sx={{ mb: '12px' }}>
@@ -341,103 +332,121 @@ function QuotationList() {
                   </Grid>
                 </Grid>
                 {/*height: '848px'*/}
-                {data.map(function (project, index) {
-                  return (
-                    <div key={index}>
-                      <Paper sx={{ backgroundColor: theme.background.innerContainer, mb: 2 }}>
-                        <Grid container>
-                          <Grid item xs={3}>
-                            <Box
-                              component="img"
-                              height={200}
-                              width="full"
-                              display="flex"
-                              alignItems="center"
-                              gap={4}
-                              p={2}
-                              alt={project.name}
-                              src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                              sx={{
-                                maxHeight: { xs: 200, md: 200 },
-                                maxWidth: { xs: 200, md: 200 },
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Box
-                              height={200}
-                              width="full"
-                              // display="flex"
-                              gap={4}
-                              p={2}
-                              sx={{
-                                // display: 'flex',
-                                flexWrap: 'wrap',
-                                // alignContent: 'space-between',
-                                justifyContent: 'flex-start',
-                                overflow: 'auto',
-                              }}
-                            >
-                              <Typography variant="h7" sx={{ fontWeight: 'bold' }}>
-                                {project?.system_name}
-                              </Typography>
-                              <br />
-                              <Typography variant="font14px" color={theme.palette.orange.main}>
-                                {project?.technologies}
-                              </Typography>
-                              <br />
-                              <Typography variant="body1" sx={{ mt: 3 }}>
-                                {project?.description}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                          <Grid item xs={3}>
-                            <Box
-                              height={200}
-                              width="full"
-                              // display="flex"
-                              gap={4}
-                              p={2}
-                              sx={{
-                                borderLeft: '1px solid #e4e4e4',
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                alignContent: 'space-between',
-                                justifyContent: 'flex-end',
-                              }}
-                            >
-                              <Typography variant="h7" color={theme.palette.orange.main}>
-                                XX MM
-                              </Typography>
-                              <Box display="flex" justifyContent="center" width="100%">
-                                <Link
-                                  to={{
-                                    pathname: '/quotation',
-                                    search: `?data=${encodeURIComponent(
-                                      JSON.stringify({ id: project?.id })
-                                    )}`,
-                                    // state: { data1 },
-                                  }}
-                                >
-                                  <Button
-                                    sx={{
-                                      backgroundColor: theme.palette.orange.main,
-                                      margin: 'auto',
-                                      width: '100%',
-                                    }}
-                                    startIcon={<BorderColorIcon />}
-                                  >
-                                    {t(`${pageText}.label.use_as_template_btn`)}
-                                  </Button>
-                                </Link>
+                {loading && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      height: 100,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                )}
+                {!loading && data?.length <= 0 && (
+                  <Box display="flex" justifyContent="center">
+                    No data found.
+                  </Box>
+                )}
+                {!loading &&
+                  data.map(function (project, index) {
+                    return (
+                      <div key={index}>
+                        <Paper sx={{ backgroundColor: theme.background.innerContainer, mb: 2 }}>
+                          <Grid container>
+                            <Grid item xs={3}>
+                              <Box
+                                component="img"
+                                height={200}
+                                width="full"
+                                display="flex"
+                                alignItems="center"
+                                gap={4}
+                                p={2}
+                                alt={project.name}
+                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                                sx={{
+                                  maxHeight: { xs: 200, md: 200 },
+                                  maxWidth: { xs: 200, md: 200 },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={6}>
+                              <Box
+                                height={200}
+                                width="full"
+                                // display="flex"
+                                gap={4}
+                                p={2}
+                                sx={{
+                                  // display: 'flex',
+                                  flexWrap: 'wrap',
+                                  // alignContent: 'space-between',
+                                  justifyContent: 'flex-start',
+                                  overflow: 'auto',
+                                }}
+                              >
+                                <Typography variant="h7" sx={{ fontWeight: 'bold' }}>
+                                  {project?.system_name}
+                                </Typography>
+                                <br />
+                                <Typography variant="font14px" color={theme.palette.orange.main}>
+                                  {project?.technologies}
+                                </Typography>
+                                <br />
+                                <Typography variant="body1" sx={{ mt: 3 }}>
+                                  {project?.description}
+                                </Typography>
                               </Box>
-                            </Box>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <Box
+                                height={200}
+                                width="full"
+                                // display="flex"
+                                gap={4}
+                                p={2}
+                                sx={{
+                                  borderLeft: '1px solid #e4e4e4',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignContent: 'space-between',
+                                  justifyContent: 'flex-end',
+                                }}
+                              >
+                                <Typography variant="h7" color={theme.palette.orange.main}>
+                                  {project?.mm} MM
+                                </Typography>
+                                <Box display="flex" justifyContent="center" width="100%">
+                                  <Link
+                                    to={{
+                                      pathname: '/quotation',
+                                      search: `?data=${encodeURIComponent(
+                                        JSON.stringify({ id: project?.id })
+                                      )}`,
+                                      // state: { data1 },
+                                    }}
+                                  >
+                                    <Button
+                                      sx={{
+                                        backgroundColor: theme.palette.orange.main,
+                                        margin: 'auto',
+                                        width: '100%',
+                                      }}
+                                      startIcon={<BorderColorIcon />}
+                                    >
+                                      {t(`${pageText}.label.use_as_template_btn`)}
+                                    </Button>
+                                  </Link>
+                                </Box>
+                              </Box>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </Paper>
-                    </div>
-                  );
-                })}
+                        </Paper>
+                      </div>
+                    );
+                  })}
               </Container>
               <Pagination
                 variant="outlined"

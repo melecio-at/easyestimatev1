@@ -9,8 +9,9 @@ use App\Services\API\ProjectService;
 use App\Http\Resources\ProjectResourceDetail;
 // use App\Http\Resources\NewUserResource;
 // use App\Http\Requests\API\Users\BulkDeleteRequest;
-// use App\Http\Requests\API\Users\CreateUserRequest;
+use App\Http\Requests\API\Projects\SaveProjectRequest;
 use App\Http\Requests\API\Projects\SearchProjectRequest;
+use App\Http\Requests\API\Projects\CalculateMDRequest;
 
 // use App\Http\Requests\API\Users\UpdateUserRequest;
 // use App\Http\Requests\API\Users\RegisterUserRequest;
@@ -99,14 +100,14 @@ class ProjectController extends Controller
      *
      *
      * @authenticated
-     * @param App\Http\Requests\Request $request
+     * @param App\Http\Requests\CalculateMDRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function calculateMD(Request $request)
+    public function calculateMD(CalculateMDRequest $request)
     {
-        // $request->validated();
+        $request->validated();
         try {
-            $projectDetails = $this->projectService->calculateMD($request->all());
+            $projectDetails = $this->projectService::calculateMD($request->all());
             $this->response['data'] = $projectDetails;
         } catch (Exception $e) { // @codeCoverageIgnoreStart
             $this->response = [
@@ -122,12 +123,13 @@ class ProjectController extends Controller
      * Save Project
      *
      *
-     * @param App\Http\Requests\Request $request
+     * @param App\Http\Requests\SaveProjectRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function saveProject(Request $request)
+    public function saveProject(SaveProjectRequest $request)
     {
-        // $request->validated();
+        $request->validated();
+
         try {
             $projectDetails = $this->projectService->saveProject($request->all());
             $this->response['data'] = $projectDetails;
