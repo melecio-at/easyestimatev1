@@ -31,6 +31,7 @@ import Pagination from '@mui/material/Pagination';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
 import Select from 'components/atoms/Form/Select';
+import Accordion from 'components/molecules/Accordion';
 import { meta as defaultMeta } from 'config/search';
 
 function QuotationList() {
@@ -56,6 +57,7 @@ function QuotationList() {
   const [projectFilters, setProjectFilters] = useState(defaultProjectFilers);
   const [sort, setSort] = useState(defaultQuery.sort);
   const [loading, setLoading] = useState(false);
+  const [features, setFeatures] = useState([]);
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -146,6 +148,83 @@ function QuotationList() {
     setQuery({ ...query, ...{ page: value } });
   };
 
+  const handleInstructionSection = () => {
+    setFeatures([
+      {
+        header: (
+          <>
+            <Box>
+              <Typography variant="h7" fontWeight="bold">
+                {t(`${pageText}.sub_header_section.title`)}
+              </Typography>
+            </Box>
+            <Box sx={{ px: 2, mt: 2 }}>
+              <Typography>
+                {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.3`)}
+                <br />
+                <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.4`)} <br />
+              </Typography>
+            </Box>
+          </>
+        ),
+        content: (
+          <Box backgroundColor="#f9f9f9" sx={{ p: 0, mx: 0 }}>
+            <Box>
+              <Box>
+                <Typography variant="h7" fontWeight="bold">
+                  {t(`${pageText}.sub_header_section.a.head`)}
+                </Typography>
+                <Typography>{t(`${pageText}.sub_header_section.a.head2`)}</Typography>
+                <Typography fontWeight="bold">
+                  {t(`${pageText}.sub_header_section.a.head3`)}
+                </Typography>
+              </Box>
+              <Box sx={{ px: 2, mt: 2 }}>
+                <Typography>
+                  {t(`${pageText}.sub_header_section.a.steps.1`)} <br />
+                  {t(`${pageText}.sub_header_section.a.steps.2`)} <br />
+                  {t(`${pageText}.sub_header_section.a.steps.3`)} <br />
+                  {t(`${pageText}.sub_header_section.a.steps.4`)} <br />
+                  {t(`${pageText}.sub_header_section.a.steps.5`)} <br />
+                  {t(`${pageText}.sub_header_section.a.steps.6`)} <br />
+                </Typography>
+              </Box>
+            </Box>
+            <br />
+            <Box>
+              <Box>
+                <Typography variant="h7" fontWeight="bold">
+                  {t(`${pageText}.sub_header_section.b.head`)}
+                </Typography>
+                <Typography fontWeight="bold">
+                  {t(`${pageText}.sub_header_section.b.head2`)}
+                </Typography>
+              </Box>
+              <Box sx={{ px: 2, mt: 2 }}>
+                <Typography>
+                  {t(`${pageText}.sub_header_section.b.steps.1`)} <br />
+                  {t(`${pageText}.sub_header_section.b.steps.2`)} <br />
+                  {t(`${pageText}.sub_header_section.b.steps.3`)} <br />
+                  {t(`${pageText}.sub_header_section.b.steps.4`)} <br />
+                </Typography>
+              </Box>
+              <Box sx={{ px: 2, mt: 2 }}>
+                <Typography>
+                  {t(`${pageText}.sub_header_section.last_paragraph.1`)} <br />
+                  {t(`${pageText}.sub_header_section.last_paragraph.2`)} <br />
+                  {t(`${pageText}.sub_header_section.last_paragraph.3`)} <br />
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        ),
+      },
+    ]);
+  };
+
   useEffect(() => {
     // console.log('meta', meta);
     // console.log('query', query);
@@ -154,6 +233,8 @@ function QuotationList() {
 
   useEffect(() => {
     fetchProjectFilters();
+    localStorage.setItem('locale', 'ja');
+    handleInstructionSection();
   }, [t]);
 
   return (
@@ -165,22 +246,26 @@ function QuotationList() {
           onClick={handleClickToSprobeWebsite}
         />
         <Typography
-          sx={{ cursor: 'pointer', fontSize: '20px' }}
+          sx={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'underline' }}
           onClick={handleClickToSprobeWebsite}
         >
           {t(`${pageText}.return_to_sprobe`)}
         </Typography>
       </Box>
-      <Paper sx={{ px: 3, py: 2, mb: 4, mt: 1 }}>
-        <Box>
+      {/* <Paper sx={{ px: 3, py: 2, mb: 4, mt: 1 }}> */}
+      <Box sx={{ my: 2 }}>
+        <Accordion items={features} isWithTemplate={false} />
+      </Box>
+      {/* <Box>
           <Typography variant="h7" fontWeight="bold">
-            How to use the Estimation Tool?
+            {t(`${pageText}.sub_header_section.title`)}
           </Typography>
         </Box>
         <Box sx={{ px: 2, mt: 2 }}>
           <Typography>
-            There are two ways on how you can create and request for arough estimation of your
-            desired Application.
+            {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
+            {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
+            {t(`${pageText}.sub_header_section.first_paragraph.3`)} <br />
           </Typography>
           <Typography fontWeight="bold"> a. Creating an Estimation from Scratch </Typography>
           <Typography>{`Click "Create Estimation" Button » Fill in the required fields » Click "Generate Quotation" to be able provide the details where to send the Estimation Result`}</Typography>
@@ -195,8 +280,8 @@ function QuotationList() {
             that matches your desired application.
           </Typography>
           <Typography>{`Click "Use as Template" on the pre-defined project » Update or Add any additional functions » Click "Generate Quotation" to be able provide the details where to send the Estimation Result`}</Typography>
-        </Box>
-      </Paper>
+        </Box> */}
+      {/* </Paper> */}
       <Paper sx={{ boxShadow: 'none' }}>
         <Grid container sx={{ alignItems: 'end', height: '39px' }}>
           {/* <Grid item xs={6}>
@@ -346,7 +431,7 @@ function QuotationList() {
                 )}
                 {!loading && data?.length <= 0 && (
                   <Box display="flex" justifyContent="center">
-                    No data found.
+                    {t('table.no_data')}
                   </Box>
                 )}
                 {!loading &&

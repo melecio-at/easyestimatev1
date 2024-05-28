@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 function LanguageSelect() {
-  const [locale, setLocale] = useState('en');
+  const [locale, setLocale] = useState('ja');
   const { i18n } = useTranslation();
   const countries = [
     { name: 'US', locale: 'en' },
