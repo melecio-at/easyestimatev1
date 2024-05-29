@@ -174,6 +174,12 @@ class ProjectService
         $development = 0;
         $designDocTotal = 0;
 
+        $commplexityValues = [
+            1 => 0,
+            2 => 0.25,
+            3 => 0.5
+        ];
+
         foreach ($details['users'] as $index => $user) {
             $framework = Framework::find($user['framework']);
             $devLang = DevelopmentLanguage::find($user['language']);
@@ -216,11 +222,19 @@ class ProjectService
                     if ('create_spec_doc' === $details['spec_doc']) {
                         $specDoc = $subFunction['design_creation_md'];
                     }
-                    $ui_spec = ($ui + $specDoc) * $subFunction['screen_count'];
+
+                    $ui_spec = ($ui + $specDoc);
+
+                    if ($subFunction['screen_count'] !== null) {
+                        $ui_spec = ($ui + $specDoc) * $subFunction['screen_count'];
+                    }
+
+                    // logger($ui . ' :: ' . $specDoc . ' = ' . $ui_spec);
                     $designDocTotal += $ui_spec;
 
-                    $functiondevelopment = $subFunction['development_md'] * $function['numFields'];
-                    logger("dev_md (" . $subFunction['development_md'] . "), numFields(" . $function['numFields'] . ") => $functiondevelopment");
+                    // $functiondevelopment = $subFunction['development_md'] * $function['numFields'];
+                    $functiondevelopment = $subFunction['development_md'] + $commplexityValues[$function['numFields']];
+                    // logger("dev_md (" . $subFunction['development_md'] . "), numFields(" . $function['numFields'] . ") => $functiondevelopment");
                     $development += $functiondevelopment;
                 }
             }

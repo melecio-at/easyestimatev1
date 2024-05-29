@@ -171,7 +171,7 @@ function QuotationCreate() {
 
   const users = watch('users');
 
-  const developmentType = watch('development_type');
+  // const developmentType = watch('development_type');
   const numRoles = watch('num_roles');
   const uiLayout = watch('ui_layout');
   const specDoc = watch('spec_doc');
@@ -276,12 +276,12 @@ function QuotationCreate() {
     );
   };
 
-  const handleChangeDevelopmentType = (value) => {
-    if (value === 1) {
-      setValue('ui_layout', 'create_design');
-      setValue('spec_doc', 'create_spec_doc');
-    }
-  };
+  // const handleChangeDevelopmentType = (value) => {
+  // if (value === 1) {
+  // setValue('ui_layout', 'create_design');
+  // setValue('spec_doc', 'create_spec_doc');
+  // }
+  // };
 
   const updateUsers = (numUsers) => {
     let newUsers = [];
@@ -366,12 +366,12 @@ function QuotationCreate() {
     }
   }, [t]);
 
-  useEffect(() => {
-    if (developmentType !== 1) {
-      setValue('ui_layout', '');
-      setValue('spec_doc', '');
-    }
-  }, [developmentType]);
+  // useEffect(() => {
+  //   if (developmentType !== 1) {
+  //     setValue('ui_layout', '');
+  //     setValue('spec_doc', '');
+  //   }
+  // }, [developmentType]);
 
   useEffect(() => {
     setValue('users', updateUsers(numRoles));
@@ -643,7 +643,7 @@ function QuotationCreate() {
                                 error={errors && errors.development_type ? true : false}
                                 helperText={errors ? errors?.development_type?.message : null}
                                 onChange={(value) => {
-                                  handleChangeDevelopmentType(value.target.value);
+                                  // handleChangeDevelopmentType(value.target.value);
                                   field.onChange(value);
                                 }}
                               />
@@ -717,96 +717,92 @@ function QuotationCreate() {
                     </Grid>
                   </Grid>
                 </Box>
-                {developmentType === 1 && (
-                  <>
-                    <Container
-                      disableGutters
-                      maxWidth={false}
-                      sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
-                    ></Container>
-                    <Box>
-                      <Typography variant="h6" color={theme.palette.orange.main}>
-                        {t(`${pageText}.label.design_doc_requirement`)}
-                      </Typography>
-                      <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, pl: 2 }}>
-                        <Grid item xs={4}>
-                          <Controller
-                            name="ui_layout"
-                            control={control}
-                            defaultValue={uiLayout}
-                            render={({ field }) => (
-                              <RadioGroupCustom
-                                label={t(`${pageText}.label.ui_layout`)}
-                                options={defaultUILayoutOptions}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                error={errors && errors.ui_layout ? true : false}
-                                helperText={errors ? errors?.ui_layout?.message : null}
-                              />
-                            )}
-                          />
-                          {/* <RadioGroup
-                            name="ui_layout"
-                            control={control}
-                            defaultValue={uiLayout}
-                            label="UI Layout/Mock-up"
+                <Container
+                  disableGutters
+                  maxWidth={false}
+                  sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
+                ></Container>
+                <Box>
+                  <Typography variant="h6" color={theme.palette.orange.main}>
+                    {t(`${pageText}.label.design_doc_requirement`)}
+                  </Typography>
+                  <Grid container pacing={4} columnSpacing={6} sx={{ mt: 2, pl: 2 }}>
+                    <Grid item xs={4}>
+                      <Controller
+                        name="ui_layout"
+                        control={control}
+                        defaultValue={uiLayout}
+                        render={({ field }) => (
+                          <RadioGroupCustom
+                            label={t(`${pageText}.label.ui_layout`)}
                             options={defaultUILayoutOptions}
-                            inline={false}
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.value)}
                             error={errors && errors.ui_layout ? true : false}
                             helperText={errors ? errors?.ui_layout?.message : null}
-                            onClick={(e) => {
-                              setValue('ui_layout', e.target.value);
-                            }}
-                          /> */}
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Controller
-                            name="spec_doc"
-                            control={control}
-                            defaultValue={specDoc}
-                            render={({ field }) => (
-                              <RadioGroupCustom
-                                label={t(`${pageText}.label.spec_requirement`)}
-                                options={defaultSpecDocOptions}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                                error={errors && errors.spec_doc ? true : false}
-                                helperText={errors ? errors?.spec_doc?.message : null}
-                              />
-                            )}
                           />
-                          {/* <RadioGroup
-                            control={control}
-                            defaultValue={specDoc}
-                            label="To Create Specification Doc"
+                        )}
+                      />
+                      {/* <RadioGroup
+                        name="ui_layout"
+                        control={control}
+                        defaultValue={uiLayout}
+                        label="UI Layout/Mock-up"
+                        options={defaultUILayoutOptions}
+                        inline={false}
+                        error={errors && errors.ui_layout ? true : false}
+                        helperText={errors ? errors?.ui_layout?.message : null}
+                        onClick={(e) => {
+                          setValue('ui_layout', e.target.value);
+                        }}
+                      /> */}
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Controller
+                        name="spec_doc"
+                        control={control}
+                        defaultValue={specDoc}
+                        render={({ field }) => (
+                          <RadioGroupCustom
+                            label={t(`${pageText}.label.spec_requirement`)}
                             options={defaultSpecDocOptions}
-                            inline={true}
-                            {...register('spec_doc')}
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.value)}
                             error={errors && errors.spec_doc ? true : false}
                             helperText={errors ? errors?.spec_doc?.message : null}
-                          /> */}
-                          {/* <RadioGroup
-                            name="spec_doc"
-                            control={control}
-                            defaultValue={specDoc}
-                            label="To Create Specification Doc"
-                            options={defaultSpecDocOptions}
-                            inline={false}
-                            error={errors && errors.spec_doc ? true : false}
-                            helperText={errors ? errors?.spec_doc?.message : null}
-                            // onClick={(e) => {
-                            //   setValue('spec_doc', e.target.value);
-                            // }}
-                            // onClick={(e) => {
-                            //   setValue('spec_doc', e.target.value);
-                            // }}
-                          /> */}
-                        </Grid>
-                        <Grid item xs={4}></Grid>
-                      </Grid>
-                    </Box>
-                  </>
-                )}
+                          />
+                        )}
+                      />
+                      {/* <RadioGroup
+                        control={control}
+                        defaultValue={specDoc}
+                        label="To Create Specification Doc"
+                        options={defaultSpecDocOptions}
+                        inline={true}
+                        {...register('spec_doc')}
+                        error={errors && errors.spec_doc ? true : false}
+                        helperText={errors ? errors?.spec_doc?.message : null}
+                      /> */}
+                      {/* <RadioGroup
+                        name="spec_doc"
+                        control={control}
+                        defaultValue={specDoc}
+                        label="To Create Specification Doc"
+                        options={defaultSpecDocOptions}
+                        inline={false}
+                        error={errors && errors.spec_doc ? true : false}
+                        helperText={errors ? errors?.spec_doc?.message : null}
+                        // onClick={(e) => {
+                        //   setValue('spec_doc', e.target.value);
+                        // }}
+                        // onClick={(e) => {
+                        //   setValue('spec_doc', e.target.value);
+                        // }}
+                      /> */}
+                    </Grid>
+                    <Grid item xs={4}></Grid>
+                  </Grid>
+                </Box>
                 {numRoles !== '' && (
                   <>
                     <Container
