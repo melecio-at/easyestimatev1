@@ -52,7 +52,7 @@ Accordion.defaultProps = {
 Accordion.propTypes = {
   items: PropTypes.array,
   summarySx: PropTypes.object,
-  isWithTemplate: PropTypes.false,
+  isWithTemplate: PropTypes.bool,
 };
 
 export default Accordion;
