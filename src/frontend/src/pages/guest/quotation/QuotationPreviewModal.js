@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { saveProject } from 'services/quotation/quotation.service';
+import theme from 'theme';
 import * as yup from 'yup';
 import { Box, Container, Grid, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -321,7 +322,13 @@ function QuotationPreviewModal(props) {
                 <Grid item xs={12} sx={{ mt: 1 }}>
                   <Grid container={true} pacing={2} columnSpacing={3}>
                     <Grid item xs={12} sx={{ mb: 1 }}>
-                      <Typography>{t(`${pageText}.company.label.department_position`)}</Typography>
+                      <Typography
+                        color={theme.palette.text.blackLabel}
+                        variant="body2"
+                        sx={{ fontWeight: 'bold' }}
+                      >
+                        {t(`${pageText}.company.label.department_position`)}
+                      </Typography>
                     </Grid>
                     <Grid item xs={6}>
                       <Controller

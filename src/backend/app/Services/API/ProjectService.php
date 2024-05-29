@@ -233,8 +233,8 @@ class ProjectService
             'businessModel' => $details['business_model'],
             'developmentType' => null !== $projectType ? $projectType->name : '',
             'developmentTypeId' => $details['development_type'],
-            'uiLayout' => isset($details['ui_layout']) ? ('create_design' === $details['ui_layout'] ? 'To Create Design' : 'UI Layout/Mock-up will be provided') : '',
-            'specRequiement' => isset($details['spec_doc']) ? ('create_spec_doc' === $details['spec_doc'] ? 'To Create Specification Doc' : 'Design Documents will be provided') : '',
+            'uiLayout' => isset($details['ui_layout']) ? ('create_design' === $details['ui_layout'] ? 'デザイン作成を依頼する' : 'UIレイアウト/モックアップを貴社でご用意いただく') : '',
+            'specRequiement' => isset($details['spec_doc']) ? ('create_spec_doc' === $details['spec_doc'] ? '仕様書の作成を依頼する' : '設計書を貴社でご用意いただく') : '',
             'expectedNumUsers' => $details['num_roles'],
             'devicesAndBrowsers' => array_filter($details['devices_and_browsers'], function ($item) {
                 return trim($item) !== '';

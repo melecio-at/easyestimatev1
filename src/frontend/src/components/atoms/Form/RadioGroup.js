@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import theme from 'theme';
 import { RadioGroup as MuiRadioGroup } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,6 +16,7 @@ const RadioGroup = forwardRef(function RadioGroup(props, ref) {
     fontWeight: 700,
     letterSpacing: 1,
     fontSize: 12,
+    color: theme.palette.text.blackLabel,
   };
 
   return (

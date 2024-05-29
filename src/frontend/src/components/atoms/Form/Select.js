@@ -15,6 +15,7 @@ const Select = React.forwardRef(function Select(props, ref) {
     error,
     sx: (theme) => ({
       // textTransform: 'uppercase',
+      color: theme.palette.text.blackLabel,
       fontWeight: 700,
       letterSpacing: 1,
       fontSize: theme.typography.body2.fontSize,

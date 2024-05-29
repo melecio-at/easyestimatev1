@@ -24,6 +24,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     error,
     sx: (theme) => ({
       // textTransform: 'uppercase',
+      color: theme.palette.text.blackLabel,
       fontWeight: 700,
       letterSpacing: 1,
       fontSize: theme.typography.body2.fontSize,

@@ -48,9 +48,13 @@ const palette = {
   },
   hex2C2C2C: '#2C2C2C',
   hexf5f4ef: '#f5f4ef',
+  labelColor: {
+    main: 'black',
+  },
   divider: 'rgba(0,0,0,0.05)',
   text: {
     primary: '#2C2C2C',
+    blackLabel: 'black',
   },
 };
 
