@@ -225,7 +225,7 @@ class ProjectService
 
                     $ui_spec = ($ui + $specDoc);
 
-                    if ($subFunction['screen_count'] !== null) {
+                    if (null !== $subFunction['screen_count']) {
                         $ui_spec = ($ui + $specDoc) * $subFunction['screen_count'];
                     }
 
