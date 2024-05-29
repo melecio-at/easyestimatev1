@@ -9,6 +9,7 @@ import theme from 'theme';
 // import * as yup from 'yup';
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
@@ -171,7 +172,7 @@ function QuotationList() {
           </>
         ),
         content: (
-          <Box backgroundColor="#f9f9f9" sx={{ p: 0, mx: 0 }}>
+          <Box backgroundColor="white" sx={{ p: 0, mx: 0 }}>
             <Box>
               <Box>
                 <Typography variant="h7" fontWeight="bold">
@@ -252,41 +253,17 @@ function QuotationList() {
           {t(`${pageText}.return_to_sprobe`)}
         </Typography>
       </Box>
-      {/* <Paper sx={{ px: 3, py: 2, mb: 4, mt: 1 }}> */}
       <Box sx={{ my: 2 }}>
-        <Accordion items={features} isWithTemplate={false} />
+        <Accordion
+          summarySx={{
+            background: 'white',
+          }}
+          items={features}
+          isWithTemplate={false}
+        />
       </Box>
-      {/* <Box>
-          <Typography variant="h7" fontWeight="bold">
-            {t(`${pageText}.sub_header_section.title`)}
-          </Typography>
-        </Box>
-        <Box sx={{ px: 2, mt: 2 }}>
-          <Typography>
-            {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
-            {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
-            {t(`${pageText}.sub_header_section.first_paragraph.3`)} <br />
-          </Typography>
-          <Typography fontWeight="bold"> a. Creating an Estimation from Scratch </Typography>
-          <Typography>{`Click "Create Estimation" Button » Fill in the required fields » Click "Generate Quotation" to be able provide the details where to send the Estimation Result`}</Typography>
-          <Box sx={{ mt: 2 }} />
-          <Typography fontWeight="bold"> b. Creating an Estimation using a template </Typography>
-          <Typography>
-            A list of pre-defined estimation template is provided wherein you can just select and
-            see the recommended functional and non-functional requirements.
-          </Typography>
-          <Typography>
-            Make use of the search settings to filter the result, allowing you to see the template
-            that matches your desired application.
-          </Typography>
-          <Typography>{`Click "Use as Template" on the pre-defined project » Update or Add any additional functions » Click "Generate Quotation" to be able provide the details where to send the Estimation Result`}</Typography>
-        </Box> */}
-      {/* </Paper> */}
       <Paper sx={{ boxShadow: 'none' }}>
-        <Grid container sx={{ alignItems: 'end', height: '39px' }}>
-          {/* <Grid item xs={6}>
-            <Typography variant="h7">{t(`${pageText}.project_list_heading`)}</Typography>
-          </Grid> */}
+        <Grid container sx={{ alignItems: 'end', height: '39px', mb: 2 }}>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="flex-end">
               <Link
@@ -301,14 +278,49 @@ function QuotationList() {
             </Box>
           </Grid>
         </Grid>
-        <Grid container pacing={2} columnSpacing={2}>
-          <Grid item xs={4}>
-            <Container disableGutters sx={{ mt: '24px' }}>
-              <Grid container sx={{ alignItems: 'end', height: '39px', mb: '12px' }}>
-                <Grid item xs={12}>
+        <Box>
+          <Grid container sx={{ alignItems: 'end', height: '39px', mb: 2 }}>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={4} alignContent="flex-end" sx={{ mb: '12px' }}>
                   <Typography variant="h8"> {t(`${pageText}.label.filter`)} </Typography>
                 </Grid>
+                <Grid item xs={4} alignContent="flex-end" sx={{ mb: '12px' }}>
+                  <Typography variant="h8" sx={{ ml: 1 }}>
+                    {t(`${pageText}.project_list_heading`)}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Box display="flex" justifyContent="flex-end" sx={{ mb: 2 }}>
+                    <Typography sx={{ alignContent: 'center', mr: 2 }}>
+                      {t(`${pageText}.label.sorting`)}
+                    </Typography>
+                    <Select
+                      defaultValue={query.sort}
+                      label=""
+                      options={sortings}
+                      isFullWidth={false}
+                      sx={{ width: '200px' }}
+                      onChange={handleOnChangeSort}
+                    />
+                    <Box display="flex" sx={{ alignItems: 'center', cursor: 'pointer' }}>
+                      <SortIcon
+                        onClick={handleClickSort}
+                        sx={{
+                          ml: 2,
+                          transform: query.order === 'asc' ? 'rotate(180deg)' : 'rotate(360deg)',
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                </Grid>
               </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+        <Grid container pacing={2} columnSpacing={2}>
+          <Grid item xs={4}>
+            <Container disableGutters>
               <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
                 <Grid container>
                   <Grid item xs={12}>
@@ -383,40 +395,7 @@ function QuotationList() {
           </Grid>
           <Grid item xs={8}>
             <Container disableGutters>
-              <Container disableGutters sx={{ mt: 2 }}>
-                <Grid container>
-                  <Grid item xs={6} alignContent="flex-end" sx={{ mb: '12px' }}>
-                    <Typography variant="h8">{t(`${pageText}.project_list_heading`)}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Box display="flex" justifyContent="flex-end" sx={{ mb: 2 }}>
-                      <Typography sx={{ alignContent: 'center', mr: 2 }}>
-                        {t(`${pageText}.label.sorting`)}
-                      </Typography>
-                      <Select
-                        defaultValue={query.sort}
-                        label=""
-                        options={sortings}
-                        isFullWidth={false}
-                        sx={{ width: '200px' }}
-                        onChange={handleOnChangeSort}
-                      />
-                      <Box display="flex" sx={{ alignItems: 'center', cursor: 'pointer' }}>
-                        {/* <StraightIcon
-                          sx={{ position: 'relative', left: '7px', transform: 'rotate(180deg)' }}
-                        /> */}
-                        <SortIcon
-                          onClick={handleClickSort}
-                          sx={{
-                            ml: 2,
-                            transform: query.order === 'asc' ? 'rotate(180deg)' : 'rotate(360deg)',
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </Grid>
-                </Grid>
-                {/*height: '848px'*/}
+              <Container disableGutters>
                 {loading && (
                   <Box
                     sx={{
@@ -440,22 +419,30 @@ function QuotationList() {
                       <div key={index}>
                         <Paper sx={{ backgroundColor: theme.background.innerContainer, mb: 2 }}>
                           <Grid container>
-                            <Grid item xs={3}>
+                            <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
                               <Box
-                                component="img"
+                                // component="img"
                                 height={200}
                                 width="full"
                                 display="flex"
                                 alignItems="center"
                                 gap={4}
                                 p={2}
-                                alt={project.name}
-                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                                // alt={project.name}
+                                // // src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
                                 sx={{
                                   maxHeight: { xs: 200, md: 200 },
                                   maxWidth: { xs: 200, md: 200 },
                                 }}
-                              />
+                              >
+                                <BusinessCenterIcon
+                                  sx={{
+                                    fontSize: '150px',
+                                    width: '100%',
+                                    // color: theme.palette.orange.main,
+                                  }}
+                                />
+                              </Box>
                             </Grid>
                             <Grid item xs={6}>
                               <Box

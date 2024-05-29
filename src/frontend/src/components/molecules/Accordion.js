@@ -33,7 +33,7 @@ function Accordion(props) {
           )}
 
           {!isWithTemplate && (
-            <AccordionDetails>
+            <AccordionDetails sx={() => ({ px: 2, backgroundColor: 'white' })}>
               <BodyTextCustom>{item.content}</BodyTextCustom>
             </AccordionDetails>
           )}

@@ -260,7 +260,7 @@ function QuotationPreview(props) {
             }}
             sx={{ mr: 2, backgroundColor: '#b8b8b8', color: 'black' }}
           >
-            <ArrowBackIosNewIcon style={{ fontSize: '15px', marginRight: '10px' }} />
+            <ArrowBackIosNewIcon style={{ fontSize: '15px', marginRight: 0 }} />
             {typeBox(t(`${pageText}.label.back_btn`))}
           </Button>
         </Link>

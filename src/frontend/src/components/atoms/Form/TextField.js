@@ -43,7 +43,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
         border: `1px solid ${theme.palette[color].main}`,
       },
       py: '2px',
-      px: '2px',
+      px: '6px',
       minHeight: '32px',
       mt: noLabel || disableLabelLayout ? '0px' : `${theme.spacing(3)} !important`,
     }),
