@@ -141,6 +141,7 @@
     </div>
     @endforeach
     <hr style="width:auto">
+    <br />
     @endforeach
     <div class=' mm-section'>
         <div class='calc-wrapper'>
