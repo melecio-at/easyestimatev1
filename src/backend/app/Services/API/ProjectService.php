@@ -270,7 +270,7 @@ class ProjectService
             'developmentType' => null !== $projectType ? $projectType->name : '',
             'developmentTypeId' => $details['development_type'],
             'uiLayout' => isset($details['ui_layout']) ? ('create_design' === $details['ui_layout'] ? 'デザイン作成を依頼する' : 'UIレイアウト/モックアップを貴社でご用意いただく') : '',
-            'specRequiement' => isset($details['spec_doc']) ? ('create_spec_doc' === $details['spec_doc'] ? '仕様書の作成を依頼する' : '設計書を貴社でご用意いただく') : '',
+            'specRequiement' => isset($details['spec_doc']) ? ('create_spec_doc' === $details['spec_doc'] ? '仕様書の作成を依頼する' : '仕様書を貴社でご用意いただく') : '',
             'expectedNumUsers' => $details['num_roles'],
             'devicesAndBrowsers' => array_filter($details['devices_and_browsers'], function ($item) {
                 return trim($item) !== '';
