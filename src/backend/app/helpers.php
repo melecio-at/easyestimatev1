@@ -96,7 +96,7 @@ if (!function_exists('customMailTo')) {
 if (!function_exists('formtaFunctionNameAndType')) {
     function formtaFunctionNameAndType($name, $type): string
     {
-        if ($name !== null && $name !== '') {
+        if (null !== $name && '' !== $name) {
             return $name . ' （' . $type . '）';
         }
 
