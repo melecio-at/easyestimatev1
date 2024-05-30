@@ -86,3 +86,20 @@ if (!function_exists('customMailTo')) {
         return $rawToString;
     }
 }
+
+/**
+ * Build Custom To Email
+ *
+ * @param nullable|string $name
+ * @return string
+ */
+if (!function_exists('formtaFunctionNameAndType')) {
+    function formtaFunctionNameAndType($name, $type): string
+    {
+        if ($name !== null && $name !== '') {
+            return $name . ' （' . $type . '）';
+        }
+
+        return $type;
+    }
+}

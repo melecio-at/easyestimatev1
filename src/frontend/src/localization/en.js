@@ -47,6 +47,7 @@ const en = {
       notifications: 'Notifications',
       noNotifications: 'No new notifications.',
       newNotification: 'You have a new notification.',
+      seeMore: 'もっと見る',
     },
     pages: {
       signup: {
@@ -174,6 +175,8 @@ const en = {
         noData: 'No data found.',
         sub_header_section: {
           title: 'かんたん見積ツールをご利用の方へ',
+          seeMore: 'もっと読む',
+          seeLess: '隠す',
           first_paragraph: {
             1: 'システム、アプリの開発をご検討中の方向けのかんたん見積ツールは必要な機能を選択してかんたんに概算見積をご確認いただけます。',
             2: 'シミュレーション結果はメールアドレスをご登録いただくと、検索いただいた見積を登録したメールアドレスへお届けします。',
@@ -261,6 +264,7 @@ const en = {
         emailSentSuccessful: 'Email successfully sent.',
         label: {
           specification: '【システム要件】',
+          ui_spec: '【設計書の要件】',
           system_name: 'システム名：',
           business_model: 'ビジネスモデル：',
           development_type: '開発タイプ：',

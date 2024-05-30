@@ -24,7 +24,7 @@ export const defaultFunction = {
 
 export const defaultUser = {
   id: 1,
-  userName: 'User',
+  userName: 'ユーザー',
   framework: '',
   language: '',
   languageOptions: [],

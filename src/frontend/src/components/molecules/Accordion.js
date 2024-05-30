@@ -13,7 +13,7 @@ function Accordion(props) {
       {items.map((item, key) => (
         <MuiAccordion key={key} disableGutters={true}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={isWithTemplate ? <ExpandMoreIcon /> : ''}
             aria-controls={`panel-${key}-content`}
             id={`panel-${key}-header`}
             sx={{

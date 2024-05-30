@@ -89,14 +89,8 @@ function QuotationCreate() {
       .required(t('form.required'))
       .positive()
       .integer(),
-    ui_layout: yup.string().when('development_type', {
-      is: 1,
-      then: yup.string().required(t('form.required')),
-    }),
-    spec_doc: yup.string().when('development_type', {
-      is: 1,
-      then: yup.string().required(t('form.required')),
-    }),
+    ui_layout: yup.string().oneOf(['create_design', 'ui_layout_provided'], t('form.required')),
+    spec_doc: yup.string().oneOf(['create_spec_doc', 'design_doc_provided'], t('form.required')),
     devices_and_browsers: yup.array(),
     'devices_and_browsers[0]': yup.string().test('test-0', t('form.required'), function () {
       return (
@@ -120,13 +114,34 @@ function QuotationCreate() {
           .required(t('form.required'))
           .positive()
           .integer(),
+        ui_layout: yup.string().test('isLessThanMinChars', t('form.required'), function (value) {
+          if (value && value.trim() === '') {
+            return false;
+          }
+          return true;
+        }),
+        spec_doc: yup.string().test('isLessThanMinChars', t('form.required'), function (value) {
+          if (value && value.trim() === '') {
+            return false;
+          }
+          return true;
+        }),
         functions: yup.array().of(
           yup.object({
             functionName: yup
               .string()
-              .required(t('form.required'))
-              .min(3, t('form.min'))
-              .max(100, t('form.max')),
+              .test('isLessThanMinChars', t('form.min'), function (value) {
+                if (value && value.trim() !== '' && value.length < 3) {
+                  return false;
+                }
+                return true;
+              })
+              .test('isMoreThanMaxChars', t('form.max'), function (value) {
+                if (value && value.trim() !== '' && value.length > 100) {
+                  return false;
+                }
+                return true;
+              }),
             functionType: yup
               .number(t('form.required'))
               .typeError(t('form.required'))
@@ -194,7 +209,7 @@ function QuotationCreate() {
 
   const autoFillTemplateValues = async (project) => {
     // console.log('project', project);
-    await setFeatures([]);
+    // await setFeatures([]);
     setValue('system_name', project?.system_name);
     setValue('business_model', project?.business_model);
     setValue('devices_and_browsers', project?.devices_and_browsers);
@@ -292,7 +307,7 @@ function QuotationCreate() {
         } else {
           newUsers.push({
             ...defaultUser,
-            userName: 'User ' + i,
+            userName: 'ユーザー' + i,
             id: i,
             // functions: {
             //   ...defaultUser.functions,
@@ -325,10 +340,14 @@ function QuotationCreate() {
     }
   };
 
+  const fetchProjectDetails = async (projectID) => {
+    await setFeatures([]);
+    await fetchProject(projectID);
+  };
+
   useEffect(() => {
     if (projectID !== null) {
-      // console.log('projectID :: ' + projectID);
-      fetchProject(projectID);
+      fetchProjectDetails(projectID);
     }
   }, [projectID]);
 
@@ -514,8 +533,8 @@ function QuotationCreate() {
           <CircularProgress />
         </Box>
       </Modal>
-      <Container disableGutters maxWidth={false} sx={{ ml: 2 }}>
-        <Box display="flex" alignItems="center">
+      <Container disableGutters maxWidth={false}>
+        <Box display="flex" alignItems="center" sx={{ mx: 5 }}>
           <Link
             to={{
               pathname: '/',
@@ -597,7 +616,7 @@ function QuotationCreate() {
         />
       ) : (
         !projectLoading && (
-          <Container maxWidth="false" sx={{ p: 2, maxWidth: '1643px' }}>
+          <Container disableGutters maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }}>
             <Box component="form" noValidate onSubmit={handleSubmit(handleCalculateProjectMD)}>
               <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
                 <Box>
@@ -814,7 +833,7 @@ function QuotationCreate() {
                       <Typography variant="h6" color={theme.palette.orange.main}>
                         {t(`${pageText}.label.features_and_functions`)}
                       </Typography>
-                      <Grid container sx={{ px: '10px' }}>
+                      <Grid container sx={{ px: '10px', mt: 2 }}>
                         <Grid item xs={12}>
                           <Accordion
                             items={features}

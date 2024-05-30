@@ -48,6 +48,7 @@ class ProjectResource extends JsonResource
         return [
             'id' => $this->id,
             'system_name' => $this->system_name,
+            'icon' => $this->icon,
             'description' => $this->description,
             'technologies' => is_array($languages) ? implode(", ", $languages) : '',
             'mm' => $projectCalculation['totalMM'],

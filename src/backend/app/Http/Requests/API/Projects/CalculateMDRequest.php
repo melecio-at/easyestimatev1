@@ -32,7 +32,7 @@ class CalculateMDRequest extends FormRequest
             'users.*.language' => ['required', 'exists:development_languages,id'],
             'users.*.functions' => ['required', 'array'],
             'users.*.functions.*.functionType' => ['required', 'exists:masterlist_function_types,id'],
-            'users.*.functions.*.functionName' => ['required', 'string'],
+            'users.*.functions.*.functionName' => ['nullable', 'string', 'min:3', 'max:100'],
             'users.*.functions.*.numFields' => ['required', 'exists:assumed_number_of_fields,id'],
             'users.*.functions.*.details' => ['required', 'array'],
             'users.*.functions.*.details.*' => ['exists:masterlist_functions,id'],
