@@ -208,13 +208,17 @@ function QuotationPreview(props) {
                               sx={{ mt: 2, mx: 0 }}
                             >
                               <Grid item xs={3}>
-                                {func.functionNameType}
+                                <Typography variant="body1" sx={{ wordBreak: 'break-all' }}>
+                                  {func.functionNameType}
+                                </Typography>
                               </Grid>
                               <Grid item xs={9}>
                                 {func?.subFunctions.map(function (subFunction, index) {
                                   return (
                                     <div key={index}>
-                                      {subFunction?.subFunctionName}
+                                      <Typography variant="body1" sx={{ wordBreak: 'break-all' }}>
+                                        {subFunction?.subFunctionName}
+                                      </Typography>
                                       {/* ➧
                                       {subFunction?.subFunctionName !== null &&
                                       subFunction?.subFunctionName !== ''
