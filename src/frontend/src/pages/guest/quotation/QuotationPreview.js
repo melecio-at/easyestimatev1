@@ -224,7 +224,7 @@ function QuotationPreview(props) {
                                       subFunction?.subFunctionName !== ''
                                         ? subFunction?.subFunctionName
                                         : func.functionType} */}
-                                      <br />
+                                      {/* <br /> */}
                                     </div>
                                   );
                                 })}
