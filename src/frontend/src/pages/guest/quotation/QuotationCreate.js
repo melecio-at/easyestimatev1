@@ -209,7 +209,7 @@ function QuotationCreate() {
 
   const autoFillTemplateValues = async (project) => {
     // console.log('project', project);
-    // await setFeatures([]);
+    await setFeatures([]);
     setValue('system_name', project?.system_name);
     setValue('business_model', project?.business_model);
     setValue('devices_and_browsers', project?.devices_and_browsers);
@@ -341,7 +341,6 @@ function QuotationCreate() {
   };
 
   const fetchProjectDetails = async (projectID) => {
-    await setFeatures([]);
     await fetchProject(projectID);
   };
 
@@ -480,8 +479,10 @@ function QuotationCreate() {
   //   handeFeatureChange(userFields);
   // }, [userFields, errors, users, projectFilters]);
   useEffect(() => {
+    // if (projectID === null) {
     handeFeatureChange(users);
-  }, [errors, users, projectFilters]);
+    // }
+  }, [errors, users, projectFilters, projectID]);
 
   return (
     <>
