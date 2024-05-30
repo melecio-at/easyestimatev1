@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+// import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 // import StraightIcon from '@mui/icons-material/Straight';
@@ -29,11 +30,19 @@ import {
 } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Pagination from '@mui/material/Pagination';
+import SvgIcon from '@mui/material/SvgIcon';
+import { styled } from '@mui/material/styles';
 import Button from 'components/atoms/Button';
 import Checkbox from 'components/atoms/Form/Checkbox';
 import Select from 'components/atoms/Form/Select';
-import Accordion from 'components/molecules/Accordion';
+// import Accordion from 'components/molecules/Accordion';
 import { meta as defaultMeta } from 'config/search';
+
+const CustomTypography = styled(Typography)(({ theme }) => ({
+  '&:hover': {
+    color: theme.palette.primary.main, // Change to whatever color you desire
+  },
+}));
 
 function QuotationList() {
   const { t } = useTranslation();
@@ -58,7 +67,8 @@ function QuotationList() {
   const [projectFilters, setProjectFilters] = useState(defaultProjectFilers);
   const [sort, setSort] = useState(defaultQuery.sort);
   const [loading, setLoading] = useState(false);
-  const [features, setFeatures] = useState([]);
+  const [showMoreInstruction, setShowMoreInstruction] = useState(false);
+  // const [features, setFeatures] = useState([]);
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -149,82 +159,90 @@ function QuotationList() {
     setQuery({ ...query, ...{ page: value } });
   };
 
-  const handleInstructionSection = () => {
-    setFeatures([
-      {
-        header: (
-          <>
-            <Box>
-              <Typography variant="h7" fontWeight="bold">
-                {t(`${pageText}.sub_header_section.title`)}
-              </Typography>
-            </Box>
-            <Box sx={{ px: 2, mt: 2 }}>
-              <Typography>
-                {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
-                {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
-                {t(`${pageText}.sub_header_section.first_paragraph.3`)}
-                <br />
-                <br />
-                {t(`${pageText}.sub_header_section.first_paragraph.4`)} <br />
-              </Typography>
-            </Box>
-          </>
-        ),
-        content: (
-          <Box backgroundColor="white" sx={{ p: 0, mx: 0 }}>
-            <Box>
-              <Box>
-                <Typography variant="h7" fontWeight="bold">
-                  {t(`${pageText}.sub_header_section.a.head`)}
-                </Typography>
-                <Typography>{t(`${pageText}.sub_header_section.a.head2`)}</Typography>
-                <Typography fontWeight="bold">
-                  {t(`${pageText}.sub_header_section.a.head3`)}
-                </Typography>
-              </Box>
-              <Box sx={{ px: 2, mt: 2 }}>
-                <Typography>
-                  {t(`${pageText}.sub_header_section.a.steps.1`)} <br />
-                  {t(`${pageText}.sub_header_section.a.steps.2`)} <br />
-                  {t(`${pageText}.sub_header_section.a.steps.3`)} <br />
-                  {t(`${pageText}.sub_header_section.a.steps.4`)} <br />
-                  {t(`${pageText}.sub_header_section.a.steps.5`)} <br />
-                  {t(`${pageText}.sub_header_section.a.steps.6`)} <br />
-                </Typography>
-              </Box>
-            </Box>
-            <br />
-            <Box>
-              <Box>
-                <Typography variant="h7" fontWeight="bold">
-                  {t(`${pageText}.sub_header_section.b.head`)}
-                </Typography>
-                <Typography fontWeight="bold">
-                  {t(`${pageText}.sub_header_section.b.head2`)}
-                </Typography>
-              </Box>
-              <Box sx={{ px: 2, mt: 2 }}>
-                <Typography>
-                  {t(`${pageText}.sub_header_section.b.steps.1`)} <br />
-                  {t(`${pageText}.sub_header_section.b.steps.2`)} <br />
-                  {t(`${pageText}.sub_header_section.b.steps.3`)} <br />
-                  {t(`${pageText}.sub_header_section.b.steps.4`)} <br />
-                </Typography>
-              </Box>
-              <Box sx={{ px: 2, mt: 2 }}>
-                <Typography>
-                  {t(`${pageText}.sub_header_section.last_paragraph.1`)} <br />
-                  {t(`${pageText}.sub_header_section.last_paragraph.2`)} <br />
-                  {t(`${pageText}.sub_header_section.last_paragraph.3`)} <br />
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        ),
-      },
-    ]);
+  const handleShowMoreInstruction = (show) => {
+    setShowMoreInstruction(show);
+
+    if (!show) {
+      window.scrollTo(0, 0);
+    }
   };
+
+  // const handleInstructionSection = () => {
+  //   setFeatures([
+  //     {
+  //       header: (
+  //         <>
+  //           <Box>
+  //             <Typography variant="h4" fontWeight="bold">
+  //               {t(`${pageText}.sub_header_section.title`)}
+  //             </Typography>
+  //           </Box>
+  //           <Box sx={{ px: 2, mt: 2 }}>
+  //             <Typography>
+  //               {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
+  //               {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
+  //               {t(`${pageText}.sub_header_section.first_paragraph.3`)}
+  //               <br />
+  //               <br />
+  //               {t(`${pageText}.sub_header_section.first_paragraph.4`)} <br />
+  //             </Typography>
+  //           </Box>
+  //         </>
+  //       ),
+  //       content: (
+  //         <Box backgroundColor="white" sx={{ p: 0, mx: 0 }}>
+  //           <Box>
+  //             <Box>
+  //               <Typography variant="h7" fontWeight="bold">
+  //                 {t(`${pageText}.sub_header_section.a.head`)}
+  //               </Typography>
+  //               <Typography>{t(`${pageText}.sub_header_section.a.head2`)}</Typography>
+  //               <Typography fontWeight="bold">
+  //                 {t(`${pageText}.sub_header_section.a.head3`)}
+  //               </Typography>
+  //             </Box>
+  //             <Box sx={{ px: 2, mt: 2 }}>
+  //               <Typography>
+  //                 {t(`${pageText}.sub_header_section.a.steps.1`)} <br />
+  //                 {t(`${pageText}.sub_header_section.a.steps.2`)} <br />
+  //                 {t(`${pageText}.sub_header_section.a.steps.3`)} <br />
+  //                 {t(`${pageText}.sub_header_section.a.steps.4`)} <br />
+  //                 {t(`${pageText}.sub_header_section.a.steps.5`)} <br />
+  //                 {t(`${pageText}.sub_header_section.a.steps.6`)} <br />
+  //               </Typography>
+  //             </Box>
+  //           </Box>
+  //           <br />
+  //           <Box>
+  //             <Box>
+  //               <Typography variant="h7" fontWeight="bold">
+  //                 {t(`${pageText}.sub_header_section.b.head`)}
+  //               </Typography>
+  //               <Typography fontWeight="bold">
+  //                 {t(`${pageText}.sub_header_section.b.head2`)}
+  //               </Typography>
+  //             </Box>
+  //             <Box sx={{ px: 2, mt: 2 }}>
+  //               <Typography>
+  //                 {t(`${pageText}.sub_header_section.b.steps.1`)} <br />
+  //                 {t(`${pageText}.sub_header_section.b.steps.2`)} <br />
+  //                 {t(`${pageText}.sub_header_section.b.steps.3`)} <br />
+  //                 {t(`${pageText}.sub_header_section.b.steps.4`)} <br />
+  //               </Typography>
+  //             </Box>
+  //             <Box sx={{ px: 2, mt: 2 }}>
+  //               <Typography>
+  //                 {t(`${pageText}.sub_header_section.last_paragraph.1`)} <br />
+  //                 {t(`${pageText}.sub_header_section.last_paragraph.2`)} <br />
+  //                 {t(`${pageText}.sub_header_section.last_paragraph.3`)} <br />
+  //               </Typography>
+  //             </Box>
+  //           </Box>
+  //         </Box>
+  //       ),
+  //     },
+  //   ]);
+  // };
 
   useEffect(() => {
     // console.log('meta', meta);
@@ -234,8 +252,8 @@ function QuotationList() {
 
   useEffect(() => {
     fetchProjectFilters();
-    localStorage.setItem('locale', 'ja');
-    handleInstructionSection();
+    // localStorage.setItem('locale', 'ja');
+    // handleInstructionSection();
   }, [t]);
 
   return (
@@ -254,13 +272,109 @@ function QuotationList() {
         </Typography>
       </Box>
       <Box sx={{ my: 2 }}>
-        <Accordion
+        {/* <Accordion
           summarySx={{
             background: 'white',
           }}
           items={features}
           isWithTemplate={false}
-        />
+        /> */}
+        <Box backgroundColor="white" sx={{ p: 3, mx: 0 }}>
+          <Box>
+            <Box>
+              <Typography variant="h4" fontWeight="bold">
+                {t(`${pageText}.sub_header_section.title`)}
+              </Typography>
+            </Box>
+            <Box sx={{ px: 2, mt: 2 }}>
+              <Typography>
+                {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.3`)}
+                <br />
+                <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.4`)}
+              </Typography>
+              {!showMoreInstruction && (
+                <Box
+                  display="flex"
+                  sx={{ width: '100%', justifyContent: 'center', cursor: 'pointer', mt: 2 }}
+                >
+                  <CustomTypography
+                    sx={{ textDecoration: 'underline' }}
+                    onClick={() => handleShowMoreInstruction(true)}
+                  >
+                    {t(`${pageText}.sub_header_section.seeMore`)}
+                  </CustomTypography>
+                </Box>
+              )}
+            </Box>
+          </Box>
+          {showMoreInstruction && (
+            <Box sx={{ mt: 3 }}>
+              <Box>
+                <Box>
+                  <Typography variant="h7" fontWeight="bold">
+                    {t(`${pageText}.sub_header_section.a.head`)}
+                  </Typography>
+                  <Typography>{t(`${pageText}.sub_header_section.a.head2`)}</Typography>
+                  <Typography fontWeight="bold">
+                    {t(`${pageText}.sub_header_section.a.head3`)}
+                  </Typography>
+                </Box>
+                <Box sx={{ px: 2, mt: 2 }}>
+                  <Typography>
+                    {t(`${pageText}.sub_header_section.a.steps.1`)} <br />
+                    {t(`${pageText}.sub_header_section.a.steps.2`)} <br />
+                    {t(`${pageText}.sub_header_section.a.steps.3`)} <br />
+                    {t(`${pageText}.sub_header_section.a.steps.4`)} <br />
+                    {t(`${pageText}.sub_header_section.a.steps.5`)} <br />
+                    {t(`${pageText}.sub_header_section.a.steps.6`)} <br />
+                  </Typography>
+                </Box>
+              </Box>
+              <br />
+              <Box>
+                <Box>
+                  <Typography variant="h7" fontWeight="bold">
+                    {t(`${pageText}.sub_header_section.b.head`)}
+                  </Typography>
+                  <Typography fontWeight="bold">
+                    {t(`${pageText}.sub_header_section.b.head2`)}
+                  </Typography>
+                </Box>
+                <Box sx={{ px: 2, mt: 2 }}>
+                  <Typography>
+                    {t(`${pageText}.sub_header_section.b.steps.1`)} <br />
+                    {t(`${pageText}.sub_header_section.b.steps.2`)} <br />
+                    {t(`${pageText}.sub_header_section.b.steps.3`)} <br />
+                    {t(`${pageText}.sub_header_section.b.steps.4`)} <br />
+                  </Typography>
+                </Box>
+                <Box sx={{ px: 2, mt: 2 }}>
+                  <Typography>
+                    {t(`${pageText}.sub_header_section.last_paragraph.1`)} <br />
+                    {t(`${pageText}.sub_header_section.last_paragraph.2`)} <br />
+                    {t(`${pageText}.sub_header_section.last_paragraph.3`)} <br />
+                  </Typography>
+                </Box>
+              </Box>
+              {showMoreInstruction && (
+                <Box
+                  display="flex"
+                  sx={{ width: '100%', justifyContent: 'center', cursor: 'pointer', mt: 2 }}
+                >
+                  <CustomTypography
+                    sx={{ textDecoration: 'underline' }}
+                    onClick={() => handleShowMoreInstruction(false)}
+                  >
+                    {t(`${pageText}.sub_header_section.seeLess`)}
+                  </CustomTypography>
+                </Box>
+              )}
+            </Box>
+          )}
+        </Box>
       </Box>
       <Paper sx={{ boxShadow: 'none' }}>
         <Grid container sx={{ alignItems: 'end', height: '39px', mb: 2 }}>
@@ -421,27 +535,34 @@ function QuotationList() {
                           <Grid container>
                             <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
                               <Box
-                                // component="img"
                                 height={200}
                                 width="full"
                                 display="flex"
                                 alignItems="center"
                                 gap={4}
                                 p={2}
-                                // alt={project.name}
-                                // // src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
                                 sx={{
                                   maxHeight: { xs: 200, md: 200 },
                                   maxWidth: { xs: 200, md: 200 },
                                 }}
                               >
-                                <BusinessCenterIcon
-                                  sx={{
-                                    fontSize: '150px',
-                                    width: '100%',
-                                    // color: theme.palette.orange.main,
-                                  }}
-                                />
+                                {project?.icon !== null ? (
+                                  <SvgIcon
+                                    sx={{
+                                      fontSize: '150px',
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <path d={project?.icon} />
+                                  </SvgIcon>
+                                ) : (
+                                  <BusinessCenterIcon
+                                    sx={{
+                                      fontSize: '150px',
+                                      width: '100%',
+                                    }}
+                                  />
+                                )}
                               </Box>
                             </Grid>
                             <Grid item xs={6}>

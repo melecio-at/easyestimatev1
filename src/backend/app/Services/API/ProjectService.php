@@ -202,7 +202,15 @@ class ProjectService
                 // $subFunctionsIds = array_keys($function['details'], true);
                 $subFunctionsIds = $function['details'];
                 // dd($subFunctionsIds);
-                $subFunctions = MasterListFunction::selectRaw('*, function_name as subFunctionName')->whereIn('id', $subFunctionsIds)->get()->toArray();
+                $subFunctions = MasterListFunction::selectRaw("*, 
+                    CASE 
+                        WHEN (function_name is null || function_name = '')  
+                        THEN ''
+                        ELSE CONCAT('➧', function_name)
+                        END as subFunctionName")
+                    ->whereIn('id', $subFunctionsIds)
+                    ->get()
+                    ->toArray();
                 // dd($subFunctions);
                 $functions[$key]['functionName'] = $function['functionName'];
                 $functions[$key]['functionTypeId'] = $function['functionType'];
@@ -210,8 +218,20 @@ class ProjectService
                 $functions[$key]['numFieldsId'] = $function['numFields'];
                 $functions[$key]['numFields'] = null !== $numField ? $numField->name : '';
                 $functions[$key]['subFunctions'] = $subFunctions;
+                $functions[$key]['functionNameType'] = formtaFunctionNameAndType($function['functionName'], $functions[$key]['functionType']);
+                // $functions[$key]['functionNameType'] = $functions[$key]['functionType'];
 
-                foreach ($subFunctions as $subFunction) {
+                // if ($function['functionName'] !== null && $function['functionName'] !== '') {
+                //     // $functions[$key]['functionNameType'] = $function['functionName'] . ' （' . $functions[$key]['functionType'] . '）';
+                //     $functions[$key]['functionNameType'] = formtaFunctionNameAndType($function['functionName'], $functions[$key]['functionType']);
+                // }
+
+                foreach ($subFunctions as $key => $subFunction) {
+                    // $subFunctions[$key]['formattedFunctionName'] = '➧' . $subFunction['subFunctionName'];
+                    // if ($subFunction['subFunctionName'] === null || $subFunction['subFunctionName'] === '') {
+                    //     $subFunctions[$key]['formattedFunctionName'] = '';
+                    // }
+
                     $ui = 0;
                     $specDoc = 0;
 
@@ -237,8 +257,10 @@ class ProjectService
                     // logger("dev_md (" . $subFunction['development_md'] . "), numFields(" . $function['numFields'] . ") => $functiondevelopment");
                     $development += $functiondevelopment;
                 }
+                // dd($subFunctions);
+                // $functions[$key]['subFunctions'] = $subFunctions;
             }
-
+            // dd($functions);
             $userFunctions[$index]['functions'] = $functions;
         }
 

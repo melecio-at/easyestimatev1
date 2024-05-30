@@ -17,7 +17,8 @@ class Project extends Model
         'create_design',
         'create_specs_doc',
         'lead_user_id',
-        'business_model_text'
+        'business_model_text',
+        'icon'
     ];
 
     public function projectRoleFrameworkLanguages(): HasMany

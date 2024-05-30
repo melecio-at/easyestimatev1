@@ -21,6 +21,7 @@
 
     .function-type {
         width: 50%;
+        padding-right: '16px';
     }
 
     .label {
@@ -37,6 +38,10 @@
         color: #c65213;
         font-weight: 700;
         /* font-size: 25px; */
+    }
+
+    .colored-label {
+        color: #c65213;
     }
 
     .calc-wrapper {
@@ -56,6 +61,12 @@
     .label-section {
         display: flex;
         grid-template-columns: 50% 50%;
+        margin-bottom: 4px;
+    }
+
+    .label-section-ui {
+        display: flex;
+        grid-template-columns: 100%;
         margin-bottom: 4px;
     }
 
@@ -81,7 +92,7 @@
 <div class='project-section'>
     <span class='bold-label'>見積もりプレビュー</span><br /><br />
     <div class='system-requirements-section'>
-        <span class='bold-label'>【システム要件】</span>
+        <span class='bold-label colored-label'>【システム要件】</span>
         <br /><br />
         <div class='inner-project-details-section'>
             <div class='left-section'>
@@ -93,9 +104,6 @@
                 </div>
                 <div class='label-section'>
                     <span class='bold-label'>開発タイプ：</span><span>{{$project['developmentType']}}</span>
-                </div>
-                <div class='label-section'>
-                    <span class='bold-label'>プロジェクトデザインとプラン：</span><span>{{$project['uiSpec']}}</span>
                 </div>
             </div>
             <div class='right-section'>
@@ -118,8 +126,26 @@
 <br />
 <hr style="width:auto">
 <br />
+<div class='system-requirements-section'>
+    <span class='bold-label colored-label'>【設計書の要件】</span>
+    <br /><br />
+    <div class='inner-project-details-section'>
+        <div class='left-section'>
+            <div class='label-section-ui'>
+                <span>➧ {{$project['uiLayout']}}</span>
+            </div>
+            <div class='label-section-ui'>
+                <span>➧ {{$project['specRequiement']}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br />
+<hr style="width:auto">
+<br />
 <div class='user-section'>
-    <span class='bold-label'>機能一覧</span>
+    <span class='bold-label colored-label'>機能一覧</span>
     <br /><br />
     @foreach($project['users'] as $user)
     <span class='bold-label'>{{$user['username']}}</span> <br />
@@ -127,14 +153,13 @@
     @foreach($user['functions'] as $function)
     <div class='function-section'>
         <div class='function-type'>
-            {{$function['functionType']}}
+            {{ formtaFunctionNameAndType($function['functionName'], $function['functionType']) }}
         </div>
         <div class='sub-functions'>
             @foreach($function['subFunctions'] as $subFunction)
             @if($subFunction['subFunctionName'] !== null)
-            ➧{{$subFunction['subFunctionName']}}<br />
+            {{$subFunction['subFunctionName']}}<br />
             @else
-            ➧{{$function['functionType']}} <br />
             @endif
             @endforeach
         </div>

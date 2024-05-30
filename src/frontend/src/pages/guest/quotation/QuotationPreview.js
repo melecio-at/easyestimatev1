@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import theme from 'theme';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+// import CircleIcon from '@mui/icons-material/Circle';
 import { Box, Container, Grid, Paper, Typography } from '@mui/material';
 import Button from 'components/atoms/Button';
 import JapanYen from 'components/atoms/Formatter/JapanYen';
@@ -16,10 +17,17 @@ function QuotationPreview(props) {
   const { t } = useTranslation();
   const pageText = 'pages.quotation_preview';
 
-  const typeBox = (label) => {
+  const typeBox = (label, hasColor = false) => {
     return (
       <Box display="inline">
-        <Typography sx={{ fontWeight: 'bold' }}>{label}</Typography>
+        <Typography
+          sx={{
+            fontWeight: 'bold',
+            color: hasColor ? theme.palette.orange.main : 'primary',
+          }}
+        >
+          {label}
+        </Typography>
       </Box>
     );
   };
@@ -34,7 +42,7 @@ function QuotationPreview(props) {
   // }, [isEmailSuccess]);
 
   return (
-    <Container maxWidth="false" sx={{ px: 2, maxWidth: '1643px' }}>
+    <Container disableGutters maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }}>
       {isEmailSuccess && (
         <DescriptionAlerts
           severity="success"
@@ -50,9 +58,9 @@ function QuotationPreview(props) {
           <Typography variant="h6">{typeBox(t(`${pageText}.heading`))}</Typography>
           <Grid container>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              {typeBox(t(`${pageText}.label.specification`))}
+              {typeBox(t(`${pageText}.label.specification`), true)}
             </Grid>
-            <Grid item xs={12} sx={{ mx: 2, my: 2 }}>
+            <Grid item xs={12} sx={{ mx: 3, my: 2 }}>
               <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
                 <Grid item xs={12}>
                   <Grid container pacing={4} columnSpacing={6}>
@@ -87,14 +95,14 @@ function QuotationPreview(props) {
                       {previewDetail?.developmentType}
                     </Grid>
                   </Grid>
-                  <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                  {/* <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
                     <Grid item xs={5}>
                       {typeBox(t(`${pageText}.label.project_design_and_planning`))}
                     </Grid>
                     <Grid item xs={7}>
                       {previewDetail?.uiSpec}
                     </Grid>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Grid item xs={6}>
                   <Grid container pacing={4} columnSpacing={6}>
@@ -138,7 +146,42 @@ function QuotationPreview(props) {
         <Box>
           <Grid container>
             <Grid item xs={12} sx={{ mt: 2 }}>
-              {typeBox(t(`${pageText}.label.ballpark_estimation`))}
+              {typeBox(t(`${pageText}.label.ui_spec`), true)}
+            </Grid>
+            <Grid item xs={12} sx={{ mx: 3, my: 2 }}>
+              <Grid sx={{ my: '2px' }} container pacing={4} columnSpacing={6}>
+                <Grid item xs={12}>
+                  <Grid container pacing={4} columnSpacing={6}>
+                    <Grid item xs={6}>
+                      <Grid container pacing={4} columnSpacing={6}>
+                        <Grid item xs={12}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            ➧ {previewDetail?.uiLayout}
+                            <br />
+                            {/* <CircleIcon sx={{ marginRight: '4px', width: '10px' }} /> */}
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            ➧ {previewDetail?.specRequiement}
+                            {/* <CircleIcon sx={{ marginRight: '4px', width: '10px' }} /> */}
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+        <Container
+          disableGutters
+          maxWidth={false}
+          sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
+        ></Container>
+        <Box>
+          <Grid container>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              {typeBox(t(`${pageText}.label.ballpark_estimation`), true)}
             </Grid>
             <Grid item xs={12} sx={{ mt: 2, mx: 3 }}>
               {typeBox(t(`${pageText}.label.features_and_functions`))}
@@ -164,18 +207,19 @@ function QuotationPreview(props) {
                               columnSpacing={6}
                               sx={{ mt: 2, mx: 0 }}
                             >
-                              <Grid item xs={2}>
-                                {func.functionType}
+                              <Grid item xs={3}>
+                                {func.functionNameType}
                               </Grid>
-                              <Grid item xs={10}>
+                              <Grid item xs={9}>
                                 {func?.subFunctions.map(function (subFunction, index) {
                                   return (
                                     <div key={index}>
-                                      ➧
+                                      {subFunction?.subFunctionName}
+                                      {/* ➧
                                       {subFunction?.subFunctionName !== null &&
                                       subFunction?.subFunctionName !== ''
                                         ? subFunction?.subFunctionName
-                                        : func.functionType}
+                                        : func.functionType} */}
                                       <br />
                                     </div>
                                   );
