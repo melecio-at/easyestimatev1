@@ -267,7 +267,7 @@ function QuotationPreview(props) {
                     color={theme.palette.orange.main}
                     sx={{ fontWeight: 'bold', fontSize: '25px' }}
                   >
-                    {previewDetail?.totalMM} MM
+                    {previewDetail?.totalMM} {t(`${pageText}.label.mm`)}
                   </Typography>
                 </Grid>
               </Grid>
