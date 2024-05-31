@@ -259,7 +259,7 @@ function QuotationPreviewModal(props) {
               </Typography>
               <Box sx={{ my: 2 }}>
                 <Typography align="center" sx={{ mx: 'auto' }}>
-                  自動返信メールにて資料ダウンロードURLをご案内いたします。
+                  自動返信メールにて資料をご案内いたします。
                 </Typography>
                 <Typography align="center" sx={{ mx: 'auto' }}>
                   お手数ですが以下のフォームに必要事項を入力してご申請ください。
