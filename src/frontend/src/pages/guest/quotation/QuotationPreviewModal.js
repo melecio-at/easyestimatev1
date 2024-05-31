@@ -64,10 +64,10 @@ function QuotationPreviewModal(props) {
     name: yup.string().required(t('form.required')).min(3, t('form.min')).max(100, t('form.max')),
     email_address: yup.string().required(t('form.required')).email(t('form.email')),
     business_type: yup.string().oneOf(['company', 'individual']).typeError(t('form.required')),
-    business_license: yup.string().when('business_type', {
-      is: 'company',
-      then: yup.string().required(t('form.required')).min(3, t('form.min')).max(100, t('form.max')),
-    }),
+    // business_license: yup.string().when('business_type', {
+    //   is: 'company',
+    //   then: yup.string().required(t('form.required')).min(3, t('form.min')).max(100, t('form.max')),
+    // }),
     company_name: yup
       .string()
       .test('isLessThanMinChars', t('form.min'), function (value) {
@@ -196,7 +196,7 @@ function QuotationPreviewModal(props) {
       setValue('department', 0);
       setValue('position', 0);
       setValue('company_url', '');
-      setValue('business_license', '');
+      // setValue('business_license', '');
     }
   }, [businessType]);
 
@@ -399,7 +399,7 @@ function QuotationPreviewModal(props) {
             )}
             <Grid item xs={12} sx={{ mt: 1 }}>
               <Grid container={true} pacing={2} columnSpacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <TextField
                     // label="電話番号"
                     placeholder={t(`${pageText}.common.phone_number_placeholder`)}
@@ -410,7 +410,7 @@ function QuotationPreviewModal(props) {
                     helperText={errors ? errors?.phone_number?.message : null}
                   />
                 </Grid>
-                {businessType === 'company' && (
+                {/* {businessType === 'company' && (
                   <Grid item xs={6}>
                     <TextField
                       // label="営業許諾 (Required)"
@@ -422,7 +422,7 @@ function QuotationPreviewModal(props) {
                       helperText={errors ? errors?.business_license?.message : null}
                     />
                   </Grid>
-                )}
+                )} */}
               </Grid>
             </Grid>
             {businessType === 'company' && (

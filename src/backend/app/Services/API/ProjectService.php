@@ -333,7 +333,7 @@ class ProjectService
                 'department_id' => (isset($details['department']) && 0 !== $details['department']) ? $details['department'] : null,
                 'position_id' => (isset($details['position']) && 0 !== $details['position']) ? $details['position'] : null,
                 'company_url' => $details['company_url'],
-                'business_license' => $details['business_license'],
+                // 'business_license' => $details['business_license'],
                 'get_intouched' => $details['get_intouched'] ? 1 : 0,
                 'phone_number' => $details['phone_number'],
             ]);
