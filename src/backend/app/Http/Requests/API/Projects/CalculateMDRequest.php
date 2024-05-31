@@ -36,16 +36,6 @@ class CalculateMDRequest extends FormRequest
             'users.*.functions.*.numFields' => ['required', 'exists:assumed_number_of_fields,id'],
             'users.*.functions.*.details' => ['required', 'array'],
             'users.*.functions.*.details.*' => ['exists:masterlist_functions,id'],
-            // 'get_intouched' => ['required', Rule::in([true])],
-            // 'name' => 'required|string|min:1|max:100',
-            // 'email_address' => 'required|string|email:rfc,dns',
-            // 'business_license' => 'required_if:business_type,==,company',
-            // 'company_name' => 'nullable|string|max:100',
-            // 'business_type' => ['required', 'string', Rule::in(['company', 'individual'])],
-            // 'department' => ['nullable', new CheckDepartment],
-            // 'position' => ['nullable', new CheckPosition],
-            // 'company_url' => ['nullable', 'string', new ValidURLFormat],
-            // 'phone_number' => ['nullable', 'string', new ValidCellPhoneFormat]
         ];
     }
 }

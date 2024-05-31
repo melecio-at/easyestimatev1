@@ -46,7 +46,7 @@ export const defaultUserDetails = {
   department: 0,
   position: 0,
   company_url: '',
-  business_license: '',
+  // business_license: '',
   get_intouched: true,
   accept_terms: true,
 };

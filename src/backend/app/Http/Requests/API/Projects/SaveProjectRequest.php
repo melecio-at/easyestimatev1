@@ -22,7 +22,7 @@ class SaveProjectRequest extends FormRequest
             'get_intouched' => ['required', Rule::in([true])],
             'name' => 'required|string|min:1|max:100',
             'email_address' => 'required|string|email:rfc,dns',
-            'business_license' => 'required_if:business_type,==,company',
+            // 'business_license' => 'required_if:business_type,==,company',
             'company_name' => 'nullable|string|min:3|max:100',
             'business_type' => ['required', 'string', Rule::in(['company', 'individual'])],
             'department' => ['nullable', new CheckDepartment()],
