@@ -54,6 +54,7 @@ function QuotationCreate() {
   const [projectFilters, setProjectFilters] = useState(defaultProjectFilers);
   const [loading, setLoading] = useState(false);
   const [projectLoading, setProjectLoading] = useState(false);
+  const [usersFromDB, setUsersFromDB] = useState([]);
 
   const defaultUILayoutOptions = [
     { label: t(`pages.quotation_create.label.create_design`), value: 'create_design' },
@@ -155,6 +156,10 @@ function QuotationCreate() {
               .positive()
               .integer(),
             details: yup.array().min(1, t('form.required')),
+            // details: yup.array().when('functionType', {
+            //   is: (val) => val !== '',
+            //   then: yup.array().min(1, t('form.required')),
+            // }),
           })
         ),
       })
@@ -242,6 +247,7 @@ function QuotationCreate() {
     });
     await setValue('num_roles', project?.num_roles);
     await setValue('users', newUsers);
+    await setUsersFromDB(newUsers);
     //await setFeatures([]);
     // handeFeatureChange(newUsers);
     // updateUser(0, {
@@ -321,9 +327,9 @@ function QuotationCreate() {
     return newUsers;
   };
 
-  // const onError = (errors) => {
-  //   console.log('errors', errors);
-  // };
+  const onError = (errors) => {
+    console.log('errors', errors);
+  };
 
   const handleCalculateProjectMD = async (data) => {
     setLoading(true);
@@ -343,12 +349,6 @@ function QuotationCreate() {
   const fetchProjectDetails = async (projectID) => {
     await fetchProject(projectID);
   };
-
-  useEffect(() => {
-    if (projectID !== null) {
-      fetchProjectDetails(projectID);
-    }
-  }, [projectID]);
 
   useEffect(() => {
     // console.log('projectData', project);
@@ -479,10 +479,23 @@ function QuotationCreate() {
   //   handeFeatureChange(userFields);
   // }, [userFields, errors, users, projectFilters]);
   useEffect(() => {
-    // if (projectID === null) {
+    if (usersFromDB.length <= 0 || usersFromDB.length !== numRoles) {
+      handeFeatureChange(users);
+    }
+  }, [errors, users, projectFilters, usersFromDB, numRoles]);
+
+  useEffect(() => {
+    if (projectID !== null) {
+      fetchProjectDetails(projectID);
+    }
+  }, [projectID]);
+
+  useEffect(() => {
     handeFeatureChange(users);
-    // }
-  }, [errors, users, projectFilters, projectID]);
+    if (projectID !== null) {
+      setValue('users', usersFromDB);
+    }
+  }, [usersFromDB, projectID]);
 
   return (
     <>
@@ -618,7 +631,11 @@ function QuotationCreate() {
       ) : (
         !projectLoading && (
           <Container disableGutters maxWidth="false" sx={{ px: 5, maxWidth: '1643px' }}>
-            <Box component="form" noValidate onSubmit={handleSubmit(handleCalculateProjectMD)}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(handleCalculateProjectMD, onError)}
+            >
               <Paper sx={{ p: 2, backgroundColor: theme.background.innerContainer }}>
                 <Box>
                   <Typography variant="h6" color={theme.palette.orange.main}>

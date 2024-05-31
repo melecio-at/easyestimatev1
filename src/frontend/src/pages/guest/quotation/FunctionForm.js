@@ -199,7 +199,7 @@ function FunctionForm(props) {
                               <Checkbox
                                 label={detail?.function_name}
                                 value={detail?.id}
-                                error={detailIndex === 0 && !!error}
+                                error={detailIndex === 0 && !!error && field?.value.length <= 0}
                                 helperText={detailIndex === 0 && error?.message}
                                 errorPosition="top"
                                 checked={field?.value.some(
