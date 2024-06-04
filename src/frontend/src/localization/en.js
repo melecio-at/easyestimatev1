@@ -48,6 +48,7 @@ const en = {
       noNotifications: 'No new notifications.',
       newNotification: 'You have a new notification.',
       seeMore: 'もっと見る',
+      mm: '人月',
     },
     pages: {
       signup: {

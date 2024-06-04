@@ -48,6 +48,7 @@ const ja = {
       noNotifications: '新しい通知はありません。',
       newNotification: '新しい通知があります。',
       seeMore: 'もっと見る',
+      mm: '人月',
     },
     pages: {
       signup: {
@@ -260,7 +261,7 @@ const ja = {
       },
       quotation_preview: {
         heading: '見積もりプレビュー',
-        emailSentSuccessful: 'Email successfully sent.',
+        emailSentSuccessful: 'メールに送信完了しました。',
         label: {
           specification: '【システム要件】',
           ui_spec: '【設計書の要件】',
@@ -272,7 +273,7 @@ const ja = {
           devices_and_browsers: '対応デバイス/ブラウザ：',
           ballpark_estimation: '【概算（Ball-Park）見積】',
           features_and_functions: '機能一覧',
-          total_mm: '合計（人月）',
+          total_mm: '合計',
           mm: '人月',
           total_yen: '合計',
           back_btn: '戻る',
