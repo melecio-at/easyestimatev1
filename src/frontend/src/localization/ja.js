@@ -278,6 +278,8 @@ const ja = {
           total_yen: '合計',
           back_btn: '戻る',
           generate_quotation_btn: '見積もりを生成する',
+          quotation_total_note:
+            '※当社や他の開発会社様が受託するいかなる金額もお約束するものではありません。',
         },
       },
       quotation_preview_modal: {
