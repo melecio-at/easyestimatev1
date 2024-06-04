@@ -275,7 +275,6 @@ function QuotationPreview(props) {
             <Box display="flex" sx={{ mt: 1 }}>
               <Grid container>
                 <Grid item xs={6}>
-                  {/* {typeBox(t(`${pageText}.label.total_yen`))} */}
                   <Typography sx={{ mr: 8, fontWeight: 'bold', width: '150px', fontSize: '22px' }}>
                     {t(`${pageText}.label.total_yen`)}
                   </Typography>
@@ -291,6 +290,9 @@ function QuotationPreview(props) {
                 </Grid>
               </Grid>
             </Box>
+          </Box>
+          <Box display="flex" sx={{ mt: 1 }}>
+            <Typography variant="body1">{t(`${pageText}.label.quotation_total_note`)}</Typography>
           </Box>
         </Grid>
       </Paper>
