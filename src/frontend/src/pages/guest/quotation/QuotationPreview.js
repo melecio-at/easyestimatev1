@@ -252,7 +252,7 @@ function QuotationPreview(props) {
           maxWidth={false}
           sx={{ height: '1px', width: '100%', backgroundColor: '#e5e5e5', my: 3 }}
         ></Container>
-        <Grid container display="flex" justifyContent="flex-end" sx={{ pt: 3, pb: 4 }}>
+        <Grid container display="flex" justifyContent="flex-end" sx={{ pt: 3, pb: 0 }}>
           <Box>
             <Box display="flex">
               <Grid container>
@@ -291,8 +291,12 @@ function QuotationPreview(props) {
               </Grid>
             </Box>
           </Box>
-          <Box display="flex" sx={{ mt: 1 }}>
-            <Typography variant="body1">{t(`${pageText}.label.quotation_total_note`)}</Typography>
+        </Grid>
+        <Grid container display="flex" justifyContent="flex-end" sx={{ pt: 0, pb: 4 }}>
+          <Box>
+            <Box display="flex" sx={{ mt: 1 }}>
+              <Typography variant="body1">{t(`${pageText}.label.quotation_total_note`)}</Typography>
+            </Box>
           </Box>
         </Grid>
       </Paper>
