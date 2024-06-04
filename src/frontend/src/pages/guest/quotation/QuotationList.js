@@ -609,7 +609,7 @@ function QuotationList() {
                                 }}
                               >
                                 <Typography variant="h7" color={theme.palette.orange.main}>
-                                  {project?.mm} MM
+                                  {project?.mm} {t('labels.mm')}
                                 </Typography>
                                 <Box display="flex" justifyContent="center" width="100%">
                                   <Link

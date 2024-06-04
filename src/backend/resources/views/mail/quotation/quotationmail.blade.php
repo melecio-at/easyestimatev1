@@ -171,8 +171,8 @@
     <div class=' mm-section'>
         <div class='calc-wrapper'>
             <div class='calc-label-value'>
-                <div class='label'>合計（人月）</div>
-                <div class='mm-value'>{{$project['totalMM']}} MM</div>
+                <div class='label'>合計</div>
+                <div class='mm-value'>{{$project['totalMM']}} 人月</div>
             </div>
             <div class='calc-label-value'>
                 <div class='label'>合計</div>
@@ -184,6 +184,8 @@
 <br /><br />
 <span class='bold-label'>【前提条件と制限事項】</span><br />
 ※本見積は超概算の見積です。 詳細が提供され次第、再見積の対象となります。<br />
+<br />
+※当社や他の開発会社様が受託するいかなる金額もお約束するものではありません。<br />
 <br />
 詳細見積が必要な場合は、以下のリンクからお気軽に弊社営業担当者までお問い合わせください。<br />
 <br />
