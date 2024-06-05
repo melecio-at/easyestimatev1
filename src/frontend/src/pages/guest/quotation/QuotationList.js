@@ -290,10 +290,11 @@ function QuotationList() {
               <Typography>
                 {t(`${pageText}.sub_header_section.first_paragraph.1`)} <br />
                 {t(`${pageText}.sub_header_section.first_paragraph.2`)} <br />
-                {t(`${pageText}.sub_header_section.first_paragraph.3`)}
-                <br />
-                <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.3`)} <br />
                 {t(`${pageText}.sub_header_section.first_paragraph.4`)}
+                <br />
+                <br />
+                {t(`${pageText}.sub_header_section.first_paragraph.5`)}
               </Typography>
               {!showMoreInstruction && (
                 <Box
