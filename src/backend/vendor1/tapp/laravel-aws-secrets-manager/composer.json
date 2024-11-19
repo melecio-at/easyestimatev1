@@ -1,0 +1,55 @@
+{
+    "name": "tapp/laravel-aws-secrets-manager",
+    "description": "Use AWS Secrets manager to load environment variables for configuration.",
+    "keywords": [
+        "tapp",
+        "laravel-aws-secrets-manager"
+    ],
+    "homepage": "https://github.com/tapp/laravel-aws-secrets-manager",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Steve Williamson",
+            "email": "steve@tappnetwork.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^7.3 || ^7.4 || ^8.0 || ^8.1",
+        "aws/aws-sdk-php": "^3.145 || ^3.219 || ^3.263",
+        "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.8 || ^10.6"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.8 || ^5.0 || ^6.0 || ^7.4 || ^8.2",
+        "phpunit/phpunit": "^7.0||^8.4||^9.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tapp\\LaravelAwsSecretsManager\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tapp\\LaravelAwsSecretsManager\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tapp\\LaravelAwsSecretsManager\\LaravelAwsSecretsManagerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelAwsSecretsManager": "Tapp\\LaravelAwsSecretsManager\\LaravelAwsSecretsManagerFacade"
+            }
+        }
+    }
+}

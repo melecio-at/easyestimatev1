@@ -76,7 +76,7 @@
 </style>
 @component('mail::message')
 
-@if(trim($user['company_name']) !== '')
+@if(isset($user['company_name']) && trim($user['company_name']) !== '')
 {{$user['company_name']}}<br />
 @endif
 {{$user['name']}} 様<br />

@@ -157,10 +157,10 @@ class ProjectService
         return $filters;
     }
 
-    public function getDeviceAndBrowsers(string $browser): string
-    {
-        return trim($browser) !== '';
-    }
+    // public function getDeviceAndBrowsers(string $browser): string
+    // {
+    //     return trim($browser) !== '';
+    // }
 
     /**
      * Calculate MD
@@ -329,13 +329,13 @@ class ProjectService
                 'name' => $details['name'],
                 'email_address' => $details['email_address'],
                 'business_type' => $details['business_type'],
-                'company_name' => $details['company_name'],
+                'company_name' => $details['company_name'] ?? null,
                 'department_id' => (isset($details['department']) && 0 !== $details['department']) ? $details['department'] : null,
                 'position_id' => (isset($details['position']) && 0 !== $details['position']) ? $details['position'] : null,
-                'company_url' => $details['company_url'],
+                'company_url' => $details['company_url'] ?? null,
                 // 'business_license' => $details['business_license'],
                 'get_intouched' => $details['get_intouched'] ? 1 : 0,
-                'phone_number' => $details['phone_number'],
+                'phone_number' => $details['phone_number'] ?? null,
             ]);
 
             $projectDetails = $details['projectDetail'];
